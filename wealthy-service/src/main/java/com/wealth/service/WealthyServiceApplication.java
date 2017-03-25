@@ -1,12 +1,12 @@
-package com.wealth;
+package com.wealth.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WealthyCommonApplication {
+public class WealthyServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WealthyCommonApplication.class, args);
+		SpringApplication.run(WealthyServiceApplication.class, args);
 	}
 }
