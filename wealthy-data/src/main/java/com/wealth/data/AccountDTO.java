@@ -1,4 +1,4 @@
-package com.wealth.data.personal;
+package com.wealth.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

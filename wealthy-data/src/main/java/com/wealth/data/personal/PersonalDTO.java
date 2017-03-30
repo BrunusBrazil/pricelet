@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.wealth.data.AccountDTO;
+
 @Entity
 @Table(name="personal_transaction")
 public class PersonalDTO {

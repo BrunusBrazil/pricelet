@@ -31,8 +31,9 @@ public class TransactionTypeDTO {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public TransactionTypeDTO setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 	
 }
