@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,7 +24,8 @@ public class AccountDTO {
 	@Column(name="description", length=10, nullable=false)
 	private String description;
 	
-	@Column(name="subgroup")
+	@ManyToOne
+	@JoinColumn(name="subgroup")
 	private AccountDTO subgroup;
 		
 	//getters and setters

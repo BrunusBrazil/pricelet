@@ -2,12 +2,17 @@ package com.wealth.data.personal;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 import com.wealth.data.AccountDTO;
 
@@ -20,10 +25,12 @@ public class PersonalDTO {
 	@Column(name="id")
 	private Integer id;
 	
-	@Column(name="account_id")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="account_id")
 	private AccountDTO account;
 	
-	@Column(name="type_trans_id")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="type_trans_id")
 	private TransactionTypeDTO typeTransaction;
 	
 	@Column(name="date_trans")

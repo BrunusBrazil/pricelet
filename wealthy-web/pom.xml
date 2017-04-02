@@ -53,13 +53,6 @@
 			<artifactId>wealthy-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.wealth</groupId>
-			<artifactId>wealthy-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
 	</dependencies>
 	<build>
 		<plugins>

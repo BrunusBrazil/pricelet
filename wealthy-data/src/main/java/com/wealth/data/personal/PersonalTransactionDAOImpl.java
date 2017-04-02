@@ -1,5 +1,7 @@
 package com.wealth.data.personal;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Component;
 
 import com.wealth.data.AccountDTO;
@@ -10,7 +12,7 @@ import com.wealth.personal.PersonalTransaction;
 @Component("personalTransactionDAOImpl")
 public class PersonalTransactionDAOImpl extends GenericDaoImpl implements PersonalTransacionDAO {
 
-	@Override
+	@Transactional
 	public void gravar(PersonalTransaction personalTransaction) throws Exception {
 		
 		PersonalDTO ptd = new PersonalDTO();
@@ -24,6 +26,7 @@ public class PersonalTransactionDAOImpl extends GenericDaoImpl implements Person
 		acc.setId(null);
 		acc.setSubgroup(null);
 		ptd.setAccount(acc);
+		ptd.setValue(1000D);
 		gravar(ptd);
 	}
 
