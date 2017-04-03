@@ -4,8 +4,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
-import com.wealth.data.AccountDTO;
 import com.wealth.data.GenericDaoImpl;
+import com.wealth.data.account.AccountDTO;
 import com.wealth.personal.PersonalTransacionDAO;
 import com.wealth.personal.PersonalTransaction;
 

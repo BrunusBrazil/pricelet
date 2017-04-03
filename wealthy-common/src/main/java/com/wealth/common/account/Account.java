@@ -1,4 +1,4 @@
-package com.wealth.common.model;
+package com.wealth.common.account;
 
 public class Account {
 

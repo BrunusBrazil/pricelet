@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.wealth.common.model.Account;
+import com.wealth.common.account.Account;
 import com.wealth.common.model.TransactionType;
 import com.wealth.personal.PersonalTransaction;
 import com.wealth.personal.PersonalTransactionService;

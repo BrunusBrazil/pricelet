@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
-import com.wealth.data.AccountDTO;
+import com.wealth.data.account.AccountDTO;
 
 @Entity
 @Table(name="personal_transaction")

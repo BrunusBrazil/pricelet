@@ -2,7 +2,7 @@ package com.wealth.personal;
 
 import java.sql.Date;
 
-import com.wealth.common.model.Account;
+import com.wealth.common.account.Account;
 import com.wealth.common.model.TransactionType;
 
 
