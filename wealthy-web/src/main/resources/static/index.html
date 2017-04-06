@@ -1,5 +1,11 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="app" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html lang="en" ng-app="myWealthy" class="no-js"> <!--<![endif]-->
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -251,7 +257,7 @@
 
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><i class="icon-coins"></i> My balance</a></li>
+						<li><a href="#"><i class="icon-coins"></i>Personal</a></li>
 						<li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
 						<li class="divider"></li>
 						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
@@ -313,7 +319,7 @@
 								<li>
 									<a href="#"><i class="icon-stack2"></i> <span>Personal</span></a>
 									<ul>
-										<li><a href="layout_navbar_fixed.html">Accounts</a></li>
+										<li><a href="#account">Accounts</a></li>
 										<li><a href="layout_navbar_sidebar_fixed.html">Transactions</a></li>
 									</ul>
 								<!-- /main -->
@@ -358,6 +364,20 @@
 
 	</div>
 	<!-- /page container -->
+
+	<!-- ANGULAR -->	
+<script src="/webjars/angularjs/1.4.9/angular.js"></script>
+<script src="/webjars/angularjs/1.4.9/angular-resource.js"></script>
+<script src="/webjars/angularjs/1.4.9/angular-route.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js"></script>
+<script src="/js/app/restangular.js"></script>
+<script src="/js/app/account/account.module.js"></script>
+<script src="/js/app/account/account.controller.js"></script>
+<script src="/js/app/account/account.service.js"></script>
+<script src="/js/app/app.js"></script>
+</body>
+
+
 
 </body>
 </html>

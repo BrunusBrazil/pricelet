@@ -15,7 +15,7 @@ import com.wealth.common.account.AccountService;
 import com.wealth.resource.AccountResource;
 
 @RestController
-@RequestMapping(value="account")
+@RequestMapping(value="Account")
 public class AccountController {
 	
 	@Autowired
@@ -29,6 +29,5 @@ public class AccountController {
 		AccountResource ar = aa.toResource(account);
 		return new ResponseEntity<AccountResource>(ar, HttpStatus.CREATED);
 	}
-	
 	
 }
