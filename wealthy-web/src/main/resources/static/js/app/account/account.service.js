@@ -7,9 +7,24 @@ var module = angular.module('accountModule');
     	function create(account){
 			return  base.post(account);
 		}
+    	
+    	function remove(acc){
+    		return Restangular.one("Account/", acc.id).remove();
+    	}
 		
+    	function getAll(){
+    		return  base.getList(); 
+    	}
+    	
+    	function edit(account){
+    		return Restangular.one('Account/', account.id).customPUT(account)
+    	}
+    	
 		return  {
-				create:create
+				create:create,
+				getAll:getAll,
+				remove:remove,
+				edit:edit
 		}
 		
 	}]);

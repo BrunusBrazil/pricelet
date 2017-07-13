@@ -1,0 +1,120 @@
+<div class="content-group" ng-controller="AccountController as control">
+	<div class="page-header page-header-inverse"
+		style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
+		<div class="page-header-content  bg-info-800">
+			<div class="page-title">
+				<h5>
+					<i class="icon-arrow-left52 position-left"></i> <span
+						class="text-semibold">Account Groups</span>
+						<small	class="display-block">Create and Edit Your Group Accounts</small>
+				</h5>
+				<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel border-info-600">
+		<div class="panel-heading">
+				<h6 class="panel-title">Create New Account Group<a class="heading-elements-toggle">
+					<i class="icon-more"></i></a>
+				</h6>
+		</div>
+		<div class="panel-body">
+			<form action="#" class="form-horizontal">
+				<div class="form-group">
+					<label class="col-lg-1 control-label">Description:</label>
+					<div class="col-lg-9">
+						<input type="text" class="form-control" ng-model="newAccount.description">
+					</div>
+				</div>
+				<div class="text-right">
+					<button ng-click="create(newAccount)" class="btn btn-primary">Submit 
+					<i class="icon-arrow-right14 position-right"></i></button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="panel panel-flat">
+		<table class="table" width="100%">
+			<thead>
+				<tr class="bg-info-600 border-info-600">
+					<th>All Account Groups </th>
+					<th style="text-align: right">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="acc in accounts">
+					<td><span ng-hide="acc.editing">{{acc.description}}</span>
+						<div class="col-lg-10" ng-show="acc.editing">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									ng-model="acc.description"> <span
+									class="input-group-btn">
+									<button class="btn  bg-teal" ng-click="saveEdition(acc)"
+										type="button">Save</button>
+								</span>
+							</div>
+						</div></td>
+					<td align="right">
+						<ul class="icons-list">
+							<li class="text-primary-600"><a href="#"
+								data-popup="tooltip" title data-original-title="Edit"> <span
+									class="icon-pencil7" ng-click="edit(acc)"></span>
+							</a></li>
+							<li class="text-danger-600"><a href="#" data-popup="tooltip"
+								title data-original-title="Remove"> <span class="icon-trash"
+									ng-click="remove(acc)"></span>
+							</a></li>
+							<a href="#" data-popup="tooltip" title
+								data-original-title="Options"> <span class="icon-cog7"
+								ng-click="test()"></span>
+							</a>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!-- /scrollable datatable -->
+
+<!-- Global stylesheets -->
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
+	type="text/css">
+<!-- /global stylesheets -->
+
+<!-- Core JS files -->
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+
+<!-- Theme JS files -->
+<!-- Theme JS files -->
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/tables/datatables/datatables.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>
+
+

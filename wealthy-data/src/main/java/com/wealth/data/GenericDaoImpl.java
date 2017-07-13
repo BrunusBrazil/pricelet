@@ -25,7 +25,7 @@ public class GenericDaoImpl implements Dao {
 	@Transactional
 	public void excluir(Object object) throws PersistenceException {
 		try {
-			em.remove(object);
+			em.remove(em.contains(object)? object : em.merge(object));
 		} catch (Exception e) {
 			throw new PersistenceException(e);
 		}
@@ -50,5 +50,6 @@ public class GenericDaoImpl implements Dao {
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
+
 
 }

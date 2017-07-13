@@ -1,24 +1,15 @@
 package com.wealth.resource;
 
+import java.util.List;
+
 import org.springframework.hateoas.ResourceSupport;
 
-import com.wealth.common.account.Account;
+import com.wealth.common.acctsubgroup.AccSubGroupDTO;
 
 public class AccountResource extends ResourceSupport {
 
-	private String codigo;
-	
 	private String description;
-	
-	private Account subgroup;
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
+	private List<AccSubGroupDTO> subGroups = null;
 
 	public String getDescription() {
 		return description;
@@ -28,12 +19,12 @@ public class AccountResource extends ResourceSupport {
 		this.description = description;
 	}
 
-	public Account getSubgroup() {
-		return subgroup;
+	public List<AccSubGroupDTO> getSubGroups() {
+		return subGroups;
 	}
 
-	public void setSubgroup(Account subgroup) {
-		this.subgroup = subgroup;
+	public void setSubGroups(List<AccSubGroupDTO> subGroups) {
+		this.subGroups = subGroups;
 	}
 
 }

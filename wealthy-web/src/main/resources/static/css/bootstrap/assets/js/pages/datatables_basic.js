@@ -21,7 +21,7 @@ $(function() {
         columnDefs: [{ 
             orderable: false,
             width: '100px',
-            targets: [ 5 ]
+            targets: [ 0 ]
         }],
         dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
         language: {

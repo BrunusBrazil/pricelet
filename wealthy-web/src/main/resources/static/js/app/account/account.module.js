@@ -1,2 +1,2 @@
-var module = angular.module('accountModule',['restangular']);
+var module = angular.module('accountModule',['restangular','angularModalService']);
 
