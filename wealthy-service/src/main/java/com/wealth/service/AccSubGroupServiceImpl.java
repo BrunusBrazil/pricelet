@@ -66,10 +66,10 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 	}
 
 	@Override
-	public List<AccSubGroupDTO> delete(AccSubGroupDTO account) throws BusinessException {
+	public List<AccSubGroupDTO> delete(Integer id) throws BusinessException {
 		List<AccSubGroupDTO> list = null;
 		try {
-			dao.delete(account);
+			dao.delete(id);
 			list = dao.searchAll();
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_DELETE.getDescription());

@@ -41,16 +41,16 @@ public class AccSubGroupController {
 		return ResponseEntity.ok(ar);
 	}
 	
-	@RequestMapping(value="/", method = RequestMethod.DELETE)
-	public ResponseEntity<List<AccSubGroupResource>> delete(@RequestBody AccSubGroupDTO subGroupDTO) throws Exception{
-		List<AccSubGroupDTO> accSubGroupDTO  = service.delete(subGroupDTO);
+	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<List<AccSubGroupResource>> delete(@PathVariable Integer id) throws Exception{
+		List<AccSubGroupDTO> accSubGroupDTO  = service.delete(id);
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		List<AccSubGroupResource> ar = aa.toResources(accSubGroupDTO);
 		return ResponseEntity.ok(ar);
 	}
 	
-	@RequestMapping(value="/", method = RequestMethod.PUT)
-	public  ResponseEntity<AccSubGroupResource> update(@RequestBody AccSubGroupDTO account) throws Exception{
+	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	public  ResponseEntity<AccSubGroupResource> update(@PathVariable Integer id,  @RequestBody AccSubGroupDTO account) throws Exception{
 		AccSubGroupDTO accountGroupDTO  = service.merge(account);
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accountGroupDTO);

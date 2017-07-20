@@ -24,7 +24,7 @@ public class AccountSubGroup {
 	@Column(name="description", length=10, nullable=false)
 	private String description;
 		
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="acc_group_id")
 	private AccountGroup account;
 	

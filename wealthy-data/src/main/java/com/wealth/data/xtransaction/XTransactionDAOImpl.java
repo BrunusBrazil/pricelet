@@ -51,8 +51,17 @@ public class XTransactionDAOImpl extends GenericDaoImpl implements XTransactionD
 	}
 
 	@Override
-	public void delete(XTransactionDTO x) throws SQLException {
-		super.excluir(convertToDAO(x));
+	public void delete(Integer id) throws SQLException {
+		StringBuilder query = new StringBuilder(20);
+		query.append("delete XTransaction x ");
+		query.append(" where x.id = " ).append(id);
+		try {
+			 getEm().createQuery(query.toString()).executeUpdate();
+		} catch (NoResultException noResultException) {
+			throw noResultException;
+		} catch (Exception e) {
+			throw new PersistenceException(e);
+		}
 	}
 
 	@Override

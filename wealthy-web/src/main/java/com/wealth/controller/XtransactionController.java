@@ -1,5 +1,6 @@
 package com.wealth.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +37,22 @@ public class XtransactionController {
 	@RequestMapping(value="/", method = RequestMethod.POST)
 	public ResponseEntity<XTransactionResource> create(@RequestBody XTransactionDTO x) throws Exception{
 		XTransactionDTO accountGroupDTO  = service.merge(x);
+		x.setDateTransaction(new Date());
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value="/", method = RequestMethod.DELETE)
-	public  ResponseEntity<List<XTransactionResource>> delete(@RequestBody XTransactionDTO x) throws Exception{
-		List<XTransactionDTO> accountGroupDTO  = service.delete(x);
+	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+	public  ResponseEntity<List<XTransactionResource>> delete(@PathVariable Integer id) throws Exception{
+		List<XTransactionDTO> accountGroupDTO  = service.delete(id);
 		XTransactionAssembler aa = new XTransactionAssembler();
 		List<XTransactionResource> ar = aa.toResources(accountGroupDTO);
 		return ResponseEntity.ok(ar);
 	}
 
-	@RequestMapping(value="/", method = RequestMethod.PUT)
-	public  ResponseEntity<XTransactionResource> update(@RequestBody XTransactionDTO x) throws Exception{
+	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	public  ResponseEntity<XTransactionResource> update(@PathVariable Integer id, @RequestBody XTransactionDTO x) throws Exception{
 		XTransactionDTO accountGroupDTO  = service.merge(x);
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
@@ -63,7 +65,5 @@ public class XtransactionController {
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.ACCEPTED);
-	}
-
-	
+	}	
 }

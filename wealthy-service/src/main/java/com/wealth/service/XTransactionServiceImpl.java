@@ -52,7 +52,7 @@ public class XTransactionServiceImpl implements XTransactionService {
 			}
 		}
 		catch (SQLException | PersistenceException e) {
-			throw new  BusinessException(message);
+ 			throw new  BusinessException(message);
 		}
 		catch (Exception e) {
 			throw new  BusinessException(e.getMessage());
@@ -67,10 +67,10 @@ public class XTransactionServiceImpl implements XTransactionService {
 	}
 
 	@Override
-	public List<XTransactionDTO> delete(XTransactionDTO dto) throws BusinessException {
+	public List<XTransactionDTO> delete(Integer id) throws BusinessException {
 		List<XTransactionDTO> list = null;
 		try {
-			dao.delete(dto);
+			dao.delete(id);
 			list = dao.searchAll();
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_DELETE.getDescription());

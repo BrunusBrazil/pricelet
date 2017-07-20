@@ -16,7 +16,7 @@ public class XTransactionResource extends ResourceSupport{
     private AccSubGroupDTO accSubGroup;	
 	private AccountGroupDTO account;
 	private String type;
-	private Date crete;
+	private Date create;
 	private Date lastUpdate;
 	public String getDescription() {
 		return description;
@@ -61,10 +61,10 @@ public class XTransactionResource extends ResourceSupport{
 		this.type = type;
 	}
 	public Date getCrete() {
-		return crete;
+		return create;
 	}
-	public void setCrete(Date crete) {
-		this.crete = crete;
+	public void setCrete(Date create) {
+		this.create = create;
 	}
 	public Date getLastUpdate() {
 		return lastUpdate;

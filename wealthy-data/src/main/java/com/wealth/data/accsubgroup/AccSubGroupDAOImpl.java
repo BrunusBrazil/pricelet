@@ -52,8 +52,17 @@ public class AccSubGroupDAOImpl extends GenericDaoImpl implements AccSubGroupDAO
 	}
 
 	@Override
-	public void delete(AccSubGroupDTO account) throws SQLException {
-		super.excluir(convertToDAO(account));
+	public void delete(Integer id) throws SQLException {
+		StringBuilder query = new StringBuilder(20);
+		query.append("delete AccountSubGroup acg ");
+		query.append(" where acg.id = " ).append(id);
+		try {
+			 getEm().createQuery(query.toString()).executeUpdate();
+		} catch (NoResultException noResultException) {
+			throw noResultException;
+		} catch (Exception e) {
+			throw new PersistenceException(e);
+		}
 	}
 
 	@Override
