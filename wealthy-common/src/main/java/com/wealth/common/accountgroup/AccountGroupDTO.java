@@ -1,12 +1,5 @@
 package com.wealth.common.accountgroup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import com.wealth.common.acctsubgroup.AccSubGroupDTO;
-
-
 public class AccountGroupDTO {
 
 	private Integer id;

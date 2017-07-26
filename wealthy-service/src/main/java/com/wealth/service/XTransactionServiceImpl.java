@@ -1,6 +1,7 @@
 package com.wealth.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
@@ -41,8 +42,9 @@ public class XTransactionServiceImpl implements XTransactionService {
 		XTransactionDTO x;
 		String message = null;
 		try {			
-			
+			dto.setDateTransaction(new Date());
 			if(dto != null && dto.getId()== null){
+				dto.setCrete(new Date());
 				message = ErrorDetail.DB_DML_INSERT.getDescription();
 				x = dao.create(dto);
 			}

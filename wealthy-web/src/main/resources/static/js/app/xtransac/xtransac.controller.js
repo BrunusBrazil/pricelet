@@ -15,13 +15,13 @@ module.controller('xTransactionController', [ '$scope',
 			$scope.create = function(xtransaction){
 				setId(xtransaction.account);
 				setId(xtransaction.accSubGroup);
-				xTransactionService.create(xtransaction).then(function(xtransaction){
+				xTransactionService.create(xtransaction).then(function(response){
+					xtransaction.editing = false;
+					xtransaction.creating = false;
+					cloneXtransaction(xtransaction, response);
 					$scope.xtransactions.push(xtransaction);
 					alert("Account Created");
 					newXTransaction = newTransaction();
-					setId(xtransaction);
-					setId(xtransaction.account);
-					setId(xtransaction.accSubGroup);
 				}, function(response){
 					alert('Cannot Create');
 					console.log(response);
@@ -49,18 +49,32 @@ module.controller('xTransactionController', [ '$scope',
 				xtransaction.editing = true;
 			}						
 			
-			$scope.saveEdition = function(xtransaction){
-			  setId(xtransaction);
-			  xTransactionService.edit(xtransaction).then(function(response){
-				  xtransaction.editing = false;
-					alert('Success');		
+			$scope.saveEdition = function(xt){
+			  setId(xt);
+			  setId(xt.account);
+  			  setId(xt.accSubGroup);
+			  xt.editing = false;
+			  xTransactionService.edit(xt).then(function(response){
+				  $scope.getXtransactions();
+				  alert('Success');		
 			  }, function(response){
 					alert('connot edit');		
 		      });	
 			}
+
+			$scope.addNewXT = function(){
+				var newXt = newTransaction();
+				newXt.creating = true;
+				$scope.xtransactions.unshift(newXt);
+			} 
+			
 			
 			function setId(object){
 				var link  = null;
+				
+				if(object && object.id)
+				return;
+				
 				if(object){
 					if(object._links){
 						if(object._links.self){
@@ -88,7 +102,8 @@ module.controller('xTransactionController', [ '$scope',
 					type: null,
 					valor: null,
 					entrada: false,
-					create: new Date()
+					create:null,
+					dateTransaction:null
 				} 
 			}
 
@@ -104,9 +119,27 @@ module.controller('xTransactionController', [ '$scope',
 					$scope.subGroups  = subGroups;
 				});
 			}
-			
+
 			$scope.getMainAccounts();
 			$scope.getSubAccounts();
 			$scope.getXtransactions();
+			
+			
+			$scope.getSubAccountByAccount = function(account){
+				return	_.filter($scope.subGroups, e=> e.account.description === account.description)
+			}
+			
+			
+			function cloneXtransaction(xt, response){
+					xt.id =  response.id; 
+					xt.description = response.description;
+					xt.account = response.account;
+					xt.accSubGroup =  response.accSubGroup;
+					xt.type = response.type;
+					xt.valor = response.valor;
+					xt.entrada =  response.entrada;
+					xt.create = response.create;
+					xt.dateTransaction = response.dateTransaction;
+			}
 	}
 ]);

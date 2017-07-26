@@ -34,11 +34,11 @@ public class XTransaction {
 	@Column(name="datatrans")
 	private Date dateTransaction;
 
-    @ManyToOne(cascade=CascadeType.MERGE)
+    @ManyToOne
 	@JoinColumn(name="acc_subgroup_id")
 	private AccountSubGroup accSubGroup;	
 
-    @ManyToOne(cascade=CascadeType.MERGE)
+    @ManyToOne
 	@JoinColumn(name="acc_group_id")
 	private AccountGroup account;
 

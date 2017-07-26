@@ -1,6 +1,5 @@
 package com.wealth.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ public class XtransactionController {
 	@RequestMapping(value="/", method = RequestMethod.POST)
 	public ResponseEntity<XTransactionResource> create(@RequestBody XTransactionDTO x) throws Exception{
 		XTransactionDTO accountGroupDTO  = service.merge(x);
-		x.setDateTransaction(new Date());
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.CREATED);
