@@ -68,6 +68,33 @@ module.controller('xTransactionController', [ '$scope',
 				$scope.xtransactions.unshift(newXt);
 			} 
 			
+			self.getTotalNumberOfTransaction = function(){
+				return  $scope.xtransactions? $scope.xtransactions.length: 0;
+			}
+
+			self.getTotalDebit = function(){
+				var totalDebit = 0 ;
+				_.forEach($scope.xtransactions, e => {
+					if(e.entrada){
+						totalDebit += e.valor;
+					}
+				})
+				return totalDebit;
+			}
+			
+			self.getMargin = function(){
+				return (self.getTotalCredit() - self.getTotalDebit());
+			}
+
+			self.getTotalCredit = function(){
+				var totalCredit = 0 ;
+				_.forEach($scope.xtransactions, e => {
+					if(!e.entrada){
+						totalCredit += e.valor;
+					}
+				})
+				return totalCredit;
+			}
 			
 			function setId(object){
 				var link  = null;
@@ -119,6 +146,10 @@ module.controller('xTransactionController', [ '$scope',
 					$scope.subGroups  = subGroups;
 				});
 			}
+			
+			
+			
+			
 
 			$scope.getMainAccounts();
 			$scope.getSubAccounts();

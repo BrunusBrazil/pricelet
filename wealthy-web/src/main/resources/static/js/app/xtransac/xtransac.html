@@ -1,4 +1,5 @@
-<div class="content-group" ng-controller="xTransactionController as control">
+<div class="content-group"
+	ng-controller="xTransactionController as control">
 	<div class="page-header page-header-inverse"
 		style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
 		<div class="page-header-content  bg-info-800">
@@ -10,12 +11,59 @@
 				</h5>
 				<a class="heading-elements-toggle"><i class="icon-more"></i></a>
 			</div>
+			<div class="heading-elements">
+				<button type="button" ng-click="addNewXT()" class="btn btn-primary heading-btn">New Transaction</button>
+			</div>
 		</div>
 	</div>
+
 	<div class="panel panel-flat">
-		<button ng-click="addNewXT()">create new </button>
-	
-		<table class="table" width="100%">
+		<div class="container-fluid">
+			<div class="row text-center">
+				<div class="col-md-3">
+					<div class="content-group">
+						<h5 class="text-semibold no-margin">
+							<i class="icon-calendar5 position-left text-slate"></i>
+							 {{control.getTotalNumberOfTransaction()}}
+						</h5>
+						<span class="text-muted text-size-small"> number of transaction</span>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="content-group">
+						<h5 class="text-semibold no-margin">
+							<i class="icon-cash3 position-left text-slate"></i> 
+							 ${{control.getTotalDebit()}}
+						</h5>
+						<span class="text-muted text-size-small">total debit</span>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="content-group">
+						<h5 class="text-semibold no-margin">
+							<i class="icon-cash3 position-left text-slate"></i> 
+								${{control.getTotalCredit()}}
+						</h5>
+						<span class="text-muted text-size-small">total credit</span>
+					</div>
+				</div>
+				
+				<div class="col-md-3">
+					<div class="content-group">
+						<h5 class="text-semibold no-margin">
+							<i class="icon-cash3 position-left text-slate"></i> 
+							<span ng-show="control.getMargin() < 0 " style="color:red;" >${{control.getMargin()}}</span>
+							<span ng-show="control.getMargin() >=  0" style="color:green;">${{control.getMargin()}}</span>
+						</h5>
+						<span class="text-muted text-size-small">margin</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<table class=" table" width="100%">
 			<thead>
 				<tr class="bg-info-600 border-info-600">
 					<th>All Transactions</th>
@@ -29,54 +77,50 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="xt in xtransactions">
+					<td><span ng-hide="xt.editing || xt.creating">{{xt.description}}</span>
+						<input ng-show="xt.editing || xt.creating" type="text"
+						class="form-control" ng-model="xt.description"></td>
+					<td><span ng-hide="xt.editing || xt.creating">{{xt.account.description}}</span>
+						<select ng-show="xt.editing || xt.creating" ng-model="xt.account"
+						selected
+						ng-options="x.description for x in mainGroups track by x.description">
+					</select></td>
+					<td><span ng-hide="xt.editing || xt.creating">{{xt.accSubGroup.description}}</span>
+						<select ng-show="xt.editing || xt.creating"
+						ng-model="xt.accSubGroup"
+						ng-options="x.description for x in getSubAccountByAccount(xt.account) track by x.description">
+					</select></td>
 					<td>
-						<span ng-hide="xt.editing || xt.creating">{{xt.description}}</span>
-						<input ng-show="xt.editing || xt.creating"  type="text" class="form-control"	ng-model="xt.description">
+						<span ng-hide="xt.editing || xt.creating">{{xt.entrada	? 'Debit': 'Credit'}}</span>
+						<span ng-show="xt.editing || xt.creating">Db.</span>	
+						<input type="radio" ng-show="xt.editing || xt.creating"	ng-model="xt.entrada" value="false">
+						<span ng-show="xt.editing || xt.creating"	>Cr.</span>	
+						<input type="radio" ng-show="xt.editing || xt.creating"	ng-model="xt.entrada" value="true">
 					</td>
-					<td>
-					    <span ng-hide="xt.editing || xt.creating">{{xt.account.description}}</span>
-			        		<select ng-show="xt.editing || xt.creating"  ng-model="xt.account" selected 
-									ng-options="x.description for x in mainGroups track by x.description">
-							</select>
-					</td>
-					<td>
-					     <span ng-hide="xt.editing || xt.creating">{{xt.accSubGroup.description}}</span>
-								<select ng-show="xt.editing || xt.creating" ng-model="xt.accSubGroup" 
-								    ng-options="x.description for x in getSubAccountByAccount(xt.account) track by x.description">
-								</select>
-					</td>
-					<td>
-					   	<span ng-hide="xt.editing || xt.creating">{{xt.entrada ? 'Debit': 'Credit'}}</span>
-								<select ng-show="xt.editing || xt.creating" ng-model="xt.entrada"> 
-									<option selected value="false" > Credit </option>					
-									<option value="true"> Debit </option>					
-								</select>
-					</td>
-					<td>
-					    <span ng-hide="xt.editing || xt.creating">{{xt.valor | currency}}</span>
-						<input ng-show="xt.editing || xt.creating" type="text" class="form-control" ng-model="xt.valor">
-					</td>
-					<td>
-						<span>{{xt.dateTransaction | date:'short'}}</span>
-					</td>
+					<td >
+					<span ng-hide="xt.editing || xt.creating">{{xt.valor
+							| currency}}</span> <input type="number" required="true"
+						ng-show="xt.editing || xt.creating" type="text"
+						class="form-control" ng-model="xt.valor"></td>
+					<td><span>{{xt.dateTransaction | date:'short'}}</span></td>
 					<td align="right" ng-hide="xt.editing || xt.creating">
 						<ul class="icons-list">
-							<li class="text-primary-600">
-							<a href="#"	data-popup="tooltip" title data-original-title="Edit"> <span
+							<li class="text-primary-600"><a href="#"
+								data-popup="tooltip" title data-original-title="Edit"> <span
 									class="icon-pencil7" ng-click="edit(xt)"></span>
 							</a></li>
 							<li class="text-danger-600"><a href="#" data-popup="tooltip"
-								title data-original-title="Remove"> 
-								<span class="icon-trash" ng-click="remove(xt)"></span>
-							</a>
-							</li>
+								title data-original-title="Remove"> <span class="icon-trash"
+									ng-click="remove(xt)"></span>
+							</a></li>
 						</ul>
 					</td>
 					<td align="right" ng-show="xt.editing">
-					   <button class="btn bg-teal" ng-click="saveEdition(xt)" type="button">Save</button>
+						<button class="btn bg-teal" ng-click="saveEdition(xt)"
+							type="button">Save</button>
 					</td>
 					<td align="right" ng-show="xt.creating">
-					   <button class="btn bg-teal" ng-click="create(xt)" type="button">Save</button>
+						<button class="btn bg-teal" ng-click="create(xt)" type="button">Save</button>
 					</td>
 				</tr>
 			</tbody>
@@ -119,4 +163,5 @@
 <script type="text/javascript"
 	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
 <script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
-<script type="text/javascript" src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>
