@@ -10,28 +10,11 @@
 				</h5>
 				<a class="heading-elements-toggle"><i class="icon-more"></i></a>
 			</div>
-		</div>
-	</div>
-	
-	<div class="panel border-info-600">
-		<div class="panel-heading">
-				<h6 class="panel-title">Create New Account Group<a class="heading-elements-toggle">
-					<i class="icon-more"></i></a>
-				</h6>
-		</div>
-		<div class="panel-body">
-			<form action="#" class="form-horizontal">
-				<div class="form-group">
-					<label class="col-lg-1 control-label">Description:</label>
-					<div class="col-lg-9">
-						<input type="text" class="form-control" ng-model="newAccount.description">
-					</div>
-				</div>
-				<div class="text-right">
-					<button ng-click="create(newAccount)" class="btn btn-primary">Submit 
-					<i class="icon-arrow-right14 position-right"></i></button>
-				</div>
-			</form>
+			<div class="heading-elements">
+				<button type="button" ng-click="control.addNew()"
+					class="btn btn-primary heading-btn">New Account</button>
+			</div>
+			
 		</div>
 	</div>
 	
@@ -45,32 +28,54 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="acc in accounts">
-					<td><span ng-hide="acc.editing">{{acc.description}}</span>
-						<div class="col-lg-10" ng-show="acc.editing">
+					<td>
+					<span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
+						<div class="col-lg-10" ng-show="acc.editing || acc.creating">
 							<div class="input-group">
-								<input type="text" class="form-control"
-									ng-model="acc.description"> <span
-									class="input-group-btn">
-									<button class="btn  bg-teal" ng-click="saveEdition(acc)"
-										type="button">Save</button>
-								</span>
+								<input type="text" class="form-control" ng-model="acc.description">
+									
 							</div>
-						</div></td>
-					<td align="right">
+						</div>
+	  	       </td>
+	 			<td align="right" ng-hide="acc.editing || acc.creating">
 						<ul class="icons-list">
-							<li class="text-primary-600"><a href="#"
+							<li class="teacc-primary-600"><a href="#"
 								data-popup="tooltip" title data-original-title="Edit"> <span
 									class="icon-pencil7" ng-click="edit(acc)"></span>
-							</a></li>
-							<li class="text-danger-600"><a href="#" data-popup="tooltip"
-								title data-original-title="Remove"> <span class="icon-trash"
-									ng-click="remove(acc)"></span>
-							</a></li>
-							<a href="#" data-popup="tooltip" title
-								data-original-title="Options"> <span class="icon-cog7"
-								ng-click="test()"></span>
 							</a>
 							</li>
+							<li class="teacc-danger-600"><a href="#" data-popup="tooltip"
+								title data-original-title="Remove"> <span class="icon-trash"
+									ng-click="remove(acc)"></span>
+							</a>
+							</li>								
+						</ul>
+					</td>
+					<td align="right" ng-show="acc.editing">
+						<ul class="icons-list">
+							<li class="text-primary-600"><a href="#" data-popup="tooltip"
+									title data-original-title="ok"> <span
+									class="glyphicon glyphicon-ok"
+									ng-click="control.saveEdition(acc)"></span>
+							</a></li>
+							<li class="text-danger-600"><a href="#" data-popup="tooltip"
+								title data-original-title="cancel"> <span
+									class="glyphicon glyphicon-remove"
+									ng-click="control.cancel(acc)"></span>
+							</a></li>
+						</ul>
+					</td>
+					<td align="right" ng-show="acc.creating">
+						<ul class="icons-list">
+							<li class="text-primary-600"><a href="#"
+								data-popup="tooltip" title data-original-title="ok"> 
+								<span class="glyphicon glyphicon-ok" ng-click="control.create(acc)"></span>
+							</a></li>
+							<li class="text-danger-600"><a href="#" data-popup="tooltip"
+								title data-original-title="cancel"> <span
+									class="glyphicon glyphicon-remove"
+									ng-click="control.cancel(acc)"></span>
+							</a></li>
 						</ul>
 					</td>
 				</tr>

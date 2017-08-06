@@ -12,14 +12,14 @@ module.controller('xTransactionController', [ '$scope',
 
 			$scope.newXTransaction = newTransaction();
 			
-			$scope.create = function(xtransaction){
+			self.create = function(xtransaction){			
 				setId(xtransaction.account);
 				setId(xtransaction.accSubGroup);
 				xTransactionService.create(xtransaction).then(function(response){
 					xtransaction.editing = false;
 					xtransaction.creating = false;
+					setId(response);
 					cloneXtransaction(xtransaction, response);
-					$scope.xtransactions.push(xtransaction);
 					alert("Account Created");
 					newXTransaction = newTransaction();
 				}, function(response){
@@ -49,6 +49,11 @@ module.controller('xTransactionController', [ '$scope',
 				xtransaction.editing = true;
 			}						
 			
+			self.cancel = function(xt){
+				xt.editing = false;
+			}
+			
+			
 			$scope.saveEdition = function(xt){
 			  setId(xt);
 			  setId(xt.account);
@@ -65,7 +70,7 @@ module.controller('xTransactionController', [ '$scope',
 			$scope.addNewXT = function(){
 				var newXt = newTransaction();
 				newXt.creating = true;
-				$scope.xtransactions.unshift(newXt);
+				$scope.xtransactions.push(newXt);
 			} 
 			
 			self.getTotalNumberOfTransaction = function(){

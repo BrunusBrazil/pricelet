@@ -4,21 +4,24 @@ module.controller('AccountController', [ '$scope', 'accountService',
 		function AccountController ($scope, accountService, ModalService) {
 			var self = this;
 
-			$scope.newAccount = {
-					id: null, 
-					description: null
-			};
+			$scope.newAccount = getEmptyAccount();
 			
-			$scope.create = function(newAccount){
+			self.create = function(newAccount){
 				accountService.create(newAccount).then(function(account){
-					$scope.accounts.push(account);
+					newAccount.creating = false;
+					newAccount.editing = false;
 					alert("Account Created");
-					newAccount.description = null;
 					setId(account);
 				}, function(response){
 					alert('Cannot Create');
 					console.log(response);
 				});
+			}
+			
+			self.addNew = function(){
+				var newAcc = getEmptyAccount();
+				newAcc.creating = true;
+				$scope.accounts.unshift(newAcc);
 			}
 			
 			$scope.getAccounts = function() {
@@ -42,11 +45,18 @@ module.controller('AccountController', [ '$scope', 'accountService',
 	          acc.editing = true;
 			}						
 			
-			$scope.saveEdition = function(acc){
+			self.cancel = function(xt){
+				xt.editing = false;
+			}
+			
+			self.saveEdition = function(acc){
 			  setId(acc);
 			  accountService.edit(acc).then(function(response){
 				   acc.editing = false;
-					alert('Success');		
+				   acc.editing = false;
+				   acc = response; 
+				   setId(acc);
+				   alert('Success');		
 			  }, function(response){
 					alert('connot edit');		
 		      });	
@@ -67,6 +77,14 @@ module.controller('AccountController', [ '$scope', 'accountService',
 				    object.id = link.substr(link.lastIndexOf('/')+1,link.length);
 				}
 			}
+			
+			
+			function getEmptyAccount(){
+				return {
+					id: null, 
+					description: null
+				};
+			}	
 			
 			$scope.groupedRange = $scope.getAccounts();
 	}

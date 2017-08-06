@@ -4,34 +4,36 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 		function AccountController ($scope, accSubgroupService, accountService) {
 			var self = this;
 
-			$scope.newSubgroupaccount = {
+
+			$scope.newSubgroupaccount =  {
 					id: null, 
 					description: null,
 					account: {
 							description:null
-					}
-			};
-			
-			$scope.create = function(newSubgroupaccount){
+						}
+				};
+
+			self.create = function(newSubgroupaccount){
 				setId(newSubgroupaccount.account);	
 				accSubgroupService.create(newSubgroupaccount).then(function(account){
-					$scope.accounts.push(account);
-					alert("Account Created");
-					newSubgroupaccount.description = null;
-					setId(account);
+					newSubgroupaccount = account;
+					newSubgroupaccount.editing = false;
+					newSubgroupaccount.creating = false;
+					alert('Success');
+					setId(newSubgroupaccount);
 				}, function(response){
 					alert('Cannot Create');
 					console.log(response);
 				});
 			}
 			
-			$scope.getAccounts = function() {
+			self.getAccounts = function() {
 				accSubgroupService.getAll().then(function(accounts) {
 					$scope.accounts = accounts;
 				});
 			}
 				
-			$scope.remove = function(acc){
+			self.remove = function(acc){
 			    setId(acc);
 				accSubgroupService.remove(acc).then(function(accounts){
 					$scope.accounts = accounts;
@@ -42,15 +44,24 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 				});
 			}
 
-			$scope.edit = function(acc){
+			self.edit = function(acc){
 	          acc.editing = true;
-			}						
+			}		
 			
-			$scope.saveEdition = function(acc){
+			
+			self.cancel = function(xt){
+				xt.editing = false;
+			}
+			
+			self.saveEdition = function(acc){
 			  setId(acc);
+			  setId(acc.account);
 			  accSubgroupService.edit(acc).then(function(response){
-				   acc.editing = false;
-					alert('Success');		
+				  acc = response; 	
+				  acc.editing = false;
+				  acc.creating = false;
+				  setId(acc);
+				  alert('Success');		
 			  }, function(response){
 					alert('connot edit');		
 		      });	
@@ -81,6 +92,6 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 			
 			$scope.getMainAccounts();
 			
-			$scope.groupedRange = $scope.getAccounts();
+			$scope.groupedRange = self.getAccounts();
 	}
 ]);
