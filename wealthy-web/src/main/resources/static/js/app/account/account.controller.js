@@ -1,27 +1,28 @@
 var module = angular.module('accountModule');
 
 module.controller('AccountController', [ '$scope', 'accountService',
-		function AccountController ($scope, accountService, ModalService) {
+		function AccountController ($scope, accountService, ModalService, notificationService) {
 			var self = this;
 
 			$scope.newAccount = getEmptyAccount();
 			
 			self.create = function(newAccount){
-				accountService.create(newAccount).then(function(account){
-					newAccount.creating = false;
-					newAccount.editing = false;
-					alert("Account Created");
-					setId(account);
+				accountService.create(newAccount).then(function(accountResponse){
+					angular.copy(accountResponse, newAccount);
+					setId(newAccount);
+					notificationService.success("Account created");
 				}, function(response){
-					alert('Cannot Create');
+					notificationService.erro("Cannot create");
 					console.log(response);
 				});
 			}
 			
 			self.addNew = function(){
-				var newAcc = getEmptyAccount();
-				newAcc.creating = true;
-				$scope.accounts.unshift(newAcc);
+				if(_.filter($scope.accounts, a => a.creating === true).length === 0){
+					var newAcc = getEmptyAccount();
+					newAcc.creating = true;
+					$scope.accounts.unshift(newAcc);
+				}
 			}
 			
 			$scope.getAccounts = function() {
@@ -35,7 +36,6 @@ module.controller('AccountController', [ '$scope', 'accountService',
 				accountService.remove(acc).then(function(accounts){
 					$scope.accounts = accounts;
 					alert("Account Removed");
-					
 				}, function(response){
 					alert('connot delete');		
 				});
@@ -45,8 +45,13 @@ module.controller('AccountController', [ '$scope', 'accountService',
 	          acc.editing = true;
 			}						
 			
-			self.cancel = function(xt){
-				xt.editing = false;
+			self.cancel = function(acc){
+				if(acc && !acc.id){
+					$scope.accounts.splice(0,1);	
+				}else{
+					xt.editing = false;
+					xt.creating = false;
+				}
 			}
 			
 			self.saveEdition = function(acc){
@@ -65,6 +70,9 @@ module.controller('AccountController', [ '$scope', 'accountService',
 			function setId(object){
 				var link  = null;
 				if(object){
+					if(object.id){
+						return;
+					}
 					if(object._links){
 						if(object._links.self){
  						  link  = object._links.self.href; 

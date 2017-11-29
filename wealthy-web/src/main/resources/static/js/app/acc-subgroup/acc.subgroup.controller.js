@@ -4,23 +4,25 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 		function AccountController ($scope, accSubgroupService, accountService) {
 			var self = this;
 
-
-			$scope.newSubgroupaccount =  {
-					id: null, 
-					description: null,
-					account: {
-							description:null
+			$scope.newSubgroupaccount = newSubGrupAccount(); 
+						
+			function newSubGrupAccount(){
+				return {
+						id: null, 
+						description: null,
+						account: {
+								description:null
 						}
-				};
+					}
+			};
+			
 
-			self.create = function(newSubgroupaccount){
-				setId(newSubgroupaccount.account);	
-				accSubgroupService.create(newSubgroupaccount).then(function(account){
-					newSubgroupaccount = account;
-					newSubgroupaccount.editing = false;
-					newSubgroupaccount.creating = false;
+			self.create = function(subGroupAccount){
+				setId(subGroupAccount.account);	
+				accSubgroupService.create(subGroupAccount).then(function(subGroupAccountResponse){
+					angular.copy(subGroupAccountResponse, subGroupAccount);
+					setId(subGroupAccount);
 					alert('Success');
-					setId(newSubgroupaccount);
 				}, function(response){
 					alert('Cannot Create');
 					console.log(response);
@@ -31,14 +33,21 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 				accSubgroupService.getAll().then(function(accounts) {
 					$scope.accounts = accounts;
 				});
+			}				
+			
+			self.addNew  = function(){
+				if(_.filter($scope.accounts, e=> e.creating === true).length === 0){
+					var subGroupAccount = newSubGrupAccount();
+					subGroupAccount.creating = true;
+			        $scope.accounts.unshift(subGroupAccount);
+				}
 			}
-				
+			
 			self.remove = function(acc){
 			    setId(acc);
 				accSubgroupService.remove(acc).then(function(accounts){
 					$scope.accounts = accounts;
-					alert("Account Removed");
-					
+					alert("Account Removed");					
 				}, function(response){
 					alert('connot delete');		
 				});
@@ -49,8 +58,13 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 			}		
 			
 			
-			self.cancel = function(xt){
-				xt.editing = false;
+			self.cancel = function(acc){
+				if(acc && !acc.id){
+					$scope.accounts.splice(0, 1);
+				}else{
+					acc.editing = false;
+					acc.creating = false;
+				}					
 			}
 			
 			self.saveEdition = function(acc){
@@ -70,6 +84,9 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 			function setId(object){
 				var link  = null;
 				if(object){
+					if(object.id){
+						return;
+					}
 					if(object._links){
 						if(object._links.self){
  						  link  = object._links.self.href; 

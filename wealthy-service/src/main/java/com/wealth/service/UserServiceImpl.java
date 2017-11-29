@@ -9,32 +9,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.wealth.common.acctsubgroup.AccSubGroupDAO;
-import com.wealth.common.acctsubgroup.AccSubGroupDTO;
-import com.wealth.common.acctsubgroup.AccSubGroupService;
 import com.wealth.common.exception.BusinessException;
 import com.wealth.common.exception.ErrorDetail;
+import com.wealthy.common.user.UserDAO;
+import com.wealthy.common.user.UserDTO;
+import com.wealthy.common.user.UserService;
 
-@Service("accSubtGroupServiceImpl")
-public class AccSubGroupServiceImpl implements AccSubGroupService {
+@Service("userServiceImpl")
+public class UserServiceImpl implements UserService {
 
 	@Autowired
-	@Qualifier("accSubGroupDaoImpl")
-	private AccSubGroupDAO dao;	
-	
+	@Qualifier("userDaoImpl")
+	private UserDAO dao;
+
 	@Override
-	public AccSubGroupDTO merge(AccSubGroupDTO accSubGroupDTO) throws BusinessException {
-		AccSubGroupDTO dto;
+	public UserDTO merge(UserDTO userDTO) throws BusinessException {
+		UserDTO dto;
 		String message = null;
 		try {			
 			
-			if(accSubGroupDTO != null && accSubGroupDTO.getId()== null){
+			if(userDTO != null && userDTO.getId()== null){
 				message = ErrorDetail.DB_DML_INSERT.getDescription();
-				dto = dao.create(accSubGroupDTO);
+				dto = dao.create(userDTO);
 			}
 			else{
 				message = ErrorDetail.DB_DML_UPDATE.getDescription();
-				dto = dao.update(accSubGroupDTO);
+				dto = dao.update(userDTO);
 			}
 		}
 		catch (SQLException | PersistenceException e) {
@@ -46,23 +46,16 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 		return dto;
 	}
 
+	
 	@Override
-	public List<AccSubGroupDTO> searchAll() throws BusinessException {
-		List<AccSubGroupDTO> list = null;
-		try {
-			list = dao.searchAll();
-		}catch (SQLException | PersistenceException e) {
-				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
-		}
-		catch (Exception e) {
-				throw new  BusinessException(e.getMessage());
-		}
-		return list;
+	public List<UserDTO> searchAll() throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public List<AccSubGroupDTO> delete(Integer id) throws BusinessException {
-		List<AccSubGroupDTO> list = null;
+	public List<UserDTO> delete(Integer id) throws BusinessException {
+		List<UserDTO> list = null;
 		try {
 			dao.delete(id);
 			list = dao.searchAll();
@@ -73,14 +66,13 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 				throw new  BusinessException(e.getMessage());
 		}
 		return list;
-		
 	}
 
 	@Override
-	public AccSubGroupDTO searchById(Integer id) throws BusinessException {
-		AccSubGroupDTO dto;
+	public UserDTO searchByEmail(String email) throws BusinessException {
+		UserDTO dto;
 		try {
-			dto = dao.searchById(id);
+			dto = dao.searchByEmail(email);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
 		}
@@ -88,6 +80,8 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 				throw new  BusinessException(e.getMessage());
 		}
 		return dto;	
+
 	}
+
 
 }

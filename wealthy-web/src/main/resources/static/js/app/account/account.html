@@ -32,7 +32,8 @@
 					<span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
 						<div class="col-lg-10" ng-show="acc.editing || acc.creating">
 							<div class="input-group">
-								<input type="text" class="form-control" ng-model="acc.description">
+								<input type="text" 	required="true"
+								 class="form-control" ng-model="acc.description">
 									
 							</div>
 						</div>

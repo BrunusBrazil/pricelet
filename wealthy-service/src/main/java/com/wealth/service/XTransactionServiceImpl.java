@@ -62,12 +62,6 @@ public class XTransactionServiceImpl implements XTransactionService {
 		return x;
 	}
 
-	
-	@Override
-	public XTransactionDTO update(XTransactionDTO subGroup) throws BusinessException {
-		return null;
-	}
-
 	@Override
 	public List<XTransactionDTO> delete(Integer id) throws BusinessException {
 		List<XTransactionDTO> list = null;

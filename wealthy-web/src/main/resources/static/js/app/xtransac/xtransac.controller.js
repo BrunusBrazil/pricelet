@@ -3,11 +3,12 @@ var module = angular.module('xTransactionModule');
 module.controller('xTransactionController', [ '$scope', 
                                               'accountService',
                                               'accSubgroupService',
-                                              'xTransactionService',                                              
+                                              'xTransactionService',
 		function xTransactionController ($scope,
 											accountService, 
 											accSubgroupService,
-											xTransactionService) {
+											xTransactionService,
+											notificationService) {
 			var self = this;
 
 			$scope.newXTransaction = newTransaction();
@@ -16,15 +17,12 @@ module.controller('xTransactionController', [ '$scope',
 				setId(xtransaction.account);
 				setId(xtransaction.accSubGroup);
 				xTransactionService.create(xtransaction).then(function(response){
-					xtransaction.editing = false;
-					xtransaction.creating = false;
+					angular.copy(response, xtransaction);
 					setId(response);
-					cloneXtransaction(xtransaction, response);
-					alert("Account Created");
+					notificationService.success('Success!!!', 'Transaction completed');
 					newXTransaction = newTransaction();
 				}, function(response){
-					alert('Cannot Create');
-					console.log(response);
+					notificationService.success('Ops! Error', 'Something happend the operation was cancelled');
 				});
 			}
 			
@@ -39,9 +37,8 @@ module.controller('xTransactionController', [ '$scope',
 				xTransactionService.remove(xtransaction).then(function(xtransactions){
 					$scope.xtransactions = xtransactions;
 					alert("xtransaction Removed");
-					
 				}, function(response){
-					alert('connot delete');		
+					notificationService.success('Ops! Error', 'Something happend the operation was cancelled');
 				});
 			}
 
@@ -50,11 +47,16 @@ module.controller('xTransactionController', [ '$scope',
 			}						
 			
 			self.cancel = function(xt){
-				xt.editing = false;
+				if(xt && !xt.id){
+					$scope.xtransactions.splice($scope.xtransactions.length -1,1);
+				}else{
+					xt.editing = false;
+					xt.creating = false;
+				}
 			}
 			
 			
-			$scope.saveEdition = function(xt){
+			self.saveEdition = function(xt){
 			  setId(xt);
 			  setId(xt.account);
   			  setId(xt.accSubGroup);
@@ -63,14 +65,16 @@ module.controller('xTransactionController', [ '$scope',
 				  $scope.getXtransactions();
 				  alert('Success');		
 			  }, function(response){
-					alert('connot edit');		
+					notificationService.success('Ops! Error', 'Something happend the operation was cancelled');
 		      });	
 			}
 
 			$scope.addNewXT = function(){
-				var newXt = newTransaction();
-				newXt.creating = true;
-				$scope.xtransactions.push(newXt);
+				if(_.filter($scope.xtransactions, a => a.creating === true).length === 0){
+					var newXt = newTransaction();
+					newXt.creating = true;
+					$scope.xtransactions.push(newXt);
+				}
 			} 
 			
 			self.getTotalNumberOfTransaction = function(){
@@ -108,6 +112,9 @@ module.controller('xTransactionController', [ '$scope',
 				return;
 				
 				if(object){
+					if(object.id){
+						return;
+					}
 					if(object._links){
 						if(object._links.self){
  						  link  = object._links.self.href; 
@@ -152,30 +159,12 @@ module.controller('xTransactionController', [ '$scope',
 				});
 			}
 			
-			
-			
-			
-
 			$scope.getMainAccounts();
 			$scope.getSubAccounts();
 			$scope.getXtransactions();
 			
-			
 			$scope.getSubAccountByAccount = function(account){
 				return	_.filter($scope.subGroups, e=> e.account.description === account.description)
-			}
-			
-			
-			function cloneXtransaction(xt, response){
-					xt.id =  response.id; 
-					xt.description = response.description;
-					xt.account = response.account;
-					xt.accSubGroup =  response.accSubGroup;
-					xt.type = response.type;
-					xt.valor = response.valor;
-					xt.entrada =  response.entrada;
-					xt.create = response.create;
-					xt.dateTransaction = response.dateTransaction;
 			}
 	}
 ]);
