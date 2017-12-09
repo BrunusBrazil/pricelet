@@ -1,10 +1,12 @@
 var module = angular.module('xTransactionModule');
 
-     module.service('xTransactionService', ['Restangular',function(Restangular){
-		
-        var base = Restangular.all('XTransaction/');
+     module.service('xTransactionService', ['Restangular','$q',function(Restangular, $q){
+		var base = Restangular.all('XTransaction/');
 
-    	function create(account){
+		var cachedTransactions = [];		
+		var deferred = $q.defer();
+    	
+		function create(account){
 			return  base.post(account);
 		}
     	
@@ -13,7 +15,18 @@ var module = angular.module('xTransactionModule');
     	}
 		
     	function getAll(){
-    		return  base.getList(); 
+    		return $q(function(resolve, reject) {
+    			if(cachedTransactions && cachedTransactions.length === 0 ){
+    				base.getList().then(function(response){
+        				cachedTransactions = response;
+        	    		resolve(cachedTransactions);
+        			},function(error){
+        				reject(error)	
+        			});		
+    			}else{
+        			resolve(cachedTransactions);
+    			}
+    		});  		
     	}
     	
     	function edit(account){

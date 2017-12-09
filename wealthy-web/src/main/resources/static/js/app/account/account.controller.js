@@ -10,9 +10,7 @@ module.controller('AccountController', [ '$scope', 'accountService',
 				accountService.create(newAccount).then(function(accountResponse){
 					angular.copy(accountResponse, newAccount);
 					setId(newAccount);
-					notificationService.success("Account created");
 				}, function(response){
-					notificationService.erro("Cannot create");
 					console.log(response);
 				});
 			}

@@ -5,23 +5,55 @@
 <!--[if gt IE 8]><!--> 
 <!--<![endif]-->
 <html lang="en" ng-app="webapp">
-<body ng-controller="MainCtrl">
-		<div class="page-container">		</div>
-		
-			<div ui-view=""></div>
-</body>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
 
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/visualization/d3/d3.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
+
+	<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
+<!-- 	<script type="text/javascript" src="css/bootstrap/assets/js/pages/dashboard.js"></script> -->
+	<!-- /theme JS files -->
+
+</head>
+
+<body ng-controller="MainCtrl">
+		<div class="page-container">	
+			<div ui-view=""></div>
+		</div>
+</body>
 <script src="/webjars/angularjs/1.4.9/angular.js"></script>
 <script src="/webjars/angularjs/1.4.9/angular-resource.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+<script src="https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js"></script>
 <script src="/js/app/restangular.js"></script>
 <script src="/js/lib/moment.js"></script>
-<script
-	src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
-<script type="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 
 <script src="/js/app/account/account.module.js"></script>
 <script src="/js/app/account/account.controller.js"></script>
@@ -40,8 +72,5 @@
 <script src="/js/app/common/user.module.js"></script>
 <script src="/js/app/common/user.service.js"></script>
 <script src="/js/app/common/AuthService.js"></script>
-
-
-
 <script src="/js/app/router.js"></script>
 </html>

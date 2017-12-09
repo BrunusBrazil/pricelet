@@ -1,3 +1,5 @@
+(function($){
+	'use strict'
 var module = angular.module('xTransactionModule');
 
 module.controller('xTransactionController', [ '$scope', 
@@ -167,4 +169,4 @@ module.controller('xTransactionController', [ '$scope',
 				return	_.filter($scope.subGroups, e=> e.account.description === account.description)
 			}
 	}
-]);
+])}(window.jQuery));

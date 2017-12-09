@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		.antMatchers("/", "/index.html", "/login.html", "/app/**",
 //				"/register", "/authenticate",
 //				"/favicon.ico", "/*.css", "/*.js");
-		.antMatchers("/", "/index.html", "/css/**", "/js/**",
+		.antMatchers("/**", "/index.html", "/css/**", "/js/**", "/webjars/**",
 				"/webjars/**", "/login.html", "/register.html", 
 				"/authenticate", "page-not-found.html",
 				"access-denied.html", "/User/**");

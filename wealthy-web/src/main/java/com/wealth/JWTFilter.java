@@ -53,9 +53,7 @@ public class JWTFilter extends GenericFilterBean {
 			} catch (SignatureException e) {
 				((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
 			}
- 
- 
-		}
+ 		}
 	}
  
  
