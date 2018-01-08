@@ -6,13 +6,12 @@ module.controller('xTransactionController', [ '$scope',
                                               'accountService',
                                               'accSubgroupService',
                                               'xTransactionService',
-		function xTransactionController ($scope,
+       function xTransactionController ($scope,
 											accountService, 
 											accSubgroupService,
 											xTransactionService,
 											notificationService) {
 			var self = this;
-
 			$scope.newXTransaction = newTransaction();
 			
 			self.create = function(xtransaction){			
@@ -30,7 +29,8 @@ module.controller('xTransactionController', [ '$scope',
 			
 			$scope.getXtransactions = function() {
 				xTransactionService.getAll().then(function(xtransactions) {
-					$scope.xtransactions = xtransactions;
+					$scope.xtransactions =	xtransactions;
+					filterByTransactionDate($scope.xtransactions, true);
 				});
 			}
 				
@@ -80,13 +80,17 @@ module.controller('xTransactionController', [ '$scope',
 			} 
 			
 			self.getTotalNumberOfTransaction = function(){
-				return  $scope.xtransactions? $scope.xtransactions.length: 0;
+				if($scope && $scope.xtransactions && $scope.xtransactions.length > 0 ){
+					return _.filter($scope.xtransactions, e => e.filtered).length;
+				}else{
+					return 0;
+				}
 			}
 
 			self.getTotalDebit = function(){
 				var totalDebit = 0 ;
 				_.forEach($scope.xtransactions, e => {
-					if(e.entrada){
+					if(e.entrada && e.filtered){
 						totalDebit += e.valor;
 					}
 				})
@@ -100,7 +104,7 @@ module.controller('xTransactionController', [ '$scope',
 			self.getTotalCredit = function(){
 				var totalCredit = 0 ;
 				_.forEach($scope.xtransactions, e => {
-					if(!e.entrada){
+					if(!e.entrada  && e.filtered){
 						totalCredit += e.valor;
 					}
 				})
@@ -130,9 +134,46 @@ module.controller('xTransactionController', [ '$scope',
 				}
 			}
 
+			$scope.getMainAccounts = function() {
+				accountService.getAll().then(function(accounts) {
+					$scope.mainGroups  = accounts;
+				});
+			}
+			
+			$scope.getSubAccounts = function() {
+				accSubgroupService.getAll().then(function(subGroups) {
+					$scope.subGroups  = subGroups;
+				});
+			}
+			
+			$scope.getSubAccountByAccount = function(account){
+				return	_.filter($scope.subGroups, e=> e.account.description === account.description)
+			}
+			
+			$scope.$watch('dateRangeString', function(oldValue, newValue){
+				filterByTransactionDate($scope.xtransactions, false);
+			});
+			
+			function filterByTransactionDate(xTransaction, defaultDateRange){
+				var dateRangeFilter = defaultDateRange? xTransactionService.getDefaultDateRange():  xTransactionService.getDateRangeFilter(); 
+				_.forEach(xTransaction, function(element){
+						if(moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format()).isBefore
+							(moment(moment.utc(dateRangeFilter.startDate.format("YYYY-MM-DD")).format()))){	
+							element.filtered=false;		
+						 }else{
+							element.filtered=true;		
+						 }
+				});					
+//				&&
+//				moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
+//				.isBefore
+//				(moment(moment.utc(dateRangeFilter.endDate.format("YYYY-MM-DD")).format()))
+			}
+			
 			function newTransaction(){
 				return  {
 					id: null, 
+					filtered: true,
 					description: null,
 					account: {
 						description:null
@@ -148,25 +189,11 @@ module.controller('xTransactionController', [ '$scope',
 				} 
 			}
 
-			//external service calls 
-			$scope.getMainAccounts = function() {
-				accountService.getAll().then(function(accounts) {
-					$scope.mainGroups  = accounts;
-				});
-			}
 			
-			$scope.getSubAccounts = function() {
-				accSubgroupService.getAll().then(function(subGroups) {
-					$scope.subGroups  = subGroups;
-				});
-			}
 			
 			$scope.getMainAccounts();
 			$scope.getSubAccounts();
 			$scope.getXtransactions();
-			
-			$scope.getSubAccountByAccount = function(account){
-				return	_.filter($scope.subGroups, e=> e.account.description === account.description)
-			}
+
 	}
 ])}(window.jQuery));

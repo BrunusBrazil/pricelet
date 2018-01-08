@@ -21,13 +21,13 @@ module.controller('loginController', ['$scope','$state','loginService','$http','
 				username : $scope.person.name,
 				password : $scope.person.password
 			}
-		}).success(function(res) {
+		}).then(function(res) {
 			$scope.password = null;
 			// checking if the token is available in the response
-			if (res.token) {
+			if (res.data.token) {
 				$scope.message = '';
 				// setting the Authorization Bearer token with JWT token
-				$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;
+				$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
  
  				// setting the user in AuthService
 				AuthService.user = res.user;
@@ -39,7 +39,7 @@ module.controller('loginController', ['$scope','$state','loginService','$http','
 				// authentication was not successful. Setting the error message.
 				$scope.message = 'Authetication Failed !';
 			}
-		}).error(function(error) {
+		},function(error) {
 			// if authentication was not successful. Setting the error message.
 			$scope.message = 'Authetication Failed !';
 		});

@@ -1,68 +1,40 @@
 <head>
-<!-- Global stylesheets -->
-<link
-	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
-	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
-	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
-	type="text/css">
-<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
-	type="text/css">
-<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
-	type="text/css">
-<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
-	type="text/css">
-<!-- /global stylesheets -->
-
-<!-- Core JS files -->
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
-<!-- /core JS files -->
-<!-- Theme JS files -->
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/visualization/d3/d3.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
+<link	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/icons/icomoon/styles.css" 	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet" 	type="text/css">
+<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"	type="text/css">
+<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"	type="text/css">
+<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"	type="text/css">
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/tables/datatables/datatables.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/visualization/d3/d3.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
 <script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
 </head>
 
-<div class="content-group"
-	ng-controller="xTransactionController as control">
+<div class="content-group"	ng-controller="xTransactionController as control">
 	<div class="row text-center">
 		<div class="col-md-6">
-			<div style="display: table-row">
-				<button type="button" ng-click="addNewXT()"
-					class="btn btn-primary btn-icon btn-rounded">
-					<i class="icon-add"></i>
+			<div style="display:flex; padding-bottom:10px">
+				<button type="button" ng-click="addNewXT()"	 class="btn btn-primary">
+					<i class="icon-add position-left"></i>Create</a>
 				</button>
-				<span class="text-muted text-size-small" style="display: block"> Add New </span>
 			</div>
-
 		</div>
 		<div class="col-md-6">
 			<div style="float: right;">
-				<button type="button"
-					class="btn btn-link daterange-ranges heading-btn text-semibold">
-					<i class="icon-calendar3 position-left"></i> <span>November
-						1 - December 29</span> <b class="caret"></b>
-				</button>
+				<i class='icon-calendar3 position-right'> </i> 
+				<range-date-picker></range-date-picker>
 			</div>
 		</div>
 	</div>
@@ -127,8 +99,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr
-					ng-repeat="xt in xtransactions | orderBy : dateTransaction: true ">
+				<tr ng-repeat="xt in xtransactions | filter:{filtered: true} | orderBy : dateTransaction: true">
 					<td><span ng-hide="xt.editing || xt.creating">{{xt.description}}</span>
 						<input ng-show="xt.editing || xt.creating" type="text"
 						class="form-control" ng-model="xt.description"></td>
@@ -153,7 +124,7 @@
 							| currency}}</span> <input type="number" required="true"
 						ng-show="xt.editing || xt.creating" type="text"
 						class="form-control" ng-model="xt.valor"></td>
-					<td><span>{{xt.dateTransaction | date:'short'}}</span></td>
+					<td><span>{{xt.dateTransaction | date:'medium'}}</span></td>
 					<td align="right" ng-hide="xt.editing || xt.creating">
 						<ul class="icons-list">
 							<li class="text-primary-900"><a href="#"

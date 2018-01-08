@@ -2,7 +2,7 @@ var module = angular.module('xTransactionModule');
 
      module.service('xTransactionService', ['Restangular','$q',function(Restangular, $q){
 		var base = Restangular.all('XTransaction/');
-
+		var dateRangeFilter = {startDate: null, endDate: null};
 		var cachedTransactions = [];		
 		var deferred = $q.defer();
     	
@@ -33,13 +33,30 @@ var module = angular.module('xTransactionModule');
     		return Restangular.one('XTransaction/', account.id).customPUT(account)
     	}
     	
-		return  {
+    	function setDateRangeFilter(start, end){
+    		dateRangeFilter.startDate = start;
+    		dateRangeFilter.endDate = end;
+    	}
+    	
+    	function getDateRangeFilter(){
+    		return dateRangeFilter;
+    	}    
+    	
+    	function getDefaultDateRange(){
+    		setDateRangeFilter(moment().subtract(30, 'day'), moment());
+    		return getDateRangeFilter();
+    	}
+
+    	return  {
 				create:create,
 				getAll:getAll,
 				remove:remove,
-				edit:edit
+				edit:edit,
+				setDateRangeFilter:setDateRangeFilter,
+				getDateRangeFilter:getDateRangeFilter,
+				getDefaultDateRange: getDefaultDateRange
 		}
-		
+			
 	}]);
 
 

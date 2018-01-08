@@ -1,4 +1,4 @@
-var app = angular.module('webapp',['accountModule', 'loginModule', 'userModule',
+var app = angular.module('webapp',['accountModule', 'loginModule', 'userModule', 'commonDirective',
                                    'accSubgroupModule','ui.router','ngResource','xTransactionModule']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
