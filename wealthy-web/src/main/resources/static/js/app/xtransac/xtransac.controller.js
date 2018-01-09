@@ -157,17 +157,20 @@ module.controller('xTransactionController', [ '$scope',
 			function filterByTransactionDate(xTransaction, defaultDateRange){
 				var dateRangeFilter = defaultDateRange? xTransactionService.getDefaultDateRange():  xTransactionService.getDateRangeFilter(); 
 				_.forEach(xTransaction, function(element){
-						if(moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format()).isBefore
-							(moment(moment.utc(dateRangeFilter.startDate.format("YYYY-MM-DD")).format()))){	
-							element.filtered=false;		
-						 }else{
+						if(moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
+							.isAfter
+							(moment(moment.utc(dateRangeFilter.startDate.format("YYYY-MM-DD")).format()))
+							&&
+							moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
+							.isBefore
+							(moment(moment.utc(dateRangeFilter.endDate.format("YYYY-MM-DD")).format()))
+							
+						){	
 							element.filtered=true;		
+						 }else{
+							element.filtered=false;		
 						 }
 				});					
-//				&&
-//				moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
-//				.isBefore
-//				(moment(moment.utc(dateRangeFilter.endDate.format("YYYY-MM-DD")).format()))
 			}
 			
 			function newTransaction(){
