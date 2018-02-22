@@ -1,4 +1,4 @@
-var module = angular.module('xTransactionModule',[
+angular.module('xTransactionModule',[
                                                   'restangular',
                                                   'accountModule',
                                                   'accSubgroupModule'

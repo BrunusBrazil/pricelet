@@ -1,4 +1,5 @@
 	<div ng-cloak class="navbar navbar-default header-highlight">
+
 		<div class="navbar-header">
 			<a class="navbar-brand" href="index.html">
 			<img src="css/bootstrap/assets/images/logo_light.png" alt=""></a>
@@ -9,16 +10,16 @@
 		</div>
 
 		<div class="navbar-collapse collapse" id="navbar-mobile">
-
 			<p class="navbar-text"><span class="label bg-success">Online</span></p>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown language-switch">
-					<a class="dropdown-toggle" data-toggle="dropdow">
+
+
+				<li class="dropdown" toggle-the-toogle>
+					<a class="dropdown-toggle">
 						<img src="css/bootstrap/assets/images/flags/br.png" class="position-left" alt="">
 							Portuguese
 						<span class="caret"></span>
 					</a>
-
 					<ul class="dropdown-menu">
 						<li><a class="deutsch"><img src="css/bootstrap/assets/images/flags/de.png" alt=""> Deutsch</a></li>
 						<li><a class="ukrainian"><img src="css/bootstrap/assets/images/flags/ua.png" alt=""> Українська</a></li>
@@ -28,27 +29,27 @@
 					</ul>
 				</li>
 
-				<li class="dropdown dropdown-user">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<img src="css/bootstrap/assets/images/placeholder.jpg" alt="">
-						<span>Victoria</span>
-						<i class="caret"></i>
+				<li class="dropdown" toggle-the-toogle>
+					<a class="dropdown-toggle">
+						<i class="glyphicon glyphicon-user"></i>
+						<display-user user="user">{{user.username}}</display-user>	
+						<span class="caret"></span>
 					</a>
-
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
 						<li><a href="#"><i class="icon-coins"></i>Personal</a></li>
 						<li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
 						<li class="divider"></li>
 						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-						<li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+						<li ng-controller="logoffController">
+							<a href="#" ng-click="logout()"><i class="icon-switch2"></i> Logout</a>
+						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 	</div>
 	<!-- /main navbar -->
-
 
 	<!-- Page container -->
 	<div class="page-container">
@@ -88,8 +89,6 @@
 					<div class="sidebar-category sidebar-category-visible">
 						<div class="category-content no-padding">
 							<ul class="navigation navigation-main navigation-accordion">
-
-								<!-- Main -->
 								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
 								<li class="active"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
 								<li>
@@ -99,7 +98,7 @@
 										<li><a ui-sref="ui.home.account-subgroup">Account Sub Group</a></li>
 										<li><a ui-sref="ui.home.xtransac">Transactions</a></li>
 									</ul>
-								<!-- /main -->
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -130,25 +129,3 @@
 		<!-- /page content -->
 	</div>
 <!-- /page container -->
-<!-- Global stylesheets -->
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet" 	type="text/css">
-<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"	type="text/css">
-<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"	type="text/css">
-<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"	type="text/css">
-<!-- /global stylesheets -->
-
-<!-- Core JS files -->
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
-<!-- /core JS files -->
-
-<!-- Theme JS files -->
-<!-- Theme JS files -->
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/tables/datatables/datatables.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
-<script type="text/javascript"  src="css/bootstrap/assets/js/core/app.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>	

@@ -42,7 +42,7 @@ public class AuthController{
 	public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password,
 			HttpServletResponse response) throws IOException, BusinessException {
 		String token = null;
-		UserDTO appUser =  service.searchByEmail(username);
+		UserDTO appUser =  service.searchByUserName(username);
 		Map<String, Object> tokenMap = new HashMap<String, Object>();
 		
 		if (appUser != null && appUser.getPassword().equals(password)) {
@@ -51,11 +51,8 @@ public class AuthController{
 					.setIssuedAt(new java.util.Date())
 					.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 			
-			//todo:
 			appUser.setPassword(null);
-			
 			tokenMap.put("token", token);
-			
 			tokenMap.put("user", appUser);
 		
 			return new ResponseEntity<Map<String, Object>>(tokenMap, HttpStatus.OK);

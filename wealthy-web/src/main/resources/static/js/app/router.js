@@ -1,8 +1,9 @@
-var app = angular.module('webapp',['accountModule', 'loginModule', 'userModule', 'commonDirective',
+var app = angular.module('webapp',['accountModule', 'bouncerModule', 
+                                   'userModule', 'commonDirective',
                                    'accSubgroupModule','ui.router','ngResource','xTransactionModule']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
+	$locationProvider.hashPrefix('');
 	$stateProvider
 		.state('ui', {
 	        url: '/ui',
@@ -16,6 +17,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	    .state('ui.register', {
 	        url: '/register',
 	        templateUrl: '/register.html',
+	        controller : 'userController'
+	       	 
 	    })
 	    .state('ui.home', {
 	        url: '/home',
@@ -46,16 +49,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	        url: '/transaction',
 	        templateUrl: '/js/app/xtransac/xtransac.html',
 	        controller : 'xTransactionController'
-	    }); 
-		
-		$urlRouterProvider.otherwise('index.html');
-
+	    });
+	
 });
 
 
 //the following method will run at the time of initializing the module. That
 //means it will run only one time.
-app.run(function(AuthService, $rootScope, $state) {
+app.run(function(AuthService, $rootScope, $state, $window) {
+	
 	// For implementing the authentication with ui-router we need to listen the
 	// state change. For every state change the ui-router module will broadcast
 	// the '$stateChangeStart'.
@@ -87,7 +89,19 @@ app.run(function(AuthService, $rootScope, $state) {
 
 			}
 		}
+		
+		
+
+		
+		
 	});
+});
+
+app.controller('MainCtrl',function ($state, $scope) {
+	$scope.user = {
+			username: ''
+	};
+	$state.transitionTo('ui.login');
 });
 
 
@@ -95,12 +109,4 @@ app.run(function(AuthService, $rootScope, $state) {
 
 
 
-app.controller('MainCtrl', function ($state) {
-    $state.transitionTo('ui.login');
-})
-
-
-
-
-
-
+	

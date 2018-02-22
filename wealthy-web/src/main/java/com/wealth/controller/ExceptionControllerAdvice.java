@@ -22,9 +22,13 @@ public class ExceptionControllerAdvice {
 	@ExceptionHandler(BusinessException.class)
     public ResponseEntity<Message> businessExceptionHandler(Exception ex) {
 		Message error = new Message();
-	    error.setType(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-	    error.setDescription("Please contact admin.");
-	    return new ResponseEntity<Message>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+	    error.setType(HttpStatus.BAD_REQUEST.toString());
+	    error.setDescription(ex.getMessage());
+	    return new ResponseEntity<Message>(error, HttpStatus.BAD_REQUEST);
     }
+	
+	
+	
+	
 
 }

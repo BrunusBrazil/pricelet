@@ -12,37 +12,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserDTO implements UserDetails{
 	
 	private Integer id;
-	private String name; 
+	private String fullName; 
 	private String email;
 	private String password;
+	private String userName;
+	private Boolean term;
+	private Boolean newsletter;
+	
+
 	private List<String> roles = new ArrayList<>(Arrays.asList("USER","ADMIN"));
 	
-	//getters and setters	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,7 +35,7 @@ public class UserDTO implements UserDetails{
 	//TODO:
 	@Override
 	public String getUsername() {
-		return email;
+		return userName;
 	}
 	@Override
 	public boolean isAccountNonExpired() {
@@ -78,12 +57,71 @@ public class UserDTO implements UserDetails{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	//getters and setters
 	
 	public List<String> getRoles() {
 		return roles;
 	}
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Boolean getTerm() {
+		return term;
+	}
+
+	public void setTerm(Boolean term) {
+		this.term = term;
+	}
+
+	public Boolean getNewsletter() {
+		return newsletter;
+	}
+
+	public void setNewsletter(Boolean newsletter) {
+		this.newsletter = newsletter;
 	}	
+	
+	
 }

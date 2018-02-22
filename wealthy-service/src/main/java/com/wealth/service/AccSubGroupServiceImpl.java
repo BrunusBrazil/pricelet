@@ -1,5 +1,6 @@
 package com.wealth.service;
 
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.wealth.common.acctsubgroup.AccSubGroupDAO;
@@ -21,6 +23,7 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 	@Autowired
 	@Qualifier("accSubGroupDaoImpl")
 	private AccSubGroupDAO dao;	
+	private Principal p = SecurityContextHolder.getContext().getAuthentication();
 	
 	@Override
 	public AccSubGroupDTO merge(AccSubGroupDTO accSubGroupDTO) throws BusinessException {

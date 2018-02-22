@@ -18,8 +18,9 @@ public class UserAssembler extends ResourceAssemblerSupport<UserDTO, UserResourc
 	@Override
 	public UserResource toResource(UserDTO dto) {
 		UserResource resource = new UserResource();
+		resource.setFullName(dto.getFullName());
 		resource.setEmail(dto.getEmail());
-		resource.setName(dto.getName());
+		resource.setUserName(dto.getUserName());
 		Link link = linkTo(UserController.class).slash(dto.getId()).withSelfRel();
 		resource.add(link);
 		return resource;

@@ -18,6 +18,7 @@ public class XTransactionDTO {
 	private String type;
 	private Date crete;
 	private Date lastUpdate;
+	private Integer userId;
 	
 	//getters and setters
 	public Integer getId() {
@@ -80,5 +81,12 @@ public class XTransactionDTO {
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-		
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	
 }

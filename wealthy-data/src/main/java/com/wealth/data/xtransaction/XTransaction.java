@@ -50,6 +50,9 @@ public class XTransaction {
 	@Column(name="last_update")
 	private Date lastUpdate;
 	
+	@Column(name="user_id")
+	private Integer userId;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -110,5 +113,12 @@ public class XTransaction {
 	}
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
-	}	
+	}
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 }

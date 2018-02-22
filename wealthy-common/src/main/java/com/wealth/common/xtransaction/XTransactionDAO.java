@@ -4,10 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface XTransactionDAO {
-	XTransactionDTO create(XTransactionDTO x) throws SQLException;
-	XTransactionDTO update(XTransactionDTO x) throws SQLException;
-	List<XTransactionDTO> searchAll() throws SQLException;
-	void delete(Integer id) throws SQLException;
-	XTransactionDTO searchById(Integer account) throws SQLException; 
+	XTransactionDTO create(XTransactionDTO transactionDTO) throws SQLException;
+	XTransactionDTO update(XTransactionDTO transactionDTO) throws SQLException;
+	List<XTransactionDTO> searchAll(XTransactionDTO transactionDTO) throws SQLException;
+	void delete(XTransactionDTO transactionDTO) throws SQLException;
+	XTransactionDTO searchById(XTransactionDTO transactionDTO) throws SQLException; 
 	
 }

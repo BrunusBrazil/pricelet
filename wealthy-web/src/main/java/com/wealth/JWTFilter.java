@@ -75,4 +75,4 @@ public class JWTFilter extends GenericFilterBean {
 				principal, "", authorities);
 		return usernamePasswordAuthenticationToken;
 	}
-}
+}	

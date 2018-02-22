@@ -22,26 +22,16 @@ public class XTransactionServiceImpl implements XTransactionService {
 	@Autowired
 	@Qualifier("xtransactionalDaoImpl")
 	private XTransactionDAO dao;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserServiceImpl userService;
 
-	@Override
-	public List<XTransactionDTO> searchAll() throws BusinessException {
-		List<XTransactionDTO> list = null;
-		try {
-			list = dao.searchAll();
-		} catch (SQLException | PersistenceException e) {
-			throw new BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
-		} catch (Exception e) {
-			throw new BusinessException(e.getMessage());
-		}
-		return list;
 
-	}
-
-	@Override
 	public XTransactionDTO merge(XTransactionDTO dto) throws BusinessException {
 		XTransactionDTO x;
 		String message = null;
-		try {			
+		try {
 			dto.setDateTransaction(new Date());
 			if(dto != null && dto.getId()== null){
 				dto.setCrete(new Date());
@@ -63,11 +53,11 @@ public class XTransactionServiceImpl implements XTransactionService {
 	}
 
 	@Override
-	public List<XTransactionDTO> delete(Integer id) throws BusinessException {
+	public List<XTransactionDTO> delete(XTransactionDTO xTransactionDTO) throws BusinessException {
 		List<XTransactionDTO> list = null;
 		try {
-			dao.delete(id);
-			list = dao.searchAll();
+			dao.delete(xTransactionDTO);
+			list = dao.searchAll(xTransactionDTO);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_DELETE.getDescription());
 		}
@@ -79,10 +69,10 @@ public class XTransactionServiceImpl implements XTransactionService {
 	}
 
 	@Override
-	public XTransactionDTO searchById(Integer id) throws BusinessException {
+	public XTransactionDTO searchById(XTransactionDTO transactionDTO) throws BusinessException {
 		XTransactionDTO dto;
 		try {
-			dto = dao.searchById(id);
+			dto = dao.searchById(transactionDTO);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
 		}
@@ -92,4 +82,17 @@ public class XTransactionServiceImpl implements XTransactionService {
 		return dto;	
 	}
 
+	@Override
+	public List<XTransactionDTO> searchAll(XTransactionDTO xTransactionDTO) throws BusinessException {
+		List<XTransactionDTO> list = null;
+		try {
+			list = dao.searchAll(xTransactionDTO);
+		} catch (SQLException | PersistenceException e) {
+			throw new BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		return list;
+	}
+	
 }

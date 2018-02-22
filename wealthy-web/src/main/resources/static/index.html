@@ -10,6 +10,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+	<base href="/"></base>
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -36,21 +37,20 @@
 	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
 	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
-</head>
 
-<body ng-controller="MainCtrl">
-		<div class="page-container">	
-			<div ui-view=""></div>
-		</div>
-</body>
 <script src="/webjars/angularjs/1.6.6/angular.js"></script>
 <script src="/webjars/angularjs/1.6.6/angular-resource.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
 <script src="https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js"></script>
 <script src="/js/app/restangular.js"></script>
 <script src="/js/lib/moment.js"></script>
-<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 
+</head>
+	<body ng-controller="MainCtrl">
+			<div class="page-container">	
+				<div ui-view=""></div>
+			</div>
+	</body>
 <script src="/js/app/account/account.module.js"></script>
 <script src="/js/app/account/account.controller.js"></script>
 <script src="/js/app/account/account.service.js"></script>
@@ -63,11 +63,13 @@
 <script src="/js/app/xtransac/xtransac.controller.js"></script>
 <script src="/js/app/xtransac/xtransac.service.js"></script>
 
-<script src="/js/app/common/login.module.js"></script>
-<script src="/js/app/common/login.service.js"></script>
-<script src="/js/app/common/user.module.js"></script>
-<script src="/js/app/common/user.service.js"></script>
-<script src="/js/app/common/AuthService.js"></script>
+<script src="/js/app/user/bouncer/bouncer.module.js"></script>
+<script src="/js/app/user/bouncer/bouncer.service.js"></script>
+<script src="/js/app/user/bouncer/bouncer.controller.js"></script>
+
+<script src="/js/app/user/user.module.js"></script>
+<script src="/js/app/user/user.service.js"></script>
+<script src="/js/app/user/AuthService.js"></script>
 <script src="/js/app/common/directives.js"></script>
 <script src="/js/app/router.js"></script>
 </html>

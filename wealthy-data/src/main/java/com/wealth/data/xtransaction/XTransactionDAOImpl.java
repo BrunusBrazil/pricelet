@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
-import javax.transaction.Transactional;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import com.wealth.common.xtransaction.XTransactionDAO;
 import com.wealth.common.xtransaction.XTransactionDTO;
 import com.wealth.data.GenericDaoImpl;
 
-@Transactional
 @Component("xtransactionalDaoImpl")
 public class XTransactionDAOImpl extends GenericDaoImpl implements XTransactionDAO {
 
@@ -26,10 +24,10 @@ public class XTransactionDAOImpl extends GenericDaoImpl implements XTransactionD
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<XTransactionDTO> searchAll() throws SQLException {
+	public List<XTransactionDTO> searchAll(XTransactionDTO transactionDTO) throws SQLException {
 		List<XTransactionDTO>  ac = null;
 		StringBuilder query = new StringBuilder(20);
-		query.append("select x from XTransaction x");
+		query.append("select x from XTransaction x where x.userId = ").append(transactionDTO.getUserId());
 		try {
 			ac = comvertDAOToDTOList(getEm().createQuery(query.toString()).getResultList());
 		} catch (NoResultException noResultException) {
@@ -51,10 +49,12 @@ public class XTransactionDAOImpl extends GenericDaoImpl implements XTransactionD
 	}
 
 	@Override
-	public void delete(Integer id) throws SQLException {
+	public void delete(XTransactionDTO transactionDTO) throws SQLException {
 		StringBuilder query = new StringBuilder(20);
 		query.append("delete XTransaction x ");
-		query.append(" where x.id = " ).append(id);
+		query.append(" where x.id = " ).append(transactionDTO.getId());
+		query.append(" and ");
+		query.append("x.userId = ").append(transactionDTO.getUserId());
 		try {
 			 getEm().createQuery(query.toString()).executeUpdate();
 		} catch (NoResultException noResultException) {
@@ -65,11 +65,13 @@ public class XTransactionDAOImpl extends GenericDaoImpl implements XTransactionD
 	}
 
 	@Override
-	public XTransactionDTO searchById(Integer id) throws SQLException {
+	public XTransactionDTO searchById(XTransactionDTO transactionDTO) throws SQLException {
 		XTransactionDTO ac = null;
 		StringBuilder query = new StringBuilder(20);
 		query.append("select x from XTransaction x ");
-		query.append(" where x.id = " ).append(id);
+		query.append(" where x.id = " ).append(transactionDTO.getId());
+		query.append(" and ");
+		query.append(" x.userId = ").append(transactionDTO.getUserId());
 		try {
 			ac = convertToDTO((XTransaction) getEm().createQuery(query.toString()).getSingleResult());
 		} catch (NoResultException noResultException) {
@@ -96,6 +98,5 @@ public class XTransactionDAOImpl extends GenericDaoImpl implements XTransactionD
 	public XTransactionDTO convertToDTO(XTransaction dao){
 		return dozerBeanMapper.map(dao, XTransactionDTO.class);
 	}
-
 
 }

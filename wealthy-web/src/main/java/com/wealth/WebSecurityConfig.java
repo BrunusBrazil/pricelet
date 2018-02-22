@@ -1,6 +1,5 @@
 package com.wealth;
 
-
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -8,8 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
- 
- 
+
 /**
  * Spring Web security configuration class
  * 
@@ -20,29 +18,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 // Modifying or overriding the default spring boot security.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
- 
- 
+
 	// This method is for overriding some configuration of the WebSecurity
 	// If you want to ignore some request or request patterns then you can
 	// specify that inside this method
 	@Override
 	public void configure(WebSecurity web) throws Exception {
  		web.ignoring()
-//		.antMatchers("/", "/index.html", "/login.html", "/app/**",
-//				"/register", "/authenticate",
-//				"/favicon.ico", "/*.css", "/*.js");
-		.antMatchers("/**", "/index.html", "/css/**", "/js/**", "/webjars/**",
-				"/webjars/**", "/login.html", "/register.html", 
-				"/authenticate", "page-not-found.html",
-				"access-denied.html", "/User/**");
+ 		.antMatchers("/", "/index.html", "/css/**", "/js/**", "/webjars/**",
+						"/webjars/**", "/login.html", "/register.html", 
+						"/authenticate", "page-not-found.html",
+						"access-denied.html", "/User/**", "/favicon.ico", "/home.html");
 	}
- 
- 
+
 	// This method is used for override HttpSecurity of the web Application.
 	// We can specify our authorization criteria inside this method.
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http	// starts authorizing configurations
+		http // starts authorizing configurations
 				.authorizeRequests()
 				// authenticate all remaining URLS
 				.anyRequest().fullyAuthenticated().and()

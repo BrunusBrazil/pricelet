@@ -6,12 +6,12 @@ import javax.persistence.PersistenceException;
 
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class GenericDaoImpl implements Dao {
 	
 	@PersistenceContext
 	private EntityManager em;
 
-	@Transactional
 	public Object gravar(Object object) throws PersistenceException {
 		try {
 			em.persist(object);
@@ -22,7 +22,6 @@ public class GenericDaoImpl implements Dao {
 		return object;
 	}
 
-	@Transactional
 	public void excluir(Object object) throws PersistenceException {
 		try {
 			em.remove(em.contains(object)? object : em.merge(object));
@@ -31,7 +30,6 @@ public class GenericDaoImpl implements Dao {
 		}
 	}
 
-	@Transactional
 	public Object alterar(Object object) throws PersistenceException {
 		Object retorno = null;
 		try {

@@ -9,21 +9,19 @@ module.controller('xTransactionController', [ '$scope',
        function xTransactionController ($scope,
 											accountService, 
 											accSubgroupService,
-											xTransactionService,
-											notificationService) {
+											xTransactionService) {
 			var self = this;
 			$scope.newXTransaction = newTransaction();
 			
-			self.create = function(xtransaction){			
+			self.create = function(xtransaction){	
 				setId(xtransaction.account);
 				setId(xtransaction.accSubGroup);
 				xTransactionService.create(xtransaction).then(function(response){
 					angular.copy(response, xtransaction);
+					xtransaction.filtered = true;
 					setId(response);
-					notificationService.success('Success!!!', 'Transaction completed');
-					newXTransaction = newTransaction();
 				}, function(response){
-					notificationService.success('Ops! Error', 'Something happend the operation was cancelled');
+					alert("Error");
 				});
 			}
 			
@@ -38,9 +36,9 @@ module.controller('xTransactionController', [ '$scope',
 			    setId(xtransaction);
 				xTransactionService.remove(xtransaction).then(function(xtransactions){
 					$scope.xtransactions = xtransactions;
-					alert("xtransaction Removed");
+					filterByTransactionDate($scope.xtransactions, false);
 				}, function(response){
-					notificationService.success('Ops! Error', 'Something happend the operation was cancelled');
+					alert("Error");
 				});
 			}
 
@@ -67,7 +65,7 @@ module.controller('xTransactionController', [ '$scope',
 				  $scope.getXtransactions();
 				  alert('Success');		
 			  }, function(response){
-					notificationService.success('Ops! Error', 'Something happend the operation was cancelled');
+					alert("Error");
 		      });	
 			}
 
@@ -158,11 +156,11 @@ module.controller('xTransactionController', [ '$scope',
 				var dateRangeFilter = defaultDateRange? xTransactionService.getDefaultDateRange():  xTransactionService.getDateRangeFilter(); 
 				_.forEach(xTransaction, function(element){
 						if(moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
-							.isAfter
+							.isSameOrAfter
 							(moment(moment.utc(dateRangeFilter.startDate.format("YYYY-MM-DD")).format()))
 							&&
 							moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
-							.isBefore
+							.isSameOrBefore
 							(moment(moment.utc(dateRangeFilter.endDate.format("YYYY-MM-DD")).format()))
 							
 						){	

@@ -73,7 +73,7 @@ public class UserDAOImpl extends GenericDaoImpl implements UserDAO {
 		try {
 			ac = convertToDTO((User) getEm().createQuery(query.toString()).getSingleResult());
 		} catch (NoResultException noResultException) {
-			throw noResultException;
+			return ac;
 		} catch (Exception e) {
 			throw new PersistenceException(e);
 		}
@@ -95,6 +95,22 @@ public class UserDAOImpl extends GenericDaoImpl implements UserDAO {
 	
 	public UserDTO convertToDTO(User dao){
 		return dozerBeanMapper.map(dao, UserDTO.class);
+	}
+
+	@Override
+	public UserDTO searchByUserName(String userName) throws SQLException {
+		UserDTO ac = null;
+		StringBuilder query = new StringBuilder(20);
+		query.append("select u from User u ");
+		query.append(" where u.userName = '" ).append(userName).append("'");
+		try {
+			ac = convertToDTO((User) getEm().createQuery(query.toString()).getSingleResult());
+		} catch (NoResultException noResultException) {
+			 return ac;
+		} catch (Exception e) {
+			throw new PersistenceException(e);
+		}
+		return ac;
 	}
 
 }

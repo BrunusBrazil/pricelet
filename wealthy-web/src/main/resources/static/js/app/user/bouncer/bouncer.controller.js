@@ -1,4 +1,4 @@
-var module = angular.module('loginModule', ['ui.router']);
+var module = angular.module('bouncerModule');
 
 module.controller('loginController', ['$scope','$state','loginService','$http','AuthService','$rootScope',
                                       function loginController($scope, $state, loginService, $http, 
@@ -30,7 +30,7 @@ module.controller('loginController', ['$scope','$state','loginService','$http','
 				$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
  
  				// setting the user in AuthService
-				AuthService.user = res.user;
+				AuthService.user = res.data.user;
 				$rootScope.$broadcast('LoginSuccessful');
 				// going to the home page
 				$state.go('ui.home.xtransac');
@@ -46,3 +46,26 @@ module.controller('loginController', ['$scope','$state','loginService','$http','
 	};
 	
 }]);
+
+angular.module('bouncerModule')
+.controller('logoffController', ['$scope','$window','$state', '$rootScope',
+                                 function logoffController($scope, $window, $state, $rootScope){
+
+	$scope.$on('LogoutSuccessful', function() {
+		$window.location.reload();
+	});
+	
+	$scope.logout = function() {
+		$rootScope.$broadcast('LogoutSuccessful');
+	};
+
+}]);
+
+
+
+
+
+
+
+
+

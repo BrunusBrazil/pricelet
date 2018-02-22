@@ -2,21 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	<parent>
+		<groupId>com.pricilet</groupId>
+		<artifactId>pricelet</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath />
+	</parent>
 	<groupId>com.wealth</groupId>
 	<artifactId>wealthy-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
 	<name>wealthy-web</name>
 	<description>Demo project for Spring Boot</description>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,12 +43,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.wealth.service</groupId>
 			<artifactId>wealthy-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
@@ -80,9 +77,35 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.spotify</groupId> -->
+<!-- 				<artifactId>docker-maven-plugin</artifactId> -->
+<!-- 				<version>1.0.0</version	> -->
+<!-- 				<configuration> -->
+<!-- 					<imageName>${docker.image.prefix}/${project.artifactId}</imageName> -->
+<!-- 					<dockerDirectory>src/main/docker</dockerDirectory> -->
+<!-- 					<resources> -->
+<!-- 						<resource> -->
+<!-- 							<targetPath>/</targetPath> -->
+<!-- 							<directory>${project.build.directory}</directory> -->
+<!-- 							<include>${project.build.finalName}.jar</include> -->
+<!-- 						</resource> -->
+<!-- 					</resources> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
+
+
 		</plugins>
 	</build>
-
-
 </project>

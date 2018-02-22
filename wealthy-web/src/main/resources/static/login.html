@@ -1,31 +1,48 @@
 <head>
-	<!-- Global stylesheets -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap/assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap/assets/css/core.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap/assets/css/components.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet" type="text/css">
-	<!-- /global stylesheets -->
+<!-- Global stylesheets -->
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
+	type="text/css">
+<!-- /global stylesheets -->
 
-	<!-- Core JS files -->
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
-	<!-- /core JS files -->
-	<!-- Theme JS files -->
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/visualization/d3/d3.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
-	<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
+<!-- Core JS files -->
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files -->
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/visualization/d3/d3.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
+<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
 </head>
 
-	<div ng-controller="loginController">
+<div ng-controller="loginController">
 	<div class="login-container">
 		<!-- Page container -->
 		<div class="page-container">
@@ -38,9 +55,9 @@
 
 					<!-- Content area -->
 					<div class="content">
-					<div class="alert alert-info margin-top-5" ng-show="message">{{message}}</div>
-					<!-- Simple login form -->
-						<div>
+						<div class="alert alert-info margin-top-5" ng-show="message">{{message}}</div>
+						<!-- Simple login form -->
+						<form name="userForm">
 							<div class="panel panel-body login-form">
 								<div class="text-center">
 									<div class="icon-object border-slate-300 text-slate-300">
@@ -52,17 +69,20 @@
 									</h5>
 								</div>
 
-								<div class="form-group has-feedback has-feedback-left">
-									<input type="text" class="form-control" ng-model="person.name"
-										placeholder="Username">
-									<div class="form-control-feedback">
-										<i class="icon-user text-muted"></i>
-									</div>
+								<div class="form-group has-feedback has-feedback-left" show-errors>
+								    	<input type="text" class="form-control" name="username" ng-model="person.name"
+											required placeholder="Username">
+										
+										<div class="form-control-feedback">
+											<i class="icon-user text-muted"></i>
+										</div>
 								</div>
 
-								<div class="form-group has-feedback has-feedback-left">
+								<div class="form-group has-feedback has-feedback-left" show-errors>
 									<input type="password" ng-model="person.password"
-										class="form-control" placeholder="Password">
+										class="form-control" name="password" 
+										required placeholder="Password">
+										
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>
@@ -78,12 +98,16 @@
 								<div class="text-center">
 									<a href="login_password_recover.html">Forgot password?</a>
 								</div>
-								<div class="text-center">
-										<a ui-sref="ui.register">Create an account</a>
+								
+								<div class="content-divider text-muted form-group">
+									<span>Don't have an account?</span>
 								</div>
-							</div>
-						</div>
 
+								<a ui-sref="ui.register" 
+								class="btn btn-default btn-block content-group">Sign up</a>
+								
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
