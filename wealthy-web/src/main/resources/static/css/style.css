@@ -1,0 +1,10 @@
+/** Editable table
+------------------------- */
+.datatable-input {
+	width: 100%;
+	padding: 10px;
+	margin: 0px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}

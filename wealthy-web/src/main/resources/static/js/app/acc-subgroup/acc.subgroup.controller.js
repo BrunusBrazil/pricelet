@@ -39,7 +39,11 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 				if(_.filter($scope.accounts, e=> e.creating === true).length === 0){
 					var subGroupAccount = newSubGrupAccount();
 					subGroupAccount.creating = true;
-			        $scope.accounts.unshift(subGroupAccount);
+					if($scope.accounts){
+						$scope.accounts.unshift(subGroupAccount);
+					}else{
+						$scope.accounts.push(subGroupAccount);
+					}
 				}
 			}
 			

@@ -1,11 +1,11 @@
 var module = angular.module('bouncerModule');
 
 module.controller('loginController', ['$scope','$state','loginService','$http','AuthService','$rootScope',
-                                      function loginController($scope, $state, loginService, $http, 
+                                      function loginController($scope, $state, loginService, $http,
                                     		  AuthService, $rootScope){
 	$scope.person  =  new Person();
 	$scope.isUserValid = loginService.getUserState();
-
+	
 	function Person(){
 		this.name = '',
 		this.password = ''
@@ -60,12 +60,3 @@ angular.module('bouncerModule')
 	};
 
 }]);
-
-
-
-
-
-
-
-
-

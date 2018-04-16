@@ -1,5 +1,6 @@
 package com.wealth.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,47 +20,51 @@ import com.wealth.resource.AccountResource;
 
 @RestController
 @RequestMapping(value="Account")
-public class AccountGroupController {
+public class AccountGroupController extends AbstractController{
 	
 	@Autowired
 	@Qualifier("accountGroupServiceImpl")
 	private AccountGroupService service;
-	
+
 	@RequestMapping(value="/", method = RequestMethod.POST)
-	public ResponseEntity<AccountResource> create(@RequestBody AccountGroupDTO account) throws Exception{
-		AccountGroupDTO accountGroupDTO  = service.merge(account);
+	public ResponseEntity<AccountResource> create(@RequestBody AccountGroupDTO account, Principal principal) throws Exception{
+		AccountGroupDTO accountGroupDTO  = service.merge((AccountGroupDTO) setPrincipal(principal, account));
 		AccountGroupAssembler aa = new AccountGroupAssembler();
 		AccountResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<AccountResource>(ar, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public ResponseEntity<List<AccountResource>> getall() throws Exception{
-		List<AccountGroupDTO> accountGroupDTO  = service.searchAll();
+	public ResponseEntity<List<AccountResource>> searchAll(Principal principal) throws Exception{
+		List<AccountGroupDTO> accountGroupDTO  = service.searchAll((AccountGroupDTO) setPrincipal(principal, new AccountGroupDTO()));
 		AccountGroupAssembler aa = new AccountGroupAssembler();
 		List<AccountResource> ar = aa.toResources(accountGroupDTO);
 		return ResponseEntity.ok(ar);
 	}
 
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-	public  ResponseEntity<List<AccountResource>> delete(@PathVariable Integer id) throws Exception{
-		List<AccountGroupDTO> accountGroupDTO  = service.delete(id);
+	public  ResponseEntity<List<AccountResource>> delete(@PathVariable Integer id, Principal principal ) throws Exception{
+		List<AccountGroupDTO> accountGroupDTO  =
+				service.delete((AccountGroupDTO) setPrincipal(principal, new AccountGroupDTO(), id));
 		AccountGroupAssembler aa = new AccountGroupAssembler();
 		List<AccountResource> ar = aa.toResources(accountGroupDTO);
 		return ResponseEntity.ok(ar);
 	}
 
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-	public  ResponseEntity<AccountResource> update(@PathVariable Integer id, @RequestBody AccountGroupDTO account) throws Exception{
-		AccountGroupDTO accountGroupDTO  = service.merge(account);
+	public  ResponseEntity<AccountResource> update(@PathVariable Integer id,
+			@RequestBody AccountGroupDTO account, Principal principal) throws Exception{
+		AccountGroupDTO accountGroupDTO  = 
+				service.merge((AccountGroupDTO) setPrincipal(principal, account, id));
 		AccountGroupAssembler aa = new AccountGroupAssembler();
 		AccountResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<AccountResource>(ar, HttpStatus.ACCEPTED);
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public  ResponseEntity<AccountResource> searchById(@PathVariable Integer id) throws Exception{
-		AccountGroupDTO accountGroupDTO  = service.searchById(id);
+	public  ResponseEntity<AccountResource> searchById(@PathVariable Integer id, Principal principal) throws Exception{
+		AccountGroupDTO accountGroupDTO  =
+				service.searchById((AccountGroupDTO) setPrincipal(principal, new AccountGroupDTO(), id));
 		AccountGroupAssembler aa = new AccountGroupAssembler();
 		AccountResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<AccountResource>(ar, HttpStatus.ACCEPTED);

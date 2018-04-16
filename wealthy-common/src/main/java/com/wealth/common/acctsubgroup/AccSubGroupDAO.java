@@ -6,7 +6,7 @@ import java.util.List;
 public interface AccSubGroupDAO {
 	AccSubGroupDTO create(AccSubGroupDTO accSubGroupDTO) throws SQLException;
 	AccSubGroupDTO update(AccSubGroupDTO subGroup) throws SQLException;
-	List<AccSubGroupDTO> searchAll() throws SQLException;
-	void delete(Integer id) throws SQLException;
-	AccSubGroupDTO searchById(Integer account) throws SQLException; 
+	List<AccSubGroupDTO> searchAll(AccSubGroupDTO accSubGroupDTO) throws SQLException;
+	void delete(AccSubGroupDTO accSubGroupDTO) throws SQLException;
+	AccSubGroupDTO searchById(AccSubGroupDTO accSubGroupDTO) throws SQLException; 
 }

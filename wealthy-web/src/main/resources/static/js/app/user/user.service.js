@@ -7,8 +7,13 @@ module.service('userService', ['Restangular',function(Restangular){
 	function create(account){
 		return  base.post(account);
 	}
+	
+	function recover(user){
+		return Restangular.all('User/recover/').post(user);
+	}
 		
 	return {
-			create:create
+			create:create,
+			recover: recover
 	}
 }]);

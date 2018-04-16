@@ -6,9 +6,8 @@ import com.wealth.common.exception.BusinessException;
 
 public interface AccountGroupService {
 	AccountGroupDTO merge(AccountGroupDTO account) throws BusinessException;
-	List<AccountGroupDTO> searchAll() throws BusinessException;
-	List<AccountGroupDTO> delete(Integer id) throws BusinessException;
-	AccountGroupDTO searchById(Integer id) throws BusinessException;
-	
-	
+	List<AccountGroupDTO> searchAll(AccountGroupDTO account) throws BusinessException;
+	List<AccountGroupDTO> delete(AccountGroupDTO account) throws BusinessException;
+	AccountGroupDTO searchById(AccountGroupDTO account) throws BusinessException;
+		
 }

@@ -35,10 +35,11 @@ public class AccountGroupDAOImpl extends GenericDaoImpl implements  AccountGroup
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<AccountGroupDTO> searchAll() throws SQLException {
+	public List<AccountGroupDTO> searchAll(AccountGroupDTO account) throws SQLException {
 		List<AccountGroupDTO>  ac = null;
 		StringBuilder query = new StringBuilder(20);
-		query.append("select acg from AccountGroup acg");
+		query.append("select acg from AccountGroup acg where acg.userId = ").append(account.getUserId());
+		
 		try {
 			ac = convertAccountsToDTO(getEm().createQuery(query.toString()).getResultList());
 		} catch (NoResultException noResultException) {
@@ -50,10 +51,12 @@ public class AccountGroupDAOImpl extends GenericDaoImpl implements  AccountGroup
 	}
 
 	@Override
-	public void delete(Integer id) throws SQLException {
+	public void delete(AccountGroupDTO account) throws SQLException {
 		StringBuilder query = new StringBuilder(20);
 		query.append("delete AccountGroup acg ");
-		query.append(" where acg.id = " ).append(id);
+		query.append(" where acg.id = " ).append(account.getId());
+		query.append(" and acg.userId = " ).append(account.getUserId());
+		
 		try {
 			 getEm().createQuery(query.toString()).executeUpdate();
 		} catch (NoResultException noResultException) {
@@ -66,11 +69,12 @@ public class AccountGroupDAOImpl extends GenericDaoImpl implements  AccountGroup
 	
 	
 	@Override
-	public AccountGroupDTO searchById(Integer id) throws SQLException {
+	public AccountGroupDTO searchById(AccountGroupDTO account) throws SQLException {
 		AccountGroupDTO ac = null;
 		StringBuilder query = new StringBuilder(20);
 		query.append("select acg from AccountGroup acg ");
-		query.append(" where acg.id = " ).append(id);
+		query.append(" where acg.id = " ).append(account.getId());
+		query.append(" and acg.userId = " ).append(account.getUserId());
 		try {
 			ac = converTotDTO((AccountGroup) getEm().createQuery(query.toString()).getSingleResult());
 		} catch (NoResultException noResultException) {

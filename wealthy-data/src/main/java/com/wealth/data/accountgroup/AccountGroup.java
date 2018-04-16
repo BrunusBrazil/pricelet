@@ -7,15 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.wealth.data.SuperEntity;
+
 @Entity
 @Table(name="acc_group")
-public class AccountGroup {
-
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
-	private Integer id;
+public class AccountGroup extends SuperEntity {
 
 	@Column(name="description", length=10, nullable=false)
 	private String description;
@@ -23,14 +19,7 @@ public class AccountGroup {
 //	@OneToMany(mappedBy="accountGroup" ,cascade= CascadeType.MERGE)
 //	private Set<AccountSubGroup> subGroups = new HashSet<AccountSubGroup>();
 
-	//setters and setters	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+		
 
 	public String getDescription() {
 		return description;
@@ -47,13 +36,11 @@ public class AccountGroup {
 			return true;
 		
 		if(obj instanceof AccountGroup){
-			return ((AccountGroup) obj).getId().equals(this.id);
+			return ((AccountGroup) obj).getId().equals(this.getId());
 		}
 		else{
 			return false;
 		}
 	}
-	
-	
 	
 }

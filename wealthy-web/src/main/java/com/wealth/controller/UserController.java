@@ -1,6 +1,7 @@
 package com.wealth.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.wealth.assembler.UserAssembler;
 import com.wealth.resource.UserResource;
+import com.wealth.service.EmailServiceImpl;
 import com.wealthy.common.user.UserDTO;
 import com.wealthy.common.user.UserService;
 
@@ -22,6 +25,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService service;
+	
+	@Autowired
+	@Qualifier("emailServiceImpl")
+	EmailServiceImpl emailService;
+	
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ResponseEntity<List<UserResource>> searchAll() throws Exception{
@@ -54,12 +62,20 @@ public class UserController {
 		UserResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<UserResource>(ar, HttpStatus.ACCEPTED);
 	}
-	
+
 	@RequestMapping(value="/{email}", method = RequestMethod.GET)
 	public  ResponseEntity<UserResource> searchByEmail(@PathVariable String email) throws Exception{
 		UserDTO accountGroupDTO  = service.searchByEmail(email);
 		UserAssembler aa = new UserAssembler();
 		UserResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<UserResource>(ar, HttpStatus.ACCEPTED);
-	}	
+	}
+
+	@RequestMapping(value="/recover", method = RequestMethod.POST)
+	public HttpStatus recoverEmail(@RequestBody UserDTO user) throws Exception{
+		emailService.recoverPassword(user.getEmail());	
+		return HttpStatus.ACCEPTED;
+	}
+	
+	
 }

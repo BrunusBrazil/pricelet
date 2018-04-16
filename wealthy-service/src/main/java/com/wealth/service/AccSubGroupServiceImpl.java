@@ -1,6 +1,5 @@
 package com.wealth.service;
 
-import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.wealth.common.acctsubgroup.AccSubGroupDAO;
@@ -23,7 +21,6 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 	@Autowired
 	@Qualifier("accSubGroupDaoImpl")
 	private AccSubGroupDAO dao;	
-	private Principal p = SecurityContextHolder.getContext().getAuthentication();
 	
 	@Override
 	public AccSubGroupDTO merge(AccSubGroupDTO accSubGroupDTO) throws BusinessException {
@@ -50,10 +47,10 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 	}
 
 	@Override
-	public List<AccSubGroupDTO> searchAll() throws BusinessException {
+	public List<AccSubGroupDTO> searchAll(AccSubGroupDTO subGroup) throws BusinessException {
 		List<AccSubGroupDTO> list = null;
 		try {
-			list = dao.searchAll();
+			list = dao.searchAll(subGroup);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
 		}
@@ -64,11 +61,11 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 	}
 
 	@Override
-	public List<AccSubGroupDTO> delete(Integer id) throws BusinessException {
+	public List<AccSubGroupDTO> delete(AccSubGroupDTO subGroup) throws BusinessException {
 		List<AccSubGroupDTO> list = null;
 		try {
-			dao.delete(id);
-			list = dao.searchAll();
+			dao.delete(subGroup);
+			list = dao.searchAll(subGroup);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_DELETE.getDescription());
 		}
@@ -80,10 +77,10 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 	}
 
 	@Override
-	public AccSubGroupDTO searchById(Integer id) throws BusinessException {
+	public AccSubGroupDTO searchById(AccSubGroupDTO subGroup) throws BusinessException {
 		AccSubGroupDTO dto;
 		try {
-			dto = dao.searchById(id);
+			dto = dao.searchById(subGroup);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
 		}

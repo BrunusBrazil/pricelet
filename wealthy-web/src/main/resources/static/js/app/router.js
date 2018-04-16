@@ -1,5 +1,5 @@
-var app = angular.module('webapp',['accountModule', 'bouncerModule', 
-                                   'userModule', 'commonDirective',
+var app = angular.module('webapp',['accountModule', 'bouncerModule', 'serviceUtils',
+                                   'userModule', 'commonDirective','serviceUtils',
                                    'accSubgroupModule','ui.router','ngResource','xTransactionModule']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
@@ -20,6 +20,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	        controller : 'userController'
 	       	 
 	    })
+	    .state('ui.password-recover', {
+	        url: '/password-recover',
+	        templateUrl: '/password-recover.html',
+	        controller : 'userRecoverController'
+	       	 
+	    })
 	    .state('ui.home', {
 	        url: '/home',
 	        abstract: true,
@@ -38,7 +44,18 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	    .state('ui.home.account-group', {
 	        url: '/account-group',
 	        templateUrl: '/js/app/account/account.html',
-	        controller : 'AccountController'
+	        controller : 'AccountController',
+	        controllerAs: 'vm',
+	        resolve: {
+	            accounts: function(accountService, $q) {
+            		var deferred = $q.defer();
+	            		accountService.getAll().then(function(response) {
+	            			deferred.resolve(response);
+		            	})
+		            	
+	            	return deferred.promise;
+	            }
+	        }
 	    })
 	    .state('ui.home.account-subgroup', {
 	        url: '/account-subgroup',
@@ -50,9 +67,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	        templateUrl: '/js/app/xtransac/xtransac.html',
 	        controller : 'xTransactionController'
 	    });
-	
 });
-
 
 //the following method will run at the time of initializing the module. That
 //means it will run only one time.
@@ -89,11 +104,6 @@ app.run(function(AuthService, $rootScope, $state, $window) {
 
 			}
 		}
-		
-		
-
-		
-		
 	});
 });
 

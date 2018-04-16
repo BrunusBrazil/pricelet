@@ -36,10 +36,10 @@ public class AccSubGroupDAOImpl extends GenericDaoImpl implements AccSubGroupDAO
 		
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<AccSubGroupDTO> searchAll() throws SQLException {
+	public List<AccSubGroupDTO> searchAll(AccSubGroupDTO subGroup) throws SQLException {
 		List<AccSubGroupDTO>  ac = null;
 		StringBuilder query = new StringBuilder(20);
-		query.append("select acg from AccountSubGroup acg");
+		query.append("select acg from AccountSubGroup acg where acg.userId = ").append(subGroup.getUserId());
 		try {
 			ac = convertToListDTO(getEm().createQuery(query.toString()).getResultList());
 		} catch (NoResultException noResultException) {
@@ -52,10 +52,11 @@ public class AccSubGroupDAOImpl extends GenericDaoImpl implements AccSubGroupDAO
 	}
 
 	@Override
-	public void delete(Integer id) throws SQLException {
+	public void delete(AccSubGroupDTO subGroup) throws SQLException {
 		StringBuilder query = new StringBuilder(20);
 		query.append("delete AccountSubGroup acg ");
-		query.append(" where acg.id = " ).append(id);
+		query.append(" where acg.id = " ).append(subGroup.getId());
+		query.append(" and acg.userId = ").append(subGroup.getUserId());
 		try {
 			 getEm().createQuery(query.toString()).executeUpdate();
 		} catch (NoResultException noResultException) {
@@ -66,11 +67,12 @@ public class AccSubGroupDAOImpl extends GenericDaoImpl implements AccSubGroupDAO
 	}
 
 	@Override
-	public AccSubGroupDTO searchById(Integer id) throws SQLException {
+	public AccSubGroupDTO searchById(AccSubGroupDTO subGroup) throws SQLException {
 		AccSubGroupDTO ac = null;
 		StringBuilder query = new StringBuilder(20);
 		query.append("select acg from AccountSubGroup acg ");
-		query.append(" where acg.id = " ).append(id);
+		query.append(" where acg.id = " ).append(subGroup.getId());
+		query.append(" and acg.userId = ").append(subGroup.getUserId());
 		try {
 			ac = convertToDTO((AccountSubGroup) getEm().createQuery(query.toString()).getSingleResult());
 		} catch (NoResultException noResultException) {

@@ -1,68 +1,85 @@
 var module = angular.module('accountModule');
-
-module.controller('AccountController', [ '$scope', 'accountService',
-		function AccountController ($scope, accountService, ModalService, notificationService) {
-			var self = this;
-
-			$scope.newAccount = getEmptyAccount();
+module.controller('AccountController', [ '$scope', 'accountService', 'NgTableParams',
+                                         'AppMessageService','accounts',
+		function AccountController ($scope, accountService, NgTableParams, AppMessageService, accounts) {
+			var vm = this;
+			vm.add = add;
+			vm.originalAccounts = angular.copy(accounts);
+			vm.adding = false;
+			vm.message= {display: false};
 			
-			self.create = function(newAccount){
+			vm.tableParams = new NgTableParams({}, {
+			      filterDelay: 0,
+			      counts: [5, 10],
+			      dataset: angular.copy(accounts)
+			 });
+			
+			function add() {
+				if(vm.adding === false){
+				      vm.tableParams.settings().dataset.unshift(getEmptyAccount());
+				      // we need to ensure the user sees the new row we've just added.
+				      // it seems a poor but reliable choice to remove sorting and move them to the first page
+				      // where we know that our new item was added to
+				      vm.tableParams.sorting({});
+				      vm.tableParams.page(1);
+				      vm.tableParams.reload();
+				      vm.adding = true;
+				}
+		    }
+			
+			vm.create = function(newAccount){
 				accountService.create(newAccount).then(function(accountResponse){
 					angular.copy(accountResponse, newAccount);
 					setId(newAccount);
+					vm.message = AppMessageService.displayDefaultMessage('CRUD1','OK', 'account')
+					vm.adding = false;
 				}, function(response){
-					console.log(response);
-				});
-			}
-			
-			self.addNew = function(){
-				if(_.filter($scope.accounts, a => a.creating === true).length === 0){
-					var newAcc = getEmptyAccount();
-					newAcc.creating = true;
-					$scope.accounts.unshift(newAcc);
-				}
-			}
-			
-			$scope.getAccounts = function() {
-				accountService.getAll().then(function(accounts) {
-					$scope.accounts = accounts;
+					vm.message = AppMessageService.displayDefaultMessage('CRUD1','ERROR', 'account')
 				});
 			}
 				
-			$scope.remove = function(acc){
+			vm.remove = function(acc){
 			    setId(acc);
 				accountService.remove(acc).then(function(accounts){
-					$scope.accounts = accounts;
-					alert("Account Removed");
+	 			  var currentPage = vm.tableParams.page();
+			      vm.tableParams.settings({
+			        dataset: angular.copy(accounts)
+			      });
+	  	          vm.tableParams.page(currentPage);
+				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
+				  acc.editing = false;
+				  acc.creating = false;
 				}, function(response){
-					alert('connot delete');		
+				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','ERROR', 'account')
 				});
 			}
 
-			$scope.edit = function(acc){
+			vm.edit = function(acc){
 	          acc.editing = true;
 			}						
 			
-			self.cancel = function(acc){
-				if(acc && !acc.id){
-					$scope.accounts.splice(0,1);	
-				}else{
-					xt.editing = false;
-					xt.creating = false;
-				}
+			vm.cancel = function(acc){
+		      var currentPage = vm.tableParams.page();
+		      vm.tableParams.settings({
+		        dataset: angular.copy(vm.originalAccounts)
+		      });
+  	          vm.tableParams.page(currentPage);
+     		  acc.editing = false;
+			  acc.creating = false;
 			}
 			
-			self.saveEdition = function(acc){
+			vm.saveEdition = function(acc){
 			  setId(acc);
 			  accountService.edit(acc).then(function(response){
 				   acc.editing = false;
 				   acc.editing = false;
 				   acc = response; 
 				   setId(acc);
-				   alert('Success');		
 			  }, function(response){
-					alert('connot edit');		
-		      });	
+				  vm.message.display = true;
+				  vm.message.type = 'ERROR'; 
+				  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')
+			  });	
 			}
 			
 			function setId(object){
@@ -88,10 +105,11 @@ module.controller('AccountController', [ '$scope', 'accountService',
 			function getEmptyAccount(){
 				return {
 					id: null, 
+					creating: true,
 					description: null
 				};
 			}	
 			
-			$scope.groupedRange = $scope.getAccounts();
 	}
 ]);
+	

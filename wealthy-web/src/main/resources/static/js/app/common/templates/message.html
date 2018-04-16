@@ -1,0 +1,9 @@
+<div ng-if="message.display && message.type === 'OK' " class="alert bg-success alert-styled-right" >
+	<button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+	<span class="text-semibold">Well done!</span> <p ng-bind="message.content"></p>
+</div>
+
+<div ng-if="message.display && message.type === 'ERROR' " class="alert bg-danger alert-styled-right" >
+	<button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+	<span class="text-semibold">Oh snap!</span> <p ng-bind="message.content"></p>
+</div>

@@ -104,4 +104,43 @@ module.directive('displayUser', function(AuthService, $state){
 	  };
 });
 
+
+
+module.directive('buttonNavigateToLogin', function($state){
+	return {
+		templateUrl: '/js/app/common/templates/buttonToLogin.html',
+	    restrict: 'E',
+	    replace: 'true',
+      	link: function($scope, element, attrs) {
+	            $scope.goToLogin= function() {
+	    			$state.go('ui.login');
+	          }
+		}
+	}
+});
+
+module.directive('showMessage', function($state, $timeout){
+	return {
+		templateUrl: '/js/app/common/templates/message.html',
+	    restrict: 'EA',
+	    scope: {
+	    	message: '='
+	    },
+	    link: function(scope) {
+	    	  scope.$watch('message', function(newValue, oldValue) {
+	    		    if (newValue !== oldValue) {
+	                	$timeout(hideMessage, 10000);
+	                }
+	               
+	                function hideMessage(newValue){
+	                	scope.message.display = false;
+	                	scope.message.type = undefined;
+	  	    	    }
+	           }, true);
+    	   	  
+	    }
+	}
+});
+
+
 }(window.jQuery));

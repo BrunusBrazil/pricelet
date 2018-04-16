@@ -1,5 +1,6 @@
-package com.wealth.controller;
+	package com.wealth.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,47 +20,53 @@ import com.wealth.resource.AccSubGroupResource;
 
 @RestController
 @RequestMapping(value="AccSubGroup")
-public class AccSubGroupController {
+public class AccSubGroupController extends AbstractController {
 	
 	@Autowired
 	@Qualifier("accSubtGroupServiceImpl")
 	private AccSubGroupService service;
 	
 	@RequestMapping(value="/", method = RequestMethod.POST)
-	public ResponseEntity<AccSubGroupResource> create(@RequestBody AccSubGroupDTO account) throws Exception{
-		AccSubGroupDTO accSubGroupDTO  = service.merge(account);
+	public ResponseEntity<AccSubGroupResource> create(@RequestBody AccSubGroupDTO account, Principal principal) throws Exception{
+		AccSubGroupDTO accSubGroupDTO  = 
+				service.merge((AccSubGroupDTO) setPrincipal(principal, account));
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accSubGroupDTO);
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public ResponseEntity<List<AccSubGroupResource>> searchAll() throws Exception{
-		List<AccSubGroupDTO> accSubGroupDTO  = service.searchAll();
+	public ResponseEntity<List<AccSubGroupResource>> searchAll(Principal principal) throws Exception{
+		List<AccSubGroupDTO> accSubGroupDTO  = 
+				service.searchAll((AccSubGroupDTO) setPrincipal(principal, new AccSubGroupDTO()));
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		List<AccSubGroupResource> ar = aa.toResources(accSubGroupDTO);
 		return ResponseEntity.ok(ar);
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<List<AccSubGroupResource>> delete(@PathVariable Integer id) throws Exception{
-		List<AccSubGroupDTO> accSubGroupDTO  = service.delete(id);
+	public ResponseEntity<List<AccSubGroupResource>> delete(@PathVariable Integer id, Principal principal) throws Exception{
+		List<AccSubGroupDTO> accSubGroupDTO  = 
+				service.delete((AccSubGroupDTO) setPrincipal(principal, new AccSubGroupDTO(), id));
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		List<AccSubGroupResource> ar = aa.toResources(accSubGroupDTO);
 		return ResponseEntity.ok(ar);
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-	public  ResponseEntity<AccSubGroupResource> update(@PathVariable Integer id,  @RequestBody AccSubGroupDTO account) throws Exception{
-		AccSubGroupDTO accountGroupDTO  = service.merge(account);
+	public  ResponseEntity<AccSubGroupResource> update(@PathVariable Integer id,  
+			@RequestBody AccSubGroupDTO account, Principal principal) throws Exception{
+		AccSubGroupDTO accountGroupDTO  =
+				service.merge((AccSubGroupDTO) setPrincipal(principal, account));
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.ACCEPTED);
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public  ResponseEntity<AccSubGroupResource> searchById(@PathVariable Integer id) throws Exception{
-		AccSubGroupDTO accountGroupDTO  = service.searchById(id);
+	public  ResponseEntity<AccSubGroupResource> searchById(@PathVariable Integer id, Principal principal) throws Exception{
+		AccSubGroupDTO accountGroupDTO  = 
+				service.searchById((AccSubGroupDTO) setPrincipal(principal, new AccSubGroupDTO(), id));
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.ACCEPTED);

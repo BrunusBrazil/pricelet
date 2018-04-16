@@ -17,12 +17,11 @@ import com.wealth.assembler.XTransactionAssembler;
 import com.wealth.common.xtransaction.XTransactionDTO;
 import com.wealth.common.xtransaction.XTransactionService;
 import com.wealth.resource.XTransactionResource;
-import com.wealthy.common.user.UserDTO;
 import com.wealthy.common.user.UserService;
 
 @RestController
 @RequestMapping(value="XTransaction")
-public class XtransactionController {
+public class XtransactionController extends AbstractController {
 
 	@Autowired
 	@Qualifier("xTransactionServiceImpl")
@@ -34,7 +33,8 @@ public class XtransactionController {
 		
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ResponseEntity<List<XTransactionResource>> searchAll(Principal principal) throws Exception{
-		List<XTransactionDTO> accSubGroupDTO  = service.searchAll(getNewInstanceXTransaction(principal));
+		List<XTransactionDTO> accSubGroupDTO  = 
+				service.searchAll((XTransactionDTO) setPrincipal(principal, new XTransactionDTO()));
 		XTransactionAssembler xt = new XTransactionAssembler();
 		List<XTransactionResource> ar = xt.toResources(accSubGroupDTO);
 		return ResponseEntity.ok(ar);
@@ -42,8 +42,8 @@ public class XtransactionController {
 	
 	@RequestMapping(value="/", method = RequestMethod.POST)
 	public ResponseEntity<XTransactionResource> create(@RequestBody XTransactionDTO x, Principal principal) throws Exception{
-		x.setUserId(getCurrentUser(principal).getId());
-		XTransactionDTO accountGroupDTO  = service.merge(x);
+		XTransactionDTO accountGroupDTO  = 
+				service.merge((XTransactionDTO) setPrincipal(principal, x));
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.CREATED);
@@ -51,7 +51,8 @@ public class XtransactionController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	public  ResponseEntity<List<XTransactionResource>> delete(@PathVariable Integer id, Principal principal) throws Exception{
-		List<XTransactionDTO> accountGroupDTO  = service.delete(getNewInstanceXTransaction(principal,id));
+		List<XTransactionDTO> accountGroupDTO  = 
+				service.delete((XTransactionDTO) setPrincipal(principal, new XTransactionDTO(), id));
 		XTransactionAssembler aa = new XTransactionAssembler();
 		List<XTransactionResource> ar = aa.toResources(accountGroupDTO);
 		return ResponseEntity.ok(ar);
@@ -59,8 +60,8 @@ public class XtransactionController {
 
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public  ResponseEntity<XTransactionResource> update( @PathVariable Integer id, @RequestBody XTransactionDTO x, Principal principal) throws Exception{
-		x.setUserId(getCurrentUser(principal).getId());
-		XTransactionDTO accountGroupDTO  = service.merge(x);
+		XTransactionDTO accountGroupDTO  =
+				service.merge((XTransactionDTO) setPrincipal(principal, new XTransactionDTO(), id));
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.ACCEPTED);
@@ -68,29 +69,10 @@ public class XtransactionController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public  ResponseEntity<XTransactionResource> searchById(@PathVariable Integer id, Principal principal) throws Exception{
-		XTransactionDTO accountGroupDTO  = service.searchById(getNewInstanceXTransaction(principal, id));
+		XTransactionDTO accountGroupDTO  = 
+				service.searchById((XTransactionDTO) setPrincipal(principal, new XTransactionDTO(), id));
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.ACCEPTED);
 	}	
-
-
-	private XTransactionDTO getNewInstanceXTransaction(Principal principal) throws Exception{
-		XTransactionDTO transactionDTO = new XTransactionDTO();
-		transactionDTO.setUserId(getCurrentUser(principal).getId());
-		return transactionDTO;
-	}
-
-	
-	private XTransactionDTO getNewInstanceXTransaction(Principal principal, Integer id) throws Exception{
-		XTransactionDTO transactionDTO = new XTransactionDTO();
-		transactionDTO.setId(id);
-		transactionDTO.setUserId(getCurrentUser(principal).getId());
-		return transactionDTO;
-	}
-
-	private UserDTO getCurrentUser(Principal principal) throws Exception{
-		UserDTO user =  userService.searchByUserName(principal.getName());
-		return user;
-	}
 }

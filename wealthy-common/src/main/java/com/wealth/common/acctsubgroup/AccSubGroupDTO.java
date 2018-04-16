@@ -1,20 +1,13 @@
 package com.wealth.common.acctsubgroup;
 
+import com.wealth.common.ModelDTO;
 import com.wealth.common.accountgroup.AccountGroupDTO;
 
-public class AccSubGroupDTO {
+public class AccSubGroupDTO extends ModelDTO {
 
-	private Integer id;
 	private String description;
 	private AccountGroupDTO account;
 	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getDescription() {
 		return description;

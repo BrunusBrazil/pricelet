@@ -49,7 +49,7 @@
 <script src="/js/app/restangular.js"></script>
 
 
-<script src="/js/app/account/account.module.js"></script>
+<!-- <script src="/js/app/account/account.module.js"></script>
 <script src="/js/app/account/account.controller.js"></script>
 <script src="/js/app/account/account.service.js"></script>
 
@@ -59,19 +59,17 @@
 
 <script src="/js/app/xtransac/xtransac.module.js"></script>
 <script src="/js/app/xtransac/xtransac.controller.js"></script>
-<script src="/js/app/xtransac/xtransac.service.js"></script>
+<script src="/js/app/xtransac/xtransac.service.js"></script>-->
 
 <script src="/js/app/user/bouncer/bouncer.module.js"></script>
 <script src="/js/app/user/bouncer/bouncer.service.js"></script>
 <script src="/js/app/user/bouncer/bouncer.controller.js"></script>
-
 <script src="/js/app/user/user.module.js"></script>
 <script src="/js/app/user/user.service.js"></script>
 <script src="/js/app/user/AuthService.js"></script>
 <script src="/js/app/common/directives.js"></script>
 <script src="/js/app/router.js"></script>
 <base href="/"></base>
-
 </head>
 
 <div ng-controller="userController">
@@ -111,6 +109,7 @@
 										   placeholder="Enter your new user name"
 										   name="userName"
 										   ng-model="user.userName" required>
+
 									<div class="form-control-feedback">
 										<i class="icon-user-check text-muted"></i>
 									</div>
@@ -128,7 +127,7 @@
 										   ng-maxlength="100"
 										   placeholder="Enter your full name"
 										   name="fullName"
-										    ng-model="user.fullName" required>
+  									       ng-model="user.fullName" required>
 									<div class="form-control-feedback">
 										<i class="icon-user-check text-muted"></i>
 									</div>
@@ -211,6 +210,7 @@
 									ng-click="register(user)">
 									Register <i class="icon-circle-right2 position-right"></i>
 								</button>
+								<button-navigate-to-login> </button-navigate-to-login>
 							</div>
 						</form>
 					</div>

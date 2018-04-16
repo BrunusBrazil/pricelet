@@ -1,94 +1,129 @@
-<div class="content-group" ng-controller="AccountController as control">
-	<div class="row text-center">
-		<div class="col-md-6">
-			<div style="display: flex; padding-bottom: 10px">
-				<button type="button" ng-click="control.addNew()"
-					class="btn btn-primary">
-					<i class="icon-add position-left"></i>Create</a>
-				</button>
+<div class="content-group">
+	<show-message message="vm.message"></show-message>
+	<div class="panel panel-flat">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h6 class="panel-title">
+					Account<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+				</h6>
+				<div class="heading-elements">
+					<div style="display: flex; padding-bottom: 10px">
+						<button type="button" ng-click="vm.add()" class="btn btn-primary">
+							<i class="icon-add position-left"></i>Create</a>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body">
+			<form name="vm.accountForm" class="form-validate">
+				<table ng-table="vm.tableParams"
+					class="table table-bordered table-striped table-condensed editable-table"
+					width="100%">
+					<thead>
+						<tr class="bg-info-600 border-info-600">
+							<th>Description</th>
+							<th style="text-align: right">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="acc in  $data">
+							<td>
+								<span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
+								<div ng-show="acc.editing || acc.creating" class="form-group has-feedback has-feedback-left" show-errors>
+									<input type="text"
+										id="description-id"
+										name="description"
+										ng-minlength="3"
+										class="form-control datatable-input"
+										ng-model="acc.description" required>
+								<label  ng-show="vm.accountForm.description.$touched && 
+												vm.accountForm.description.$invalid"
+									    class="validation-error-label"
+									    for="description-id">
+										Description should contain more than 3 character. 
+								</label>
+								</div>
+								
+							</td>
+							<td align="right" ng-hide="acc.editing || acc.creating">
+								<ul class="icons-list">
+									<li class="teacc-primary-600"><a href="#"
+										data-popup="tooltip" title data-original-title="Edit"> <span
+											class="icon-pencil7" ng-click="vm.edit(acc)"></span>
+									</a></li>
+									<li class="teacc-danger-600"><a href="#"
+										data-popup="tooltip" title data-original-title="Remove"> <span
+											class="icon-trash" ng-click="vm.remove(acc)"></span>
+									</a></li>
+								</ul>
+							</td>
+							<td align="right" ng-show="acc.editing">
+								<ul class="icons-list">
+									<li class="text-primary-600"><a href="#"
+										data-popup="tooltip" title data-original-title="ok"> <span
+											class="glyphicon glyphicon-ok" ng-click="vm.saveEdition(acc)"></span>
+									</a></li>
+									<li class="text-danger-600"><a href="#"
+										data-popup="tooltip" title data-original-title="cancel"> <span
+											class="glyphicon glyphicon-remove" ng-click="vm.cancel(acc)"></span>
+									</a></li>
+								</ul>
+							</td>
+							<td align="right" ng-show="acc.creating">
+								<ul class="icons-list">
+									<li class="text-primary-600"><a href="#"
+										data-popup="tooltip" title data-original-title="ok"> <span
+											class="glyphicon glyphicon-ok" ng-click="vm.create(acc)"></span>
+									</a></li>
+									<li class="text-danger-600"><a href="#"
+										data-popup="tooltip" title data-original-title="cancel"> <span
+											class="glyphicon glyphicon-remove" ng-click="vm.cancel(acc)"></span>
+									</a></li>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</form>
 			</div>
 		</div>
-	</div>
 
-	<div class="panel panel-flat">
-		<table class="table datatable-responsive" width="100%">
-			<thead>
-				<tr class="bg-info-600 border-info-600">
-					<th>All Account Groups</th>
-					<th style="text-align: right">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="acc in accounts">
-					<td><span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
-						<div class="col-lg-10" ng-show="acc.editing || acc.creating">
-							<div class="input-group">
-								<input type="text" required="true" class="form-control"
-									ng-model="acc.description">
-
-							</div>
-						</div></td>
-					<td align="right" ng-hide="acc.editing || acc.creating">
-						<ul class="icons-list">
-							<li class="teacc-primary-600"><a href="#"
-								data-popup="tooltip" title data-original-title="Edit"> <span
-									class="icon-pencil7" ng-click="edit(acc)"></span>
-							</a></li>
-							<li class="teacc-danger-600"><a href="#"
-								data-popup="tooltip" title data-original-title="Remove"> <span
-									class="icon-trash" ng-click="remove(acc)"></span>
-							</a></li>
-						</ul>
-					</td>
-					<td align="right" ng-show="acc.editing">
-						<ul class="icons-list">
-							<li class="text-primary-600"><a href="#"
-								data-popup="tooltip" title data-original-title="ok"> <span
-									class="glyphicon glyphicon-ok"
-									ng-click="control.saveEdition(acc)"></span>
-							</a></li>
-							<li class="text-danger-600"><a href="#" data-popup="tooltip"
-								title data-original-title="cancel"> <span
-									class="glyphicon glyphicon-remove"
-									ng-click="control.cancel(acc)"></span>
-							</a></li>
-						</ul>
-					</td>
-					<td align="right" ng-show="acc.creating">
-						<ul class="icons-list">
-							<li class="text-primary-600"><a href="#"
-								data-popup="tooltip" title data-original-title="ok"> <span
-									class="glyphicon glyphicon-ok" ng-click="control.create(acc)"></span>
-							</a></li>
-							<li class="text-danger-600"><a href="#" data-popup="tooltip"
-								title data-original-title="cancel"> <span
-									class="glyphicon glyphicon-remove"
-									ng-click="control.cancel(acc)"></span>
-							</a></li>
-						</ul>
-					</td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
 </div>
 
-<link	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet" 	type="text/css">
-<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"    	type="text/css">
-<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"	type="text/css">
-<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"	type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
+	type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
 <!-- /global stylesheets -->
 
 <!-- Core JS files -->
 
 <script type="text/javascript"
 	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
 
 <!-- /core JS files -->
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
 <script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
+
+<link rel="stylesheet"
+	href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>

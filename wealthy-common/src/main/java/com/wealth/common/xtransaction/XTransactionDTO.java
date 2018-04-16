@@ -3,12 +3,12 @@ package com.wealth.common.xtransaction;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.wealth.common.ModelDTO;
 import com.wealth.common.accountgroup.AccountGroupDTO;
 import com.wealth.common.acctsubgroup.AccSubGroupDTO;
 
-public class XTransactionDTO {
+public class XTransactionDTO extends ModelDTO {
 
-	private Integer id;
 	private String description;
 	private BigDecimal valor;
 	private Boolean entrada;
@@ -18,15 +18,8 @@ public class XTransactionDTO {
 	private String type;
 	private Date crete;
 	private Date lastUpdate;
-	private Integer userId;
 	
 	//getters and setters
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public String getDescription() {
 		return description;
 	}
@@ -80,13 +73,5 @@ public class XTransactionDTO {
 	}
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
-	}
-	public Integer getUserId() {
-		return userId;
-	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	
+	}	
 }

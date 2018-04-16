@@ -48,10 +48,10 @@ public class AccountGroupServiceImpl implements AccountGroupService {
 	}
 
 	@Override
-	public List<AccountGroupDTO> searchAll() throws BusinessException {
+	public List<AccountGroupDTO> searchAll(AccountGroupDTO account) throws BusinessException {
 		List<AccountGroupDTO> list = null;
 		try {
-			list = dao.searchAll();
+			list = dao.searchAll(account);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
 		}
@@ -62,11 +62,11 @@ public class AccountGroupServiceImpl implements AccountGroupService {
 	}
 
 	@Override
-	public List<AccountGroupDTO> delete(Integer id) throws BusinessException {
+	public List<AccountGroupDTO> delete(AccountGroupDTO account) throws BusinessException {
 		List<AccountGroupDTO> list = null;
 		try {
-			dao.delete(id);
-			list = dao.searchAll();
+			dao.delete(account);
+			list = dao.searchAll(account);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_DELETE.getDescription());
 		}
@@ -77,10 +77,10 @@ public class AccountGroupServiceImpl implements AccountGroupService {
 	}
 	
 	@Override
-	public AccountGroupDTO searchById(Integer id) throws BusinessException{
+	public AccountGroupDTO searchById(AccountGroupDTO account) throws BusinessException{
 		AccountGroupDTO dto;
 		try {
-			dto = dao.searchById(id);
+			dto = dao.searchById(account);
 		}catch (SQLException | PersistenceException e) {
 				throw new  BusinessException(ErrorDetail.DB_DML_SEARCH.getDescription());
 		}

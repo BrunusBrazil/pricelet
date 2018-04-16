@@ -28,7 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  		.antMatchers("/", "/index.html", "/css/**", "/js/**", "/webjars/**",
 						"/webjars/**", "/login.html", "/register.html", 
 						"/authenticate", "page-not-found.html",
-						"access-denied.html", "/User/**", "/favicon.ico", "/home.html");
+						"access-denied.html", "/User/**", "/favicon.ico",
+						"/home.html", "/password-recover.html",
+						"/User/recover/**");
 	}
 
 	// This method is used for override HttpSecurity of the web Application.
