@@ -71,13 +71,11 @@ module.controller('AccountController', [ '$scope', 'accountService', 'NgTablePar
 			vm.saveEdition = function(acc){
 			  setId(acc);
 			  accountService.edit(acc).then(function(response){
-				   acc.editing = false;
-				   acc.editing = false;
-				   acc = response; 
-				   setId(acc);
+				  acc.editing = false;
+				  acc.creating = false;
+				  acc = response; 
+				  setId(acc);
 			  }, function(response){
-				  vm.message.display = true;
-				  vm.message.type = 'ERROR'; 
 				  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')
 			  });	
 			}

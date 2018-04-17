@@ -1,77 +1,83 @@
 var module = angular.module('accSubgroupModule');
 
-module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','accountService',
-		function AccountController ($scope, accSubgroupService, accountService) {
-			var self = this;
-
-			$scope.newSubgroupaccount = newSubGrupAccount(); 
-						
-			function newSubGrupAccount(){
-				return {
-						id: null, 
-						description: null,
-						account: {
-								description:null
-						}
-					}
-			};
+module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService',
+                                             'accountService', 'NgTableParams', 
+                                             'subAccounts', 'accounts', 'AppMessageService',
+		function AccountController ($scope, accSubgroupService, accountService, NgTableParams,
+									subAccounts, accounts, AppMessageService) {
+			var vm = this;
+			vm.originalAccounts = angular.copy(accounts);
+			vm.originalSubAccounts = angular.copy(subAccounts);
+			vm.message= {display: false};
+			vm.adding = false;
 			
-
-			self.create = function(subGroupAccount){
+			vm.tableParams = new NgTableParams({}, {
+			      filterDelay: 0,
+			      counts: [5, 10],
+			      dataset: angular.copy(subAccounts)
+			 });
+			
+			vm.create = function(subGroupAccount){
+				$scope.$broadcast('show-errors-check-validity');
 				setId(subGroupAccount.account);	
 				accSubgroupService.create(subGroupAccount).then(function(subGroupAccountResponse){
 					angular.copy(subGroupAccountResponse, subGroupAccount);
 					setId(subGroupAccount);
-					alert('Success');
+					vm.message = AppMessageService.displayDefaultMessage('CRUD1','OK', 'account')
+					vm.adding = false;
 				}, function(response){
-					alert('Cannot Create');
-					console.log(response);
+					vm.message = AppMessageService.displayDefaultMessage('CRUD1','ERROR', 'account')
 				});
 			}
 			
-			self.getAccounts = function() {
-				accSubgroupService.getAll().then(function(accounts) {
-					$scope.accounts = accounts;
-				});
-			}				
-			
-			self.addNew  = function(){
-				if(_.filter($scope.accounts, e=> e.creating === true).length === 0){
-					var subGroupAccount = newSubGrupAccount();
-					subGroupAccount.creating = true;
-					if($scope.accounts){
-						$scope.accounts.unshift(subGroupAccount);
-					}else{
-						$scope.accounts.push(subGroupAccount);
-					}
+
+			vm.add  = function(){
+				if(vm.adding === false){
+				      vm.tableParams.settings().dataset.unshift(newSubGrupAccount());
+				      // we need to ensure the user sees the new row we've just added.
+				      // it seems a poor but reliable choice to remove sorting and move them to the first page
+				      // where we know that our new item was added to
+				      vm.tableParams.sorting({});
+				      vm.tableParams.page(1);
+				      vm.tableParams.reload();
+				      vm.adding = true;
 				}
 			}
 			
-			self.remove = function(acc){
+			vm.remove = function(acc){
 			    setId(acc);
 				accSubgroupService.remove(acc).then(function(accounts){
-					$scope.accounts = accounts;
-					alert("Account Removed");					
+				  var currentPage = vm.tableParams.page();
+			      vm.tableParams.settings({
+			        dataset: angular.copy(accounts)
+			      });
+	  	          vm.tableParams.page(currentPage);
+				  acc.editing = false;
+				  acc.creating = false;
+ 			  	  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
+				
 				}, function(response){
-					alert('connot delete');		
+				
+					vm.message = AppMessageService.displayDefaultMessage('CRUD4','ERROR', 'account')
 				});
 			}
 
-			self.edit = function(acc){
+			vm.edit = function(acc){
 	          acc.editing = true;
 			}		
 			
 			
-			self.cancel = function(acc){
-				if(acc && !acc.id){
-					$scope.accounts.splice(0, 1);
-				}else{
-					acc.editing = false;
-					acc.creating = false;
-				}					
+			vm.cancel = function(acc){
+			 var currentPage = vm.tableParams.page();
+		      vm.tableParams.settings({
+		        dataset: angular.copy(vm.originalSubAccounts)
+		      });
+  	          vm.tableParams.page(currentPage);
+     		  acc.editing = false;
+			  acc.creating = false;
 			}
 			
-			self.saveEdition = function(acc){
+			vm.saveEdition = function(acc){
 			  setId(acc);
 			  setId(acc.account);
 			  accSubgroupService.edit(acc).then(function(response){
@@ -79,12 +85,22 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 				  acc.editing = false;
 				  acc.creating = false;
 				  setId(acc);
-				  alert('Success');		
 			  }, function(response){
-					alert('connot edit');		
+				  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')
 		      });	
 			}
 			
+			function newSubGrupAccount(){
+				return {
+					id: null, 
+					description: null,
+					creating: true,
+					account: {
+						description:null
+					}
+				}
+			};
+
 			function setId(object){
 				var link  = null;
 				if(object){
@@ -104,15 +120,5 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService','acc
 				}
 			}
 			
-			//services 
-			$scope.getMainAccounts = function() {
-				accountService.getAll().then(function(accounts) {
-					$scope.mainGroups  = accounts;
-				});
-			}
-			
-			$scope.getMainAccounts();
-			
-			$scope.groupedRange = self.getAccounts();
 	}
 ]);
