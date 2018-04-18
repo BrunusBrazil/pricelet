@@ -1,146 +1,141 @@
 <div class="content-group">
 	<show-message message="vm.message"></show-message>
-	<div class="row text-center">
-		<div class="col-md-6">
-			<div style="display: flex; padding-bottom: 10px">
-				<button type="button" ng-click="vm.add()" class="btn btn-primary">
-					<i class="icon-add position-left"></i>Create</a>
-				</button>
+	<div class="panel panel-flat">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h6 class="panel-title">
+					Account<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+				</h6>
+				<div class="heading-elements">
+					<div style="display: flex; padding-bottom: 10px">
+						<button type="button" ng-click="vm.add()" class="btn btn-primary">
+							<i class="icon-add position-left"></i>Create</a>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<form name="vm.subAccountForm" class="form-validate">
+					<table ng-table="vm.tableParams"
+						class="table table-bordered table-striped table-condensed editable-table"
+						width="100%">
+						<thead>
+							<tr class="bg-info-600 border-info-600">
+								<th>All Account Sub Groups</th>
+								<th>Main Group</th>
+								<th style="text-align: right">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="acc in $data">
+								<td><span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
+									<div class="col-lg-10" ng-show="acc.editing || acc.creating"
+										class="form-group has-feedback has-feedback-left" show-errors>
+										<input type="text" id="description-id" name="description"
+											ng-minlength="3" class="form-control datatable-input"
+											ng-model="acc.description"> <label
+											ng-show="vm.subAccountForm.description.$touched && 
+												vm.subAccountForm.description.$invalid"
+											class="validation-error-label" for="description-id">
+											Description should contain more than 3 character. </label>
+									</div></td>
+
+								<td align="center"><span
+									ng-hide="acc.editing || acc.creating">{{acc.account.description}}</span>
+									<div ng-show="acc.editing || acc.creating"
+										class="has-feedback has-feedback-left" show-errors>
+										<select id="subAccount-id" name="subAccount"
+											ng-model="acc.account" class="form-control datatable-input"
+											selected
+											ng-options="x.description for x in vm.originalAccounts track by x.description"
+											required>
+										</select> <label ng-show="vm.subAccountForm.subAccount.$invalid"
+											class="validation-error-label" for="subAccount-id">
+											You must select an account group. </label>
+									</div></td>
+
+								<td align="right" ng-hide="acc.editing || acc.creating">
+									<ul class="icons-list">
+										<li class="text-primary-900"><a href="#"
+											data-popup="tooltip" title data-original-title="Edit"> <span
+												class="icon-pencil7" ng-click="vm.edit(acc)"></span>
+										</a></li>
+										<li class="text-primary-900"><a href="#"
+											data-popup="tooltip" title data-original-title="Remove">
+												<span class="icon-trash" ng-click="vm.remove(acc)"></span>
+										</a></li>
+									</ul>
+								</td>
+								<td align="right" ng-show="acc.editing">
+									<ul class="icons-list">
+										<li class="text-primary-600"><a href="#"
+											data-popup="tooltip" title data-original-title="ok"> <span
+												class="glyphicon glyphicon-ok"
+												ng-click="vm.saveEdition(acc)"></span>
+										</a></li>
+										<li class="text-danger-600"><a href="#"
+											data-popup="tooltip" title data-original-title="cancel">
+												<span class="glyphicon glyphicon-remove"
+												ng-click="vm.cancel(acc)"></span>
+										</a></li>
+									</ul>
+								</td>
+								<td align="right" ng-show="acc.creating">
+									<ul class="icons-list">
+										<li class="text-primary-600"><a href="#"
+											data-popup="tooltip" title data-original-title="ok"> <span
+												class="glyphicon glyphicon-ok" ng-click="vm.create(acc)"></span>
+										</a></li>
+										<li class="text-danger-600"><a href="#"
+											data-popup="tooltip" title data-original-title="cancel">
+												<span class="glyphicon glyphicon-remove"
+												ng-click="vm.cancel(acc)"></span>
+										</a></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</div>
 		</div>
 	</div>
+	<!-- /scrollable datatable -->
 
-	<div class="panel panel-flat">
-		<form name="vm.subAccountForm" class="form-validate">
-			<table ng-table="vm.tableParams"
-				class="table table-bordered table-striped table-condensed editable-table"
-				width="100%">
-				<thead>
-					<tr class="bg-info-600 border-info-600">
-						<th>All Account Sub Groups</th>
-						<th>Main Group</th>
-						<th style="text-align: right">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-				<tr ng-repeat="acc in $data">
-					<td><span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
-						<div class="col-lg-10" ng-show="acc.editing || acc.creating"
-						 class="form-group has-feedback has-feedback-left" show-errors>
-								<input type="text"
-										id="description-id"
-										name="description"
-										ng-minlength="3"
-									    class="form-control datatable-input"
-										ng-model="acc.description">
-								<label  ng-show="vm.subAccountForm.description.$touched && 
-												vm.subAccountForm.description.$invalid"
-									    class="validation-error-label"
-									    for="description-id">
-										Description should contain more than 3 character. 
-								</label>
-						</div>
-					</td>
+	<!-- Global stylesheets -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
+		rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
+		rel="stylesheet" type="text/css">
+	<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
+		type="text/css">
+	<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
+		type="text/css">
+	<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
+		type="text/css">
+	<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
+		type="text/css">
+	<!-- /global stylesheets -->
 
-					<td align="center">
-						<span ng-hide="acc.editing || acc.creating">{{acc.account.description}}</span>
-						<div ng-show="acc.editing || acc.creating"
-							 class="has-feedback has-feedback-left" show-errors>
-							<select
-								id="subAccount-id"
-								name="subAccount"
-								ng-model="acc.account"
-								class="form-control datatable-input"
-								selected
-								ng-options="x.description for x in vm.originalAccounts track by x.description"
-								required>
-							</select>
-							<label  ng-show="vm.subAccountForm.subAccount.$invalid"
-								    class="validation-error-label"
-								    for="subAccount-id">
-									You must select an account group. 
-							</label>
-						</div>
-					</td>
+	<!-- Core JS files -->
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+	<!-- /core JS files -->
 
-						<td align="right" ng-hide="acc.editing || acc.creating">
-							<ul class="icons-list">
-								<li class="text-primary-900"><a href="#"
-									data-popup="tooltip" title data-original-title="Edit"> <span
-										class="icon-pencil7" ng-click="vm.edit(acc)"></span>
-								</a></li>
-								<li class="text-primary-900"><a href="#"
-									data-popup="tooltip" title data-original-title="Remove"> <span
-										class="icon-trash" ng-click="vm.remove(acc)"></span>
-								</a></li>
-							</ul>
-						</td>
-						<td align="right" ng-show="acc.editing">
-							<ul class="icons-list">
-								<li class="text-primary-600"><a href="#"
-									data-popup="tooltip" title data-original-title="ok"> <span
-										class="glyphicon glyphicon-ok" ng-click="vm.saveEdition(acc)"></span>
-								</a></li>
-								<li class="text-danger-600"><a href="#"
-									data-popup="tooltip" title data-original-title="cancel"> <span
-										class="glyphicon glyphicon-remove" ng-click="vm.cancel(acc)"></span>
-								</a></li>
-							</ul>
-						</td>
-						<td align="right" ng-show="acc.creating">
-							<ul class="icons-list">
-								<li class="text-primary-600"><a href="#"
-									data-popup="tooltip" title data-original-title="ok"> <span
-										class="glyphicon glyphicon-ok" ng-click="vm.create(acc)"></span>
-								</a></li>
-								<li class="text-danger-600"><a href="#"
-									data-popup="tooltip" title data-original-title="cancel"> <span
-										class="glyphicon glyphicon-remove" ng-click="vm.cancel(acc)"></span>
-								</a></li>
-							</ul>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
-</div>
-<!-- /scrollable datatable -->
-
-<!-- Global stylesheets -->
-<link
-	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
-	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
-	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
-	type="text/css">
-<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
-	type="text/css">
-<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
-	type="text/css">
-<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
-	type="text/css">
-<!-- /global stylesheets -->
-
-<!-- Core JS files -->
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
-<!-- /core JS files -->
-
-<!-- Theme JS files -->
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/tables/datatables/datatables.min.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
-<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
-<script type="text/javascript"
-	src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>
-
-
+	<!-- Theme JS files -->
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/core/app.js"></script>
+	<script type="text/javascript"
+		src="css/bootstrap/assets/js/pages/datatables_basic.js"></script>

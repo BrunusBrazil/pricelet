@@ -84,7 +84,34 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	    .state('ui.home.xtransac', {
 	        url: '/transaction',
 	        templateUrl: '/js/app/xtransac/xtransac.html',
-	        controller : 'xTransactionController'
+	        controller : 'xTransactionController',
+	      	controllerAs: 'vm',
+	        resolve: {
+	            subAccounts: function(accSubgroupService, $q) {
+            		var deferred = $q.defer();
+            			accSubgroupService.getAll().then(function(response) {
+	            			deferred.resolve(response);
+		            	})
+		            	
+	            	return deferred.promise;
+	            },
+	            accounts: function(accountService, $q) {
+            		var deferred = $q.defer();
+	            		accountService.getAll().then(function(response) {
+	            			deferred.resolve(response);
+		            	})
+		            	
+	            	return deferred.promise;
+	            },
+	            transactions: function(xTransactionService, $q) {
+            		var deferred = $q.defer();
+            		xTransactionService.getAll().then(function(response) {
+	            			deferred.resolve(response);
+		            	})
+		            	
+	            	return deferred.promise;
+	            }
+	        }
 	    });
 });
 
