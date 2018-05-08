@@ -1,6 +1,4 @@
-angular.module('xTransactionModule',[
-                                                  'restangular',
-                                                  'accountModule',
-                                                  'accSubgroupModule'
-                                                  ]);
+angular.module('xTransactionModule',[ 'restangular',
+                                      'accountModule',
+                                      'accSubgroupModule']);
 

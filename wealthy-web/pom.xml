@@ -2,17 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>com.pricilet</groupId>
 		<artifactId>pricelet</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath />
 	</parent>
+
 	<groupId>com.wealth</groupId>
 	<artifactId>wealthy-web</artifactId>
 	<packaging>jar</packaging>
 	<name>wealthy-web</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Pricelet web application</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -72,11 +74,13 @@
 			<version>0.6.0</version>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.4.2.RELEASE</version>
 				<executions>
 					<execution>
 						<goals>
@@ -88,24 +92,6 @@
 					</execution>
 				</executions>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>com.spotify</groupId> -->
-<!-- 				<artifactId>docker-maven-plugin</artifactId> -->
-<!-- 				<version>1.0.0</version	> -->
-<!-- 				<configuration> -->
-<!-- 					<imageName>${docker.image.prefix}/${project.artifactId}</imageName> -->
-<!-- 					<dockerDirectory>src/main/docker</dockerDirectory> -->
-<!-- 					<resources> -->
-<!-- 						<resource> -->
-<!-- 							<targetPath>/</targetPath> -->
-<!-- 							<directory>${project.build.directory}</directory> -->
-<!-- 							<include>${project.build.finalName}.jar</include> -->
-<!-- 						</resource> -->
-<!-- 					</resources> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
-
-
 		</plugins>
 	</build>
 </project>

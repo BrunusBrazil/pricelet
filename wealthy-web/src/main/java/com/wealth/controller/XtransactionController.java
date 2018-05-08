@@ -61,7 +61,7 @@ public class XtransactionController extends AbstractController {
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public  ResponseEntity<XTransactionResource> update( @PathVariable Integer id, @RequestBody XTransactionDTO x, Principal principal) throws Exception{
 		XTransactionDTO accountGroupDTO  =
-				service.merge((XTransactionDTO) setPrincipal(principal, new XTransactionDTO(), id));
+				service.merge((XTransactionDTO) setPrincipal(principal, x, id));
 		XTransactionAssembler aa = new XTransactionAssembler();
 		XTransactionResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<XTransactionResource>(ar, HttpStatus.ACCEPTED);
