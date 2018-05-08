@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="priceletweb" basedir=".">
+    <property name="src"     value="src/main/resources"/>
+    <property name="env"     value="{env}"/>
+	<echo>src=${src}, env=${env} and ${src}/build/${env} </echo>
+	<tstamp>
+		<format property="anttemplate.date" pattern="dd-MMM-yyyy HH:mm:ss"/>	
+	</tstamp>
+	
+	<property name="priceletweb.info" value="NOTE: Automatically generated file by pricelet.com : ${anttemplate.date}"/>
+	
+	<target name="replace" >
+		
+		<copy file="${src}/build/application.properties" todir="${src}/" overwrite="true"/> 
+
+		<replace file="${src}/application.properties" propertyFile="${src}/build/${env}.properties">
+			  <replacefilter token="@info@"     		   value="File updated automatically at ${priceletweb.info}"/>
+			  <replacefilter token="@jdbc.url@"       	   property="jdbc.url"/>
+			  <replacefilter token="@jdbc.username@"       property="jdbc.username"/>
+			  <replacefilter token="@jdbc.password@"       property="jdbc.password"/>
+		</replace>
+	</target>
+
+</project>

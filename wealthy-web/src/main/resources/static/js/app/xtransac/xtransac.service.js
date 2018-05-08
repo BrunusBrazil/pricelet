@@ -14,17 +14,17 @@ var module = angular.module('xTransactionModule');
     		return Restangular.one("XTransaction/", acc.id).remove();
     	}
 		
-    	function getAll(){
+    	function getAll(fromCache){
     		return $q(function(resolve, reject) {
-    			if(cachedTransactions && cachedTransactions.length === 0 ){
-    				base.getList().then(function(response){
-        				cachedTransactions = response;
-        	    		resolve(cachedTransactions);
-        			},function(error){
-        				reject(error)	
-        			});		
+    			if(fromCache && cachedTransactions && cachedTransactions.length > 0 ){
+    				resolve(cachedTransactions);
     			}else{
-        			resolve(cachedTransactions);
+    				base.getList().then(function(response){
+    					cachedTransactions = response;
+    					resolve(cachedTransactions);
+    				},function(error){
+    					reject(error)	
+    				});		
     			}
     		});  		
     	}

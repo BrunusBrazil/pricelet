@@ -7,3 +7,11 @@
 	<button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
 	<span class="text-semibold">Oh snap!</span> <p ng-bind="message.content"></p>
 </div>
+
+<div ng-if="message.display && message.type === 'WARN' " class="alert bg-warning alert-styled-right" >
+	<button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+	<span class="text-semibold">Watch out!</span> <p ng-bind="message.content"></p>
+</div>
+
+
+		 

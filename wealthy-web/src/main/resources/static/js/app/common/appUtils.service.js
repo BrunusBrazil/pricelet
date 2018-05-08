@@ -9,7 +9,9 @@ module.service('AppMessageService', [function(){
 		 {code:"CRUD3", type:'OK', content:"You successfully updated the "},
 		 {code:"CRUD3", type:'ERROR', content:"Something went wrong we cannot update the "},
 		 {code:"CRUD4", type:'OK', content:"You successfully deleted the "},
-		 {code:"CRUD4", type:'ERROR', content:"Something went wrong we cannot delete the "}
+		 {code:"CRUD4", type:'ERROR', content:"Something went wrong we cannot delete the "},
+		 {code:"UNSAVED", type:'WARN', content:"Click on save to persist modification of the "}
+		 
 	  ]
 	
 	function getContent(type, code){

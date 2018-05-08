@@ -16,12 +16,19 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.originalsubAccounts = angular.copy(subAccounts);
 			vm.originalAccounts = angular.copy(accounts);
 			vm.originalTransactions = angular.copy(transactions);
-			
+			vm.totalMoneyIn = 0;
+			vm.totalMoneyOut = 0;
+			vm.totalResult = 0;
+			vm.numberTransactions = 0;
+			  
 			vm.tableParams = new NgTableParams({}, {
-			      filterDelay: 0,
-			      counts: [5, 10],
+				  filterDelay: 0,
+				  count: 5,
+			      counts: [5],
 			      dataset: angular.copy(transactions)
 			 });
+
+			
 			
 			vm.create = function(xtransaction){	
 				setId(xtransaction.account);
@@ -29,27 +36,30 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				xTransactionService.create(xtransaction).then(function(response){
 					angular.copy(response, xtransaction);
 					setId(response);
+					vm.adding = false;
 					vm.message = AppMessageService.displayDefaultMessage('CRUD1','OK', 'account')
+ 				    vm.updateTableFacts(vm.tableParams.settings().dataset);
 				}, function(response){
 					vm.message = AppMessageService.displayDefaultMessage('CRUD1','ERROR', 'account')
 				});
 			}
 			
-			vm.remove = function(xtransaction){
-			    setId(xtransaction);
-				xTransactionService.remove(xtransaction).then(function(xtransactions){
-			      vm.tableParams.settings({
-				        dataset: angular.copy(filterByTransactionDate(transactions, false))
+			vm.remove = function(transactionReq){
+			    setId(transactionReq);
+				xTransactionService.remove(transactionReq).then(function(transactionsResp){
+				  vm.originalTransactions = angular.copy(transactionsResp);
+
+				  var currentPage = vm.tableParams.page();
+				  vm.tableParams.settings({
+			        dataset: angular.copy(transactionsResp)
 			      });
-	 			  var currentPage = vm.tableParams.page();
-			      vm.tableParams.settings({
-			        dataset: angular.copy(xtransactions)
-			      });
-	  	          vm.tableParams.page(currentPage);
-				  xtransaction.editing = false;
-				  xtransaction.creating = false;
+				  
+				  vm.tableParams.page(currentPage);
 				
-				  	vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
+				  vm.updateTableFacts(transactionsResp);
+
+				  vm.adding = false;
+				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
 				}, function(response){
 					vm.message = AppMessageService.displayDefaultMessage('CRUD4','ERROR', 'account')
 				});
@@ -64,23 +74,26 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 		      vm.tableParams.settings({
 		        dataset: angular.copy(vm.originalTransactions)
 		      });
-  	          vm.tableParams.page(currentPage);
-     		  xt.editing = false;
-			  xt.creating = false;
+		      vm.tableParams.page(currentPage);
 			}
 			
-			vm.saveEdition = function(xt){
-			  setId(xt);
-			  setId(xt.account);
-  			  setId(xt.accSubGroup);
-				  accountService.edit(xt).then(function(response){
-					  xt = response; 
-					  xt.editing = false;
-					  xt.creating = false;
-					  setId(xt);
-				  }, function(response){
+			vm.saveEdition = function(transactionReq){
+				setId(transactionReq);
+			  	setId(transactionReq.account);
+				setId(transactionReq.accSubGroup);
+				xTransactionService.edit(transactionReq).then(function(transactionResp){
+	  				xTransactionService.getAll(false).then(function(transactions){
+	  				  vm.originalTransactions = angular.copy(transactions);
+	  			      var currentPage = vm.tableParams.page();
+	  			      vm.tableParams.settings({
+	  			        dataset: angular.copy(transactions)
+	  			      });
+	  			      vm.tableParams.page(currentPage);
+	  			      vm.updateTableFacts(transactions);
+	  				})
+	  			  }, function(error){
 					  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')
-				  });	
+			  });	
 			}
 
 			vm.add = function(){
@@ -96,36 +109,47 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				}
 			} 
 			
-			vm.getTotalNumberOfTransaction = function(){
+			function setTotalNumberOfTransaction(transactions){
 				if(transactions &&  transactions.length > 0 ){
-					return filterByTransactionDate(transactions, false).length;
+					vm.numberTransactions = transactions.length;
 				}else{
-					return 0;
+					vm.numberTransactions =  0;
 				}
 			}
 
-			vm.getTotalDebit = function(){
-				var totalDebit = 0 ;
-				_.forEach(filterByTransactionDate(transactions, false), e => {
+			function setTotalMoneyIn(transactions){
+				vm.totalMoneyIn = 0;
+				_.forEach(transactions, function(e) {
 					if(e.entrada){
-						totalDebit += e.valor;
+						vm.totalMoneyIn += e.valor;
 					}
-				})
-				return totalDebit;
+				});
 			}
 			
-			vm.getMargin = function(){
-				return (vm.getTotalCredit() - vm.getTotalDebit());
+			function setMargin(transactions){
+				vm.totalResult = (vm.totalMoneyIn - vm.totalMoneyOut);
 			}
 
-			vm.getTotalCredit = function(){
-				var totalCredit = 0 ;
-				_.forEach(filterByTransactionDate(transactions, false), e => {
+			function setTotalMoneyOut(transactions){
+				vm.totalMoneyOut = 0;
+				_.forEach(transactions, function(e) {
 					if(!e.entrada){
-						totalCredit += e.valor;
+						vm.totalMoneyOut += e.valor;
 					}
-				})
-				return totalCredit;
+				});
+			}
+			
+			vm.updateTableFacts =  function(transactions){
+				setTotalNumberOfTransaction(transactions);
+				setTotalMoneyOut(transactions);
+				setTotalMoneyIn(transactions);
+				setMargin(transactions);
+			} 
+			
+			function resetTransactionState(transaction){
+				transaction.editing = false;
+				transaction.creating = false;
+			    vm.adding = false;
 			}
 			
 			function setId(object){
@@ -152,28 +176,41 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			}
 
 			vm.getSubAccountByAccount = function(account){
-				return	_.filter(subAccounts, e => e.account.description === account.description);
+				return _.filter(vm.originalsubAccounts, function(e){
+						return e.account.description === account.description
+				});
 			}
 			
 			$scope.$watch('dateRangeString', function(oldValue, newValue){
 		      vm.tableParams.settings({
 			        dataset: angular.copy(filterByTransactionDate(transactions, false))
 		      });
+			    vm.updateTableFacts(vm.tableParams.settings().dataset);
 			});
+
+			vm.debitOrCreditUpdate = function (xt){
+				xt.editing = !xt.editing;
+				
+			    vm.updateTableFacts(vm.tableParams.settings().dataset);
+//				vm.message = AppMessageService.displayDefaultMessage('UNSAVED','WARN', 'transaction');
+			}
 			
 			function filterByTransactionDate(xTransaction, defaultDateRange){
 				var dateRangeFilter = defaultDateRange? xTransactionService.getDefaultDateRange():  xTransactionService.getDateRangeFilter(); 
-				return  _.filter(xTransaction, function (element) {
-					if(moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
-							.isSameOrAfter
-							(moment(moment.utc(dateRangeFilter.startDate.format("YYYY-MM-DD")).format()))
-								&&
-				   	         moment(moment.utc(moment(element.dateTransaction).format("YYYY-MM-DD")).format())
-								.isSameOrBefore
-							(moment(moment.utc(dateRangeFilter.endDate.format("YYYY-MM-DD")).format()))){
-						return element;
-					}
-				});
+				var transactionsByDate = [];
+				function convertDate(date){
+					return moment(moment.utc(moment(date).format("YYYY-MM-DD")).format());
+				}
+				transactionsByDate = 
+					_.filter(xTransaction, function (element) {
+						return convertDate(element.dateTransaction) 
+						.isSameOrAfter(convertDate(dateRangeFilter.startDate)) 
+					/*	&&
+						convertDate(element.dateTransaction) 
+						.isSameOrBefore(convertDate(dateRangeFilter.startDate))
+					*/	
+			    	 });				
+				return transactionsByDate;
 			}
 			
 			function newTransaction(){
@@ -194,6 +231,6 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 					dateTransaction:null
 				} 
 			}
-
-	}
+			
+}
 ])}(window.jQuery));

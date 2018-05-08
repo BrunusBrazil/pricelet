@@ -142,5 +142,24 @@ module.directive('showMessage', function($state, $timeout){
 	}
 });
 
+module.directive('switcher', function(){
+	return {
+	    restrict: 'A',
+	    link:  function($scope, element, attrs) {
+	    	var watch = $scope.$watch(function() {
+            	return element.children().length;
+            }, function() {
+                // Wait for templates to render
+                $scope.$evalAsync(function() {
+                	var elems = document.querySelectorAll('.switchery');
+    				for (var i = 0; i < elems.length; i++) {
+    					var switchery = new Switchery(elems[i]);
+    				}
+                	debugger;
+                });
+            });
+	    }
+	}
+})
 
 }(window.jQuery));

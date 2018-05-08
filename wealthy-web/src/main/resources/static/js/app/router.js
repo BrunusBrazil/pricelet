@@ -105,7 +105,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	            },
 	            transactions: function(xTransactionService, $q) {
             		var deferred = $q.defer();
-            		xTransactionService.getAll().then(function(response) {
+            		xTransactionService.getAll(false).then(function(response) {
 	            			deferred.resolve(response);
 		            	})
 		            	
