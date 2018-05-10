@@ -142,6 +142,7 @@ module.directive('showMessage', function($state, $timeout){
 	}
 });
 
+<<<<<<< HEAD
 module.directive('switcher', function(){
 	return {
 	    restrict: 'A',
@@ -161,5 +162,37 @@ module.directive('switcher', function(){
 	    }
 	}
 })
+||||||| merged common ancestors
+=======
+module.directive('switcher', function(){
+	return {
+	    restrict: 'A',
+	    link:  function($scope, element, attrs) {
+	          // Trigger when number of children changes,
+            // including by directives like ng-repeat
+			var elems = $('.switchery');
+			for (var i = 0; i < elems.length; i++) {
+				var switchery = new Switchery(elems[i]);
+			}
+			if($(".switch").length !== 0){
+				$(".switch").bootstrapSwitch();
+			}
+
+//	    	var watch = $scope.$watch(function() {
+//            	return element.children().length;
+//            }, function() {
+//                // Wait for templates to render
+//                $scope.$evalAsync(function() {
+//                    // Finally, directives are evaluated
+//                    // and templates are renderer here
+//               	
+//                	var children = element.children();
+//                    console.log(children);
+//                });
+//            });
+	    }
+	}
+})
+>>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 
 }(window.jQuery));
