@@ -16,33 +16,15 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.originalsubAccounts = angular.copy(subAccounts);
 			vm.originalAccounts = angular.copy(accounts);
 			vm.originalTransactions = angular.copy(transactions);
-<<<<<<< HEAD
 			vm.totalMoneyIn = 0;
 			vm.totalMoneyOut = 0;
 			vm.totalResult = 0;
-			vm.numberTransactions = 0;
-			  
-||||||| merged common ancestors
-			
-=======
-			vm.totalDebit = 0;
-			vm.totalCredit = 0;
-			vm.totalResult = 0;
-			vm.numberTransactions = 0;
-			  
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
+			vm.numberTransactions = 0;			  
+
 			vm.tableParams = new NgTableParams({}, {
-<<<<<<< HEAD
-				  filterDelay: 0,
-				  count: 5,
-			      counts: [5],
-||||||| merged common ancestors
-			      filterDelay: 0,
-			      counts: [5, 10],
-=======
-			      filterDelay: 0,
-			      counts: [5],
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
+			  filterDelay: 0,
+			  count: 5,
+		      counts: [5, 10],
 			      dataset: angular.copy(transactions)
 			 });
 
@@ -135,68 +117,27 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				}
 			}
 
-<<<<<<< HEAD
 			function setTotalMoneyIn(transactions){
 				vm.totalMoneyIn = 0;
 				_.forEach(transactions, function(e) {
-||||||| merged common ancestors
-			vm.getTotalDebit = function(){
-				var totalDebit = 0 ;
-				_.forEach(filterByTransactionDate(transactions, false), e => {
-=======
-			function setTotalDebit(transactions){
-				vm.totalDebit = 0;
-				_.forEach(transactions, function(e) {
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 					if(e.entrada){
-<<<<<<< HEAD
 						vm.totalMoneyIn += e.valor;
-||||||| merged common ancestors
-						totalDebit += e.valor;
-=======
-						vm.totalDebit += e.valor;
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 					}
 				});
-			}
+			};
 			
-<<<<<<< HEAD
 			function setMargin(transactions){
 				vm.totalResult = (vm.totalMoneyIn - vm.totalMoneyOut);
-||||||| merged common ancestors
-			vm.getMargin = function(){
-				return (vm.getTotalCredit() - vm.getTotalDebit());
-=======
-			function setMargin(transactions){
-				vm.totalResult = (vm.totalCredit - vm.totalDebit);
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
-			}
+			};
 
-<<<<<<< HEAD
 			function setTotalMoneyOut(transactions){
 				vm.totalMoneyOut = 0;
 				_.forEach(transactions, function(e) {
-||||||| merged common ancestors
-			vm.getTotalCredit = function(){
-				var totalCredit = 0 ;
-				_.forEach(filterByTransactionDate(transactions, false), e => {
-=======
-			function setTotalCredit(transactions){
-				vm.totalCredit = 0;
-				_.forEach(transactions, function(e) {
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 					if(!e.entrada){
-<<<<<<< HEAD
 						vm.totalMoneyOut += e.valor;
-||||||| merged common ancestors
-						totalCredit += e.valor;
-=======
-						vm.totalCredit += e.valor;
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 					}
-<<<<<<< HEAD
 				});
-			}
+			};
 			
 			vm.updateTableFacts =  function(transactions){
 				setTotalNumberOfTransaction(transactions);
@@ -209,26 +150,14 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				transaction.editing = false;
 				transaction.creating = false;
 			    vm.adding = false;
-||||||| merged common ancestors
-				})
-				return totalCredit;
-=======
-				});
 			}
 			
 			vm.updateTableFacts =  function(transactions){
 				setTotalNumberOfTransaction(transactions);
-				setTotalCredit(transactions);
-				setTotalDebit(transactions);
+				setTotalMoneyOut(transactions);
+				setTotalMoneyIn(transactions);
 				setMargin(transactions);
 			} 
-			
-			function resetTransactionState(transaction){
-				transaction.editing = false;
-				transaction.creating = false;
-			    vm.adding = false;
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
-			}
 			
 			function setId(object){
 				var link  = null;
@@ -265,25 +194,15 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 		      });
 			    vm.updateTableFacts(vm.tableParams.settings().dataset);
 			});
-<<<<<<< HEAD
 
 			vm.debitOrCreditUpdate = function (xt){
-				xt.editing = !xt.editing;
-				
-			    vm.updateTableFacts(vm.tableParams.settings().dataset);
-//				vm.message = AppMessageService.displayDefaultMessage('UNSAVED','WARN', 'transaction');
-			}
-||||||| merged common ancestors
-=======
-
-			vm.debitOrCreditUpdate = function (xt){
-					xt.creating = false;
+				if(vm.adding){
+					xt.editing = false;	
+				}else{
 					xt.editing = !xt.editing;
-				
+				}
 			    vm.updateTableFacts(vm.tableParams.settings().dataset);
-//				vm.message = AppMessageService.displayDefaultMessage('UNSAVED','WARN', 'transaction');
 			}
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 			
 			function filterByTransactionDate(xTransaction, defaultDateRange){
 				var dateRangeFilter = defaultDateRange? xTransactionService.getDefaultDateRange():  xTransactionService.getDateRangeFilter(); 

@@ -137,12 +137,11 @@ module.directive('showMessage', function($state, $timeout){
 	                	scope.message.type = undefined;
 	  	    	    }
 	           }, true);
-    	   	  
 	    }
 	}
 });
 
-<<<<<<< HEAD
+
 module.directive('switcher', function(){
 	return {
 	    restrict: 'A',
@@ -152,47 +151,11 @@ module.directive('switcher', function(){
             }, function() {
                 // Wait for templates to render
                 $scope.$evalAsync(function() {
-                	var elems = document.querySelectorAll('.switchery');
-    				for (var i = 0; i < elems.length; i++) {
-    					var switchery = new Switchery(elems[i]);
-    				}
-                	debugger;
+    				new Switchery(element[0]);
                 });
             });
 	    }
 	}
 })
-||||||| merged common ancestors
-=======
-module.directive('switcher', function(){
-	return {
-	    restrict: 'A',
-	    link:  function($scope, element, attrs) {
-	          // Trigger when number of children changes,
-            // including by directives like ng-repeat
-			var elems = $('.switchery');
-			for (var i = 0; i < elems.length; i++) {
-				var switchery = new Switchery(elems[i]);
-			}
-			if($(".switch").length !== 0){
-				$(".switch").bootstrapSwitch();
-			}
-
-//	    	var watch = $scope.$watch(function() {
-//            	return element.children().length;
-//            }, function() {
-//                // Wait for templates to render
-//                $scope.$evalAsync(function() {
-//                    // Finally, directives are evaluated
-//                    // and templates are renderer here
-//               	
-//                	var children = element.children();
-//                    console.log(children);
-//                });
-//            });
-	    }
-	}
-})
->>>>>>> c7c1d78dfcc3991ced6cc09a9fb3cc46ce6eee7e
 
 }(window.jQuery));
