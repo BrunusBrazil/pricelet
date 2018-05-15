@@ -130,8 +130,8 @@
 							<input type="number"  min="0" required ng-if="xt.editing || xt.creating" type="text"
 								   class="form-control datatable-input" ng-model="xt.valor">
 						</td>
-						<td>
-							<span>{{xt.dateTransaction | date:'medium'}}</span>
+						<td data-title="'dateTransaction'" sortable="'dateTransaction'">
+							<span> {{xt.dateTransaction | date:'medium'}} </span>
 						</td>
 						<td align="right" ng-hide="xt.editing || xt.creating">
 							<ul class="icons-list">

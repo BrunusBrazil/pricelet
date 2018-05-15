@@ -21,14 +21,13 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.totalResult = 0;
 			vm.numberTransactions = 0;			  
 
-			vm.tableParams = new NgTableParams({}, {
-			  filterDelay: 0,
+			vm.tableParams = new NgTableParams({
+			  sorting: { dateTransaction: "desc" }
+			}, {
 			  count: 5,
-		      counts: [5, 10],
-			      dataset: angular.copy(transactions)
+			  counts: [5, 10],
+		      dataset: angular.copy(transactions)
 			 });
-
-			
 			
 			vm.create = function(xtransaction){	
 				setId(xtransaction.account);
@@ -48,16 +47,12 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			    setId(transactionReq);
 				xTransactionService.remove(transactionReq).then(function(transactionsResp){
 				  vm.originalTransactions = angular.copy(transactionsResp);
-
 				  var currentPage = vm.tableParams.page();
 				  vm.tableParams.settings({
 			        dataset: angular.copy(transactionsResp)
-			      });
-				  
+			      });				  
 				  vm.tableParams.page(currentPage);
-				
 				  vm.updateTableFacts(transactionsResp);
-
 				  vm.adding = false;
 				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
 				}, function(response){
@@ -212,13 +207,10 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				}
 				transactionsByDate = 
 					_.filter(xTransaction, function (element) {
-						return convertDate(element.dateTransaction) 
-						.isSameOrAfter(convertDate(dateRangeFilter.startDate)) 
-					/*	&&
-						convertDate(element.dateTransaction) 
-						.isSameOrBefore(convertDate(dateRangeFilter.startDate))
-					*/	
-			    	 });				
+		return convertDate(element.dateTransaction).isSameOrAfter(convertDate(dateRangeFilter.startDate)) 
+		&&
+		convertDate(element.dateTransaction).isSameOrBefore(convertDate(dateRangeFilter.endDate))
+					});				
 				return transactionsByDate;
 			}
 			

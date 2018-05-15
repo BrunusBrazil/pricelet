@@ -34,8 +34,8 @@ module.directive('rangeDatePicker', function(xTransactionService){
 		}
 		
 		function setDefaultRangeDate($scope){
-			xTransactionService.setDateRangeFilter(moment().subtract(30, 'day'), moment());
-			$scope.dateRangeString =  moment().subtract(30, 'day').format('LL')+' - '+ moment().format('LL');
+			xTransactionService.setDateRangeFilter(moment([moment().year(), moment().month()]), moment());
+			$scope.dateRangeString =  moment([moment().year(), moment().month()]).format('LL')+' - '+ moment().format('LL');
 		}	
  });
 
