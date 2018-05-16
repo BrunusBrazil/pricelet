@@ -49,10 +49,10 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				  vm.originalTransactions = angular.copy(transactionsResp);
 				  var currentPage = vm.tableParams.page();
 				  vm.tableParams.settings({
-			        dataset: angular.copy(transactionsResp)
+			        dataset: angular.copy(filterByTransactionDate(transactionsResp, false))
 			      });				  
 				  vm.tableParams.page(currentPage);
-				  vm.updateTableFacts(transactionsResp);
+				  vm.updateTableFacts(filterByTransactionDate(transactionsResp, false));
 				  vm.adding = false;
 				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
 				}, function(response){
@@ -81,10 +81,10 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 	  				  vm.originalTransactions = angular.copy(transactions);
 	  			      var currentPage = vm.tableParams.page();
 	  			      vm.tableParams.settings({
-	  			        dataset: angular.copy(transactions)
+	  			        dataset: angular.copy(filterByTransactionDate(transactions, false))
 	  			      });
 	  			      vm.tableParams.page(currentPage);
-	  			      vm.updateTableFacts(transactions);
+	  			      vm.updateTableFacts(filterByTransactionDate(transactions, false));
 	  				})
 	  			  }, function(error){
 					  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')
