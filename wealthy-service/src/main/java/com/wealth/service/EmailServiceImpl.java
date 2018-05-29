@@ -31,9 +31,7 @@ public class EmailServiceImpl {
 					.from("Pricelet", "brunocardoso.fatec.itu@gmail.com")
 					.to("C. Cane", user.getEmail()).withSubject(RECOVER.getSubject())
 					.withPlainText(RECOVER.getBody() + " : " + user.getPassword()).buildEmail();
-		 
 			getMailer().sendMail(email);
-		 
 		} catch (NoResultException nre) {
 			recovered = false;
 		} catch (Exception e) {
