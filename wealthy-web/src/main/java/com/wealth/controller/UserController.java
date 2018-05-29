@@ -77,5 +77,15 @@ public class UserController {
 		return HttpStatus.ACCEPTED;
 	}
 	
+	@RequestMapping(value="/resetPassword", method = RequestMethod.POST)
+	public  ResponseEntity<UserResource> resetPassword(@RequestBody UserDTO user) throws Exception{
+		UserDTO userDTO = null;
+		userDTO = service.resetPassword(user);
+		UserAssembler aa = new UserAssembler();
+		UserResource ar = aa.toResource(userDTO);
+		return new ResponseEntity<UserResource>(ar, HttpStatus.ACCEPTED);
+	}
+	
+	
 	
 }

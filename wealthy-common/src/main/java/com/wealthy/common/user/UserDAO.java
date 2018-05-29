@@ -15,6 +15,8 @@ public interface UserDAO {
 
 	UserDTO searchByEmail(String email) throws SQLException;
 
-	UserDTO searchByUserName(String userName) throws SQLException;;
+	UserDTO searchByUserName(String userName) throws SQLException;
+	
+	UserDTO resetPassword(UserDTO userDTO) throws SQLException;
 
 }

@@ -113,5 +113,46 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public UserDTO updatePassword(UserDTO userDTO) throws Exception {
+		UserDTO dto;
+		try {			
+			dto = dao.update(userDTO);
+		}
+		catch(PersistenceException e){
+			throw new  BusinessException(e);
+		}
+		catch (SQLException e) {
+			throw new  BusinessException(ErrorDetail.DB_DML_UPDATE.getDescription());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		return dto;
+	}
 
+	@Override
+	public UserDTO resetPassword(UserDTO userDTO) throws Exception {
+		UserDTO dto = null;
+		try {		
+			UserDTO user = searchByEmail(userDTO.getEmail());
+			if(user == null)
+				throw new BusinessException("Email not found");
+
+			if(userDTO.getPassword().equals(user.getPassword())){
+				userDTO.setEmail(userDTO.getNewPassword());
+				dto = dao.resetPassword(userDTO);
+			}
+		}
+		catch(PersistenceException e){
+			throw new  BusinessException(e);
+		}
+		catch (SQLException e) {
+			throw new  BusinessException(ErrorDetail.DB_DML_UPDATE.getDescription());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		return dto;
+	}
 }

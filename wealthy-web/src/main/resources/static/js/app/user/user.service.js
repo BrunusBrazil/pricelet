@@ -12,8 +12,13 @@ module.service('userService', ['Restangular',function(Restangular){
 		return Restangular.all('User/recover/').post(user);
 	}
 		
+	function resetPassword(user){
+		return Restangular.all('User/resetPassword/').post(user);
+	}
+	
 	return {
 			create:create,
-			recover: recover
+			recover: recover,
+			resetPassword:resetPassword
 	}
 }]);

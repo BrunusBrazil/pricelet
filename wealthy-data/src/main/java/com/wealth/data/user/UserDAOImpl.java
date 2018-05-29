@@ -113,4 +113,9 @@ public class UserDAOImpl extends GenericDaoImpl implements UserDAO {
 		return ac;
 	}
 
+	@Override
+	public UserDTO resetPassword(UserDTO userDTO) throws SQLException {
+		return update(userDTO);
+	}
+
 }

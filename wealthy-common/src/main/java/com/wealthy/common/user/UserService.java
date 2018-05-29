@@ -15,4 +15,9 @@ public interface UserService {
 	UserDTO searchByEmail(String email) throws BusinessException;
 
 	UserDTO searchByUserName(String userName) throws BusinessException;
+	
+	UserDTO updatePassword(UserDTO accSubGroupDTO) throws Exception;
+	
+	UserDTO resetPassword(UserDTO userDTO) throws Exception;
+	
 }

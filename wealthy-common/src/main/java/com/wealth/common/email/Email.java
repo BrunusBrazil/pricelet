@@ -1,8 +1,13 @@
 package com.wealth.common.email;
 
 public enum Email {
-	RECOVER("Password Revover", "This is your current password ");	
-	  private String subject;
+	
+	RECOVER("Password Revover", "Your Pricelet password has been reset to : "),	
+
+	RESET("Password Reset", "Your Pricelet password has been recently reset to :");	
+
+	
+	private String subject;
 	  private String body;
 	  
 	  private Email(String subject, String body){

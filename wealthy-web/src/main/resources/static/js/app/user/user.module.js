@@ -36,25 +36,49 @@ module.controller('userController', ['$scope', '$state', 'userService',
  }]);
 
 module.controller('userRecoverController', ['$scope', '$state', 'userService',
-                                          function userController($scope, $state, userService){
+                                            function userController($scope, $state, userService){
+  		$scope.user  =  new User();
+  		var vm = this; 
+  		function User(){
+  			this.userName = '',
+  			this.fullName = '',
+  			this.password = '',
+  			this.email = '',
+  			this.term = false,
+  			this.newsletter= true
+  		}	
+  		
+  		$scope.recover = function(user){
+  			
+  			$scope.$broadcast('show-errors-check-validity');
+  			
+  			if(!(user && user.email)) return;
+  					
+  			userService.recover(user).then(function(response){
+  				$scope.message = 'Your passord was sent to your email';
+  			}, function(error){
+  				$scope.message = error.data.description;
+  			}); 
+  			
+  		}	
+  		
+  	}]);
+
+module.controller('userPasswordResetController', ['$scope', '$state', 'userService',
+                                          function userController($scope, $state, userService, currentUser){
 		$scope.user  =  new User();
 		var vm = this; 
 		function User(){
 			this.userName = '',
 			this.fullName = '',
 			this.password = '',
-			this.email = '',
-			this.term = false,
-			this.newsletter= true
+			this.newPassord = ''
 		}	
 		
-		$scope.recover = function(user){
-			
+		$scope.resetPassword = function(user){
 			$scope.$broadcast('show-errors-check-validity');
-			
 			if(!(user && user.email)) return;
-					
-			userService.recover(user).then(function(response){
+			userService.resetPassword(user).then(function(response){
 				$scope.message = 'Your passord was sent to your email';
 			}, function(error){
 				$scope.message = error.data.description;

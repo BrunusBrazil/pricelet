@@ -26,6 +26,13 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	        controller : 'userRecoverController'
 	       	 
 	    })
+	    .state('ui.password-reset', {
+	        url: '/password-reset',
+	        templateUrl: '/password-reset.html',
+	        controller : 'userPasswordResetController'
+	       	 
+	    })userPasswordResetController
+	    
 	    .state('ui.home', {
 	        url: '/home',
 	        abstract: true,

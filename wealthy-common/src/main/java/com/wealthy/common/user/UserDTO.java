@@ -11,10 +11,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDTO implements UserDetails{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer id;
 	private String fullName; 
 	private String email;
 	private String password;
+	private String newPassword;
 	private String userName;
 	private Boolean term;
 	private Boolean newsletter;
@@ -123,5 +129,12 @@ public class UserDTO implements UserDetails{
 		this.newsletter = newsletter;
 	}	
 	
+	public String getNewPassword() {
+		return newPassword;
+	}
 	
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 }
+
