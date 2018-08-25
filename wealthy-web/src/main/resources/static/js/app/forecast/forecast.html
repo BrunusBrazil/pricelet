@@ -1,0 +1,139 @@
+<div class="content-group">
+	<show-message message="vm.message"></show-message>
+	<div class="panel-flat">
+		<!-- Headers -->
+		<div class="panel panel-default">
+			<div class="panel-heading panel-body-sml-padding">
+						<h3 class="panel-title">
+							Forecast<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+						</h3>
+						<div class="heading-elements">
+							<single-date-picker set-period="vm.setPeriod(date)"></single-date-picker>
+						</div>
+			</div>
+		</div>
+
+	
+		<!-- table -->
+		<div class="panel panel-default">
+			<div class="panel-body">
+					
+				<button ng-hide="vm.containForecast()"
+						type="button" 
+						ng-click="vm.createForecast()"
+						style=" margin: 5px 0px 5px 5px;">
+					<i class="icon-add position-left"></i>Forecast</button>			
+
+				<div ng-if="!vm.containForecast()">
+					<div class="alert alert-info alert-styled-left" style="margin-top: 10px;">
+						<span class="text-semibold">Not found!</span> 
+							There is no data for selected period.
+					</div>
+				</div>
+				<div ng-if="vm.containForecast()">
+					<form name="vm.forecastForm" class="form-validate">
+						<table ng-table="vm.tableParams"
+							class="table table-bordered table-striped table-condensed editable-table"
+							width="100%">
+							<thead>
+								<tr class="bg-violet-600 border-info-600">
+									<th>Group</th>
+									<th>Sub grup</th>
+									<th>cash in/out</th>
+									<th>Total</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="forecast in  $data">
+									<td><span>{{forecast.account.description}}</span>
+									<td><span>{{forecast.accSubGroup.description}}</span></td>
+									<td>
+										<div class="checkbox checkbox-switchery switchery-xs">
+											<label> <input switcher type="checkbox"
+												class="switchery" checked="checked"
+												ng-model="forecast.cashin"
+												ng-change="vm.debitOrCreditUpdate(forecast)">
+												<p ng-if="forecast.cashin">in</p>
+												<p ng-if="!forecast.cashin">out</p>
+											</label>
+										</div>
+									</td>
+									<td><span ng-hide="forecast.editing">{{forecast.total}}</span>
+										<div ng-if="forecast.editing"
+											class="has-feedback has-feedback-left" show-errors>
+											<input type="number" min="0" required
+												ng-disabled="vm.inputDisabled" ng-model="forecast.total">
+										</div></td>
+									<td align="right" ng-hide="forecast.editing">
+										<ul class="icons-list">
+											<li class="teacc-primary-600"><a href="#"
+												data-popup="tooltip" title data-original-title="Edit"> <span
+													class="icon-pencil7" ng-click="vm.edit(forecast)"></span>
+											</a></li>
+											<li class="teacc-danger-600"><a href="#"
+												data-popup="tooltip" title data-original-title="Remove">
+													<span class="icon-trash" ng-click="vm.remove(forecast)"></span>
+											</a></li>
+										</ul>
+									</td>
+									<td align="right" ng-show="forecast.editing">
+										<ul class="icons-list">
+											<li class="text-primary-600"><a href="#"
+												data-popup="tooltip" title data-original-title="ok"> <span
+													class="glyphicon glyphicon-ok"
+													ng-click="vm.saveEdition(forecast)"></span>
+											</a></li>
+											<li class="text-danger-600"><a href="#"
+												data-popup="tooltip" title data-original-title="cancel">
+													<span class="glyphicon glyphicon-remove"
+													ng-click="vm.cancel(forecast)"></span>
+											</a></li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
+	type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+
+<!-- Core JS files -->
+
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
+
+<!-- /core JS files -->
+<script type="text/javascript"
+	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
+
+<link rel="stylesheet"
+	href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>

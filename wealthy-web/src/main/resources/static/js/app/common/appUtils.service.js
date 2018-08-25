@@ -33,9 +33,11 @@ module.service('AppMessageService', [function(){
 	}	
 
 	function displayMessageOverrideContent(msg, type, content){
-		msg.display = true;
-		msg.type = type; 
-		msg.content = content;
+		return{
+			display: true,
+			type: type, 
+			content : content
+		}
 	}	
 	
 	return {

@@ -26,9 +26,5 @@ public class ExceptionControllerAdvice {
 	    error.setDescription(ex.getMessage());
 	    return new ResponseEntity<Message>(error, HttpStatus.BAD_REQUEST);
     }
-	
-	
-	
-	
 
 }

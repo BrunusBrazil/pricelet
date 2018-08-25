@@ -24,7 +24,7 @@ public class XTransactionAssembler extends ResourceAssemblerSupport<XTransaction
 		resource.setEntrada(dto.getEntrada());
 		resource.setDescription(dto.getDescription());
 		resource.setDateTransaction(dto.getDateTransaction());
-		resource.setCrete(dto.getCrete());
+		resource.setCrete(dto.getCreate());
 		Link link = linkTo(XtransactionController.class).slash(dto.getId()).withSelfRel();
 		resource.add(link);
 		return resource;

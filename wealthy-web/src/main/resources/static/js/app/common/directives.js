@@ -156,6 +156,30 @@ module.directive('switcher', function(){
             });
 	    }
 	}
-})
+});
 
+module.directive('singleDatePicker', function(){
+	return {
+	    scope:{
+	    	setPeriod: '&'
+	    },
+		templateUrl: '/js/app/common/templates/singleDatePicker.html',
+	    link:  function(scope, element, attrs) {
+	    	// Single picker
+	    	$('button[name="singleDate"]').daterangepicker({ 
+	            singleDatePicker: true,
+	            locale: {
+	                format: 'MM-YYYY'
+	            }
+	        }, function(start, end, label){
+	        	scope.$apply(function(){
+	        		scope.selectedDate = start.format('MM-YYYY');
+	        	});	
+	            scope.setPeriod({date: start.format('YYYY-MM-DD')});
+	        });
+	    	
+	    	scope.selectedDate =  moment().format('MM-YYYY');
+	    }
+	}
+});
 }(window.jQuery));

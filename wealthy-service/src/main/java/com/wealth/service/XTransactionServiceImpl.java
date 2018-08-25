@@ -32,9 +32,8 @@ public class XTransactionServiceImpl implements XTransactionService {
 		XTransactionDTO x;
 		String message = null;
 		try {
-			dto.setDateTransaction(new Date());
 			if(dto != null && dto.getId()== null){
-				dto.setCrete(new Date());
+				dto.setCreate(new Date());
 				message = ErrorDetail.DB_DML_INSERT.getDescription();
 				x = dao.create(dto);
 			}

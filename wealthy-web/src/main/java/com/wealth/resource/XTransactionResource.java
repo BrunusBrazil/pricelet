@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wealth.common.accountgroup.AccountGroupDTO;
 import com.wealth.common.acctsubgroup.AccSubGroupDTO;
 
@@ -12,6 +13,8 @@ public class XTransactionResource extends ResourceSupport{
 	private String description;
 	private BigDecimal valor;
 	private Boolean entrada;
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date dateTransaction;
     private AccSubGroupDTO accSubGroup;	
 	private AccountGroupDTO account;

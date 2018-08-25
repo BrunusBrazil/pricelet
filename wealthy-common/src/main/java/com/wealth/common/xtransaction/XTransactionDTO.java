@@ -16,7 +16,7 @@ public class XTransactionDTO extends ModelDTO {
     private AccSubGroupDTO accSubGroup;	
 	private AccountGroupDTO account;
 	private String type;
-	private Date crete;
+	private Date create;
 	private Date lastUpdate;
 	
 	//getters and setters
@@ -62,11 +62,11 @@ public class XTransactionDTO extends ModelDTO {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Date getCrete() {
-		return crete;
+	public Date getCreate() {
+		return create;
 	}
-	public void setCrete(Date crete) {
-		this.crete = crete;
+	public void setCreate(Date create) {
+		this.create = create;
 	}
 	public Date getLastUpdate() {
 		return lastUpdate;

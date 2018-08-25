@@ -1,194 +1,226 @@
 <div class="content-group">
 	<show-message message="vm.message"></show-message>
-	<div class="row text-center">
-		<div class="col-md-12">
-			<div style="float: right;">
-				<i class='icon-calendar3 position-right'> </i> 
-				<range-date-picker></range-date-picker>
-			</div>
+		<!-- Headers -->
+		<div class="panel panel-default">
+   				<div class="row">
+   					<div class="col-md-8">
+						<h3 class="panel-title" style="padding: 1%">
+							Transactions<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+						</h3>
+					</div>
+   					<div class="col-md-4">
+						<range-date-picker></range-date-picker>
+					</div>
+				</div>
 		</div>
+		
+		<!--Details -->
+		<div class="panel panel-default">
+			<div class="pricelet-default-panel-body">
+			<div class="container-fluid">
+				<div class="row text-center">
+					<div class="col-md-3">
+						<div class="content-group">
+							<h3 class="text-semibold no-margin"
+								ng-bind="vm.numberTransactions">
+								<i class="icon-calendar5 position-left text-slate"></i>
+							</h3>
+							<span class="text-muted text-size-small">Transaction</span>
+						</div>
+					</div>
+	
+					<div class="col-md-3">
+						<div class="content-group">
+							<h3 class="text-semibold no-margin" ng-bind="vm.totalMoneyIn">
+							</h3>
+							<span class="text-muted text-size-small">Cash In.</span>
+						</div>
+					</div>
+	
+					<div class="col-md-3">
+						<div class="content-group">
+							<h3 class="text-semibold no-margin" ng-bind="vm.totalMoneyOut">
+							</h3>
+							<span class="text-muted text-size-small">Cash Out.</span>
+						</div>
+					</div>
+	
+					<div class="col-md-3">
+						<div class="content-group">
+							<h3 class="text-semibold no-margin">
+								<span ng-if="vm.totalResult >=  0" style="color: green;">{{vm.totalResult}}</span>
+								<span ng-if="vm.totalResult < 0" style="color: red;">{{vm.totalResult}}</span>
+							</h3>
+							<span class="text-muted text-size-small">Total</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
 	</div>
-	<div class="panel panel-flat">
-		<div class="container-fluid">
-			<div class="row text-center">
-			
-				<div class="col-md-2">
-					<div class="content-group">
-						<h3 class="text-semibold no-margin" ng-bind="vm.numberTransactions">
-							<i class="icon-calendar5 position-left text-slate"></i>
-						</h3>
-						<span class="text-muted text-size-small">Transaction</span>
-					</div>
-				</div>
+	
+	<div class="panel panel-default">
+		<div class="pricelet-default-panel-body">
+		<button type="button" ng-click="vm.add()" style=" margin: 5px 0px 5px 5px;">
+			<i class="icon-add position-left"></i>Transactions</button>			
 
-				<div class="col-md-3">
-					<div class="content-group">
-						<h3 class="text-semibold no-margin" ng-bind="vm.totalMoneyIn">
-						</h3>
-						<span class="text-muted text-size-small">Cash In.</span>
-					</div>
-				</div>
-
-				<div class="col-md-3">
-					<div class="content-group">
-						<h3 class="text-semibold no-margin" ng-bind="vm.totalMoneyOut">
-						</h3>
-						<span class="text-muted text-size-small">Cash Out.</span>
-					</div>
-				</div>
-
-				<div class="col-md-3">
-					<div class="content-group">
-						<h3 class="text-semibold no-margin">
-							<span ng-if="vm.totalResult >=  0" style="color: green;">{{vm.totalResult}}</span>
-							<span ng-if="vm.totalResult < 0" style="color: red;">{{vm.totalResult}}</span>
-						</h3>
-						<span class="text-muted text-size-small">Result</span>
-					</div>
-				</div>
-
-				<div class="col-md-1">
-					<div class="content-group">
-							<div style="display: block;margin-top: 15px;float: right;">
-								<button type="button" ng-click="vm.add()" class="btn btn-primary">
-									<i class="icon-add position-left"></i>Create
-								</button>
-							</div>		
-					</div>
-				</div>
-			</div>
-		</div>
-		<form name="vm.transactionForm" class="form-validate">
-			<table ng-table="vm.tableParams" 
-					class="table table-bordered table-striped table-condensed editable-table" width="100%">
-				<thead>
-					<tr class="bg-info-600 border-info-600">
-						<th>Description</th>
-						<th>Main account</th>
-						<th>Sub group</th>
-						<th>Cash in/out</th>
-						<th>Price</th>
-						<th>Date</th>
-						<th style="text-align: right">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="xt in $data"> 
-						<td>
-							<span ng-hide="xt.editing || xt.creating">{{xt.description}}</span>
-							<div  ng-if="xt.editing || xt.creating" class="form-group has-feedback has-feedback-left" show-errors>
-					  		 <input type="text"
-									id="description-id"
-									name="description"
-									ng-minlength="3"
-									class="form-control datatable-input"
-									ng-model="xt.description">
-							 
-							   <label  ng-show="vm.transactionForm.description.$touched && 
-												vm.transactionForm.description.$invalid"
-									    class="validation-error-label"
-									    for="description-id">
-										Description should contain more than 3 character. 
-								</label>
-							</div>
-						</td>
-						<td>
-							<span ng-hide="xt.editing || xt.creating">{{xt.account.description}}</span>
-							<div  ng-if="xt.editing || xt.creating" class="form-group has-feedback has-feedback-left" show-errors>
-								<select ng-model="xt.account"
-										class="form-control datatable-input"
-									    selected
-										ng-options="x.description for x in vm.originalAccounts track by x.description">
-								</select>
-					  		</div>
-						</td>
-						<td>
-							<span ng-hide="xt.editing || xt.creating">{{xt.accSubGroup.description}}</span>
-							<div  ng-if="xt.editing || xt.creating" class="form-group has-feedback has-feedback-left" show-errors>
-								<select 
-										ng-model="xt.accSubGroup"
-										class="form-control datatable-input"
-									    selected
+			<form ng-if="vm.originalTransactions.length > 0" name="vm.transactionForm" class="form-validate">
+				<table ng-table="vm.tableParams" 
+					   class="table table-bordered table-striped table-condensed editable-table pricelet-datatable"
+					   width="100%">
+					<thead>
+						<tr class="bg-info-600 border-info-600">
+							<th style="width: 20%" >Description</th>
+							<th style="width: 15%">Group</th>
+							<th style="width: 15%">Sub group</th>
+							<th style="width: 8%">In/Out</th>
+							<th style="width: 8%">Price</th>
+							<th style="width: 20%">Date</th>
+							<th style="width: 8%">
+								<ul class="icons-list">
+										<li>
+											<a href="#"><i class="icon-cog3"></i></a>
+										</li>
+								</ul>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="xt in $data">
+							<td class="pricelet-datatable-td">
+								<span ng-hide="xt.editing || xt.creating">{{xt.description}}</span>
+								<div ng-if="xt.editing || xt.creating"
+										class="has-feedback has-feedback-left" show-errors>
+										<input type="text" 
+											id="description-id" 
+											name="description"
+											ng-minlength="3"
+											class="form-control pricelet-datatable-elements"
+											ng-model="xt.description"> <label
+											ng-show="vm.transactionForm.description.$touched && 
+														vm.transactionForm.description.$invalid"
+											class="validation-error-label" for="description-id">
+											Description should contain more than 3 character. </label>
+									</div>
+							</td>
+							<td class="pricelet-datatable-td">
+								<span ng-hide="xt.editing || xt.creating">{{xt.account.description}}</span>
+								<div ng-if="xt.editing || xt.creating"	class="has-feedback has-feedback-left" show-errors>
+										<select class="pricelet-datatable-elements" 
+											ng-model="xt.account" 
+										    selected
+											ng-options="x.description for x in vm.originalAccounts track by x.description">
+										</select>
+								</div>
+							</td>
+							<td class="pricelet-datatable-td">
+								<span ng-hide="xt.editing || xt.creating">{{xt.accSubGroup.description}}</span>
+								<div ng-if="xt.editing || xt.creating"
+									class="has-feedback has-feedback-left" show-errors>
+									<select ng-model="xt.accSubGroup" selected class="pricelet-datatable-elements"
 										ng-options="x.description for x in vm.getSubAccountByAccount(xt.account) track by x.description">
-								</select>
-							</div>
-						</td>
-						<td>
-							<div class="checkbox checkbox-switchery switchery-xs">
-									<label>
-									<input switcher 
-										   type="checkbox"
-									       class="switchery"
-										   checked="checked"
-										   ng-model="xt.entrada" ng-change="vm.debitOrCreditUpdate(xt)">
-											 <p ng-if="xt.entrada">in</p>
-											 <p ng-if="!xt.entrada">out</p>
+									</select>
+								</div>
+							</td>
+							<td class="pricelet-datatable-td">
+								<div class="checkbox checkbox-switchery switchery-xs">
+									<label class="pricelet-datatable-elements">
+									 <input switcher type="checkbox"
+										class="switchery pricelet-datatable-elements"
+										checked="checked"
+										ng-model="xt.entrada"
+										ng-change="vm.debitOrCreditUpdate(xt)">
+										<p ng-if="xt.entrada">in</p>
+										<p ng-if="!xt.entrada">out</p>
 									</label>
-							</div>
-						<td>
-							<span ng-hide="xt.editing || xt.creating">{{xt.valor | currency}}</span> 
-							<input type="number"  min="0" required ng-if="xt.editing || xt.creating" type="text"
-								   class="form-control datatable-input" ng-model="xt.valor">
-						</td>
-						<td data-title="'dateTransaction'" sortable="'dateTransaction'">
-							<span> {{xt.dateTransaction | date:'medium'}} </span>
-						</td>
-						<td align="right" ng-hide="xt.editing || xt.creating">
-							<ul class="icons-list">
-								<li class="text-primary-900"><a href="#"
-									data-popup="tooltip" title data-original-title="Edit"> <span
-										class="icon-pencil7" ng-click="vm.edit(xt)"></span>
-								</a></li>
-								<li class="text-primary-900"><a href="#"
-									data-popup="tooltip" title data-original-title="Remove"> <span
-										class="icon-trash" ng-click="vm.remove(xt)"></span>
-								</a></li>
-							</ul>
-						</td>
-						<td align="right" ng-if="xt.editing">
-							<ul class="icons-list">
-								<li class="text-primary-600"><a href="#"
-									data-popup="tooltip" title data-original-title="ok"> <span
-										class="glyphicon glyphicon-ok" required="true"
-										ng-click="vm.saveEdition(xt)"></span>
-								</a></li>
-								<li class="text-danger-600"><a href="#" data-popup="tooltip"
-									title data-original-title="cancel"> <span
-										class="glyphicon glyphicon-remove"
-										ng-click="vm.cancel(xt)"></span>
-								</a></li>
-							</ul>
-						</td>
-						<td align="right" ng-if="xt.creating">
-							<ul class="icons-list">
-								<li class="text-primary-600"><a href="#"
-									data-popup="tooltip" title data-original-title="ok"> <span
-										class="glyphicon glyphicon-ok" ng-click="vm.create(xt)"></span>
-								</a></li>
-								<li class="text-danger-600"><a href="#" data-popup="tooltip"
-									title data-original-title="cancel"> <span
-										class="glyphicon glyphicon-remove"
-										ng-click="vm.cancel(xt)"></span>
-								</a></li>
-							</ul>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+								</div>
+							</td>
+							<td class="pricelet-datatable-td">
+								<div class="has-feedback has-feedback-left" show-errors>
+									<input  type="number" 
+											min="0" 
+											class="pricelet-datatable-elements"
+											required
+											ng-disabled="vm.inputDisabled"
+											ng-model="xt.valor">
+								</div>
+							</td>
+							<td class="pricelet-datatable-td">
+								<div class="has-feedback has-feedback-left" show-errors>
+									<input 
+										type="datetime-local"
+										class="pricelet-datatable-elements"
+									    name="input"
+										ng-model="xt.dateTransaction" 
+										ng-disabled="vm.inputDisabled"
+										placeholder="yyyy-MM-ddTHH:mm:ss"
+										required />
+								</div>
+							</td>
+							<td class="pricelet-datatable-td">
+								 <div  ng-hide="xt.editing || xt.creating">
+									<ul class="icons-list">
+										<li class="text-primary-900"><a href="#"
+											data-popup="tooltip" title data-original-title="Edit"> <span
+												class="icon-pencil7" ng-click="vm.edit(xt)"></span>
+										</a></li>
+										<li class="text-primary-900"><a href="#"
+											data-popup="tooltip" title data-original-title="Remove"> <span
+												class="icon-trash" ng-click="vm.remove(xt)"></span>
+										</a></li>
+									</ul>
+								  </div>
+								  <div  ng-if="xt.editing">
+									<ul class="icons-list">
+										<li class="text-primary-600"><a href="#"
+											data-popup="tooltip" title data-original-title="ok"> <span
+												class="glyphicon glyphicon-ok" required="true"
+												ng-click="vm.saveEdition(xt)"></span>
+										</a></li>
+										<li class="text-danger-600"><a href="#"
+											data-popup="tooltip" title data-original-title="cancel"> <span
+												class="glyphicon glyphicon-remove" ng-click="vm.cancel(xt)"></span>
+										</a></li>
+									</ul>
+								  </div>
+								  <div ng-if="xt.creating">
+										<ul class="icons-list">
+											<li class="text-primary-600"><a href="#"
+												data-popup="tooltip" title data-original-title="ok"> <span
+													class="glyphicon glyphicon-ok" ng-click="vm.create(xt)"></span>
+											</a></li>
+											<li class="text-danger-600"><a href="#"
+												data-popup="tooltip" title data-original-title="cancel"> <span
+													class="glyphicon glyphicon-remove" ng-click="vm.cancel(xt)"></span>
+											</a></li>
+										</ul>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
 	</div>
 </div>
 
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/icons/icomoon/styles.css" 	rel="stylesheet" type="text/css">
-<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet" 	type="text/css">
-<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"	type="text/css">
-<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"	type="text/css">
-<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"	type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/icons/icomoon/styles.css"
+	rel="stylesheet" type="text/css">
+<link href="css/bootstrap/assets/css/bootstrap.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/core.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/components.css" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap/assets/css/colors.css" rel="stylesheet"
+	type="text/css">
 
 <script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/jquery.min.js"></script>
-<script type="text/javascript"  src="css/bootstrap/assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
-<script type="text/javascript"  src="css/bootstrap/assets/js/core/libraries/jquery_ui/effects.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/core/libraries/jquery_ui/effects.min.js"></script>
 <script type="text/javascript"	src="css/bootstrap/assets/js/plugins/loaders/blockui.min.js"></script>
 <script type="text/javascript"	src="css/bootstrap/assets/js/plugins/tables/datatables/datatables.min.js"></script>
 <script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/selects/select2.min.js"></script>
@@ -199,10 +231,8 @@
 <script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
 <script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
 <script type="text/javascript"	src="css/bootstrap/assets/js/plugins/ui/moment/moment.min.js"></script>
-<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>
-<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
-<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
-<script type="text/javascript" src="css/bootstrap/assets/js/plugins/forms/styling/switch.min.js"></script>
-<!-- <script type="text/javascript" src="css/bootstrap/assets/js/pages/form_checkboxes_radios.js"></script> -->
-
-<script type="text/javascript"  src="css/bootstrap/assets/js/core/app.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/styling/switchery.min.js"></script>
+<script type="text/javascript"	src="css/bootstrap/assets/js/plugins/forms/styling/switch.min.js"></script>
+<script type="text/javascript" src="css/bootstrap/assets/js/core/app.js"></script>
+<script type="text/javascript" src="css/bootstrap/assets/js/plugins/pickers/daterangepicker.js"></script>

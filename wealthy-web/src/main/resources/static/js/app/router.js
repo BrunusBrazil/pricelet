@@ -1,6 +1,7 @@
 var app = angular.module('webapp',['accountModule', 'bouncerModule', 'serviceUtils',
                                    'userModule', 'commonDirective','serviceUtils',
-                                   'accSubgroupModule','ui.router','ngResource','xTransactionModule']);
+                                   'accSubgroupModule','ui.router','ngResource','xTransactionModule',
+                                   'forecastModule']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	$locationProvider.hashPrefix('');
@@ -31,8 +32,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	        templateUrl: '/password-reset.html',
 	        controller : 'userPasswordResetController'
 	       	 
-	    })userPasswordResetController
-	    
+	    })
 	    .state('ui.home', {
 	        url: '/home',
 	        abstract: true,
@@ -119,7 +119,40 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	            	return deferred.promise;
 	            }
 	        }
-	    });
+	    })
+    .state('ui.home.forecast', {
+        url: '/forecast',
+        templateUrl: '/js/app/forecast/forecast.html',
+        controller : 'ForecastController',
+      	controllerAs: 'vm',
+        resolve: {
+            subAccounts: function(accSubgroupService, $q) {
+        		var deferred = $q.defer();
+        			accSubgroupService.getAll().then(function(response) {
+            			deferred.resolve(response);
+	            	})
+	            	
+            	return deferred.promise;
+            },
+            accounts: function(accountService, $q) {
+        		var deferred = $q.defer();
+            		accountService.getAll().then(function(response) {
+            			deferred.resolve(response);
+	            	})
+	            	
+            	return deferred.promise;
+            },
+            forecasts: function(ForecastService, $q) {
+        		var deferred = $q.defer();
+        			var period  = new Date();
+        			ForecastService.getForecast(period).then(function(response) {
+            			deferred.resolve(response);
+	            	})
+	            	
+            	return deferred.promise;
+            }
+        }
+    });
 });
 
 //the following method will run at the time of initializing the module. That

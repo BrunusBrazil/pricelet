@@ -14,12 +14,14 @@ var module = angular.module('xTransactionModule');
     		return Restangular.one("XTransaction/", acc.id).remove();
     	}
 		
+    	
     	function getAll(fromCache){
     		return $q(function(resolve, reject) {
     			if(fromCache && cachedTransactions && cachedTransactions.length > 0 ){
     				resolve(cachedTransactions);
     			}else{
     				base.getList().then(function(response){
+    					convertStringToDate(response)
     					cachedTransactions = response;
     					resolve(cachedTransactions);
     				},function(error){
@@ -47,6 +49,12 @@ var module = angular.module('xTransactionModule');
     		return getDateRangeFilter();
     	}
 
+    	function convertStringToDate(transactions){
+			_.forEach(transactions, function(e) {
+				e.dateTransaction = new Date(e.dateTransaction);
+			});
+		}
+    	
     	return  {
 				create:create,
 				getAll:getAll,
@@ -54,7 +62,8 @@ var module = angular.module('xTransactionModule');
 				edit:edit,
 				setDateRangeFilter:setDateRangeFilter,
 				getDateRangeFilter:getDateRangeFilter,
-				getDefaultDateRange: getDefaultDateRange
+				getDefaultDateRange: getDefaultDateRange,
+				convertStringToDate: convertStringToDate
 		}
 			
 	}]);

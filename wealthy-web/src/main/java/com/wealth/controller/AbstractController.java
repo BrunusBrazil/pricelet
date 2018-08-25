@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.wealth.common.ModelDTO;
-import com.wealth.common.xtransaction.XTransactionDTO;
 import com.wealthy.common.user.UserDTO;
 import com.wealthy.common.user.UserService;
 

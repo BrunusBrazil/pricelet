@@ -2,6 +2,7 @@
 	'use strict'
 var module = angular.module('xTransactionModule');
 
+
 module.controller('xTransactionController', [ '$scope', 'accountService',
                                               'accSubgroupService', 'xTransactionService', 
                                               'subAccounts', 'accounts',
@@ -20,7 +21,8 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.totalMoneyOut = 0;
 			vm.totalResult = 0;
 			vm.numberTransactions = 0;			  
-
+			vm.inputDisabled = true;
+			
 			vm.tableParams = new NgTableParams({
 			  sorting: { dateTransaction: "desc" }
 			}, {
@@ -30,12 +32,14 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			 });
 			
 			vm.create = function(xtransaction){	
+				vm.inputDisabled = false;
 				setId(xtransaction.account);
 				setId(xtransaction.accSubGroup);
 				xTransactionService.create(xtransaction).then(function(response){
 					angular.copy(response, xtransaction);
 					setId(response);
 					vm.adding = false;
+					vm.inputDisabled = true;
 					vm.message = AppMessageService.displayDefaultMessage('CRUD1','OK', 'account')
  				    vm.updateTableFacts(vm.tableParams.settings().dataset);
 				}, function(response){
@@ -46,6 +50,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.remove = function(transactionReq){
 			    setId(transactionReq);
 				xTransactionService.remove(transactionReq).then(function(transactionsResp){
+				  xTransactionService.convertStringToDate(transactionsResp);
 				  vm.originalTransactions = angular.copy(transactionsResp);
 				  var currentPage = vm.tableParams.page();
 				  vm.tableParams.settings({
@@ -61,6 +66,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			}
 
 			vm.edit = function(xtransaction){
+				vm.inputDisabled = false;
 				xtransaction.editing = true;
 			}						
 			
@@ -70,6 +76,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 		        dataset: angular.copy(vm.originalTransactions)
 		      });
 		      vm.tableParams.page(currentPage);
+   			  vm.inputDisabled = true;
 			}
 			
 			vm.saveEdition = function(transactionReq){
@@ -78,13 +85,15 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				setId(transactionReq.accSubGroup);
 				xTransactionService.edit(transactionReq).then(function(transactionResp){
 	  				xTransactionService.getAll(false).then(function(transactions){
-	  				  vm.originalTransactions = angular.copy(transactions);
+  					  xTransactionService.convertStringToDate(transactions);
+  					  vm.originalTransactions = angular.copy(transactions);
 	  			      var currentPage = vm.tableParams.page();
 	  			      vm.tableParams.settings({
 	  			        dataset: angular.copy(filterByTransactionDate(transactions, false))
 	  			      });
 	  			      vm.tableParams.page(currentPage);
 	  			      vm.updateTableFacts(filterByTransactionDate(transactions, false));
+	  			      vm.inputDisabled = true;
 	  				})
 	  			  }, function(error){
 					  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')
@@ -92,6 +101,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			}
 
 			vm.add = function(){
+				vm.inputDisabled = false;
 				if(vm.adding === false){
 				      vm.tableParams.settings().dataset.unshift(newTransaction());
 				      // we need to ensure the user sees the new row we've just added.
@@ -152,6 +162,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				setTotalMoneyOut(transactions);
 				setTotalMoneyIn(transactions);
 				setMargin(transactions);
+				vm.originalTransactions = angular.copy(transactions); 
 			} 
 			
 			function setId(object){
@@ -207,9 +218,9 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				}
 				transactionsByDate = 
 					_.filter(xTransaction, function (element) {
-		return convertDate(element.dateTransaction).isSameOrAfter(convertDate(dateRangeFilter.startDate)) 
-		&&
-		convertDate(element.dateTransaction).isSameOrBefore(convertDate(dateRangeFilter.endDate))
+						return convertDate(element.dateTransaction).isSameOrAfter(convertDate(dateRangeFilter.startDate)) 
+						&&
+						convertDate(element.dateTransaction).isSameOrBefore(convertDate(dateRangeFilter.endDate))
 					});				
 				return transactionsByDate;
 			}
@@ -229,9 +240,12 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 					valor: null,
 					entrada: false,
 					create:null,
-					dateTransaction:null
+					dateTransaction: new Date(moment().format('YYYY-MM-DD HH:mm'))
 				} 
 			}
+			
+			
+			
 			
 }
 ])}(window.jQuery));
