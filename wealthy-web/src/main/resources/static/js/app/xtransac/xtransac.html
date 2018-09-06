@@ -62,11 +62,11 @@
 	<div class="panel panel-default">
 		<div class="pricelet-default-panel-body">
 		<button type="button" ng-click="vm.add()" style=" margin: 5px 0px 5px 5px;">
-			<i class="icon-add position-left"></i>Transactions</button>			
-
-			<form ng-if="vm.originalTransactions.length > 0" name="vm.transactionForm" class="form-validate">
+			<i class="icon-add position-left"></i>Transactions</button>		
+			<form ng-if="vm.originalTransactions.length > 0 || vm.tableParams.data.length > 0" name="vm.transactionForm" class="form-validate">
 				<table ng-table="vm.tableParams" 
-					   class="table table-bordered table-striped table-condensed editable-table pricelet-datatable"
+					   class="table table-bordered table-striped table-condensed editable-table
+					   pricelet-datatable"
 					   width="100%">
 					<thead>
 						<tr class="bg-info-600 border-info-600">

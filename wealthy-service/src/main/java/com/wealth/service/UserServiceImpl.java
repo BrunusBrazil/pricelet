@@ -2,6 +2,7 @@ package com.wealth.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.PersistenceException;
 
@@ -9,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.wealth.common.accountgroup.AccountGroupDTO;
+import com.wealth.common.accountgroup.AccountGroupService;
+import com.wealth.common.acctsubgroup.AccSubGroupDTO;
+import com.wealth.common.acctsubgroup.AccSubGroupService;
 import com.wealth.common.exception.BusinessException;
 import com.wealth.common.exception.ErrorDetail;
 import com.wealthy.common.user.UserDAO;
@@ -22,6 +27,15 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("userDaoImpl")
 	private UserDAO dao;
 
+	@Autowired
+	@Qualifier("accSubGroupServiceImpl")
+	private AccSubGroupService subGroupService; 
+
+	@Autowired
+	@Qualifier("accountGroupServiceImpl")
+	private AccountGroupService groupService; 
+	
+	
 	@Override
 	public UserDTO merge(UserDTO userDTO) throws BusinessException {
 		UserDTO dto;
@@ -40,6 +54,7 @@ public class UserServiceImpl implements UserService {
 			if(userDTO != null && userDTO.getId()== null){
 				message = ErrorDetail.DB_DML_INSERT.getDescription();
 				dto = dao.create(userDTO);
+				createDefaultSubGroups(dto);
 			}
 			else{
 				message = ErrorDetail.DB_DML_UPDATE.getDescription();
@@ -155,4 +170,34 @@ public class UserServiceImpl implements UserService {
 		}
 		return dto;
 	}
+	
+	private void createDefaultSubGroups(UserDTO userDTO) throws BusinessException, SQLException{
+		Optional.ofNullable(userDTO).orElseThrow(
+				() -> new BusinessException("User not found, default accounts failed to be created"));
+
+		UserDTO userDefaultGroups = dao.searchByUserName("DEAFULT@SUBGROUPS");
+		AccSubGroupDTO groupDTO = new AccSubGroupDTO();
+		groupDTO.setUserId(userDefaultGroups.getId());
+	
+		List<AccSubGroupDTO> listGroups =  subGroupService.searchAll(groupDTO);
+		listGroups.stream()
+			.map(sg -> {
+				sg.setId(null);
+				sg.getAccount().setId(null);
+				sg.setUserId(userDTO.getId());
+				sg.getAccount().setUserId(userDTO.getId());
+				return sg;
+			}).forEach(nsg -> {
+				try {
+					AccountGroupDTO groupResponse =  groupService.merge(nsg.getAccount());
+					nsg.setAccount(groupResponse);
+					subGroupService.merge(nsg);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});		
+	}
+	
+	
+	
 }

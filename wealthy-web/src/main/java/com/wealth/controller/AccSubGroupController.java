@@ -23,7 +23,7 @@ import com.wealth.resource.AccSubGroupResource;
 public class AccSubGroupController extends AbstractController {
 	
 	@Autowired
-	@Qualifier("accSubtGroupServiceImpl")
+	@Qualifier("accSubGroupServiceImpl")
 	private AccSubGroupService service;
 	
 	@RequestMapping(value="/", method = RequestMethod.POST)

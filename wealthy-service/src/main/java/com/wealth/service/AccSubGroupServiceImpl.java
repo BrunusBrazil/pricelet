@@ -18,7 +18,7 @@ import com.wealth.common.exception.BusinessException;
 import com.wealth.common.exception.ErrorDetail;
 import com.wealth.common.forecast.ForecastDTO;
 
-@Service("accSubtGroupServiceImpl")
+@Service("accSubGroupServiceImpl")
 public class AccSubGroupServiceImpl implements AccSubGroupService {
 
 	@Autowired

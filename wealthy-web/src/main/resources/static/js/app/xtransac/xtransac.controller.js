@@ -20,9 +20,8 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.totalMoneyIn = 0;
 			vm.totalMoneyOut = 0;
 			vm.totalResult = 0;
-			vm.numberTransactions = 0;			  
-			vm.inputDisabled = true;
-			
+			vm.inputDisabled = true;			
+		
 			vm.tableParams = new NgTableParams({
 			  sorting: { dateTransaction: "desc" }
 			}, {
@@ -38,6 +37,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				xTransactionService.create(xtransaction).then(function(response){
 					angular.copy(response, xtransaction);
 					setId(response);
+					xtransaction.dateTransaction = new Date(xtransaction.dateTransaction); 
 					vm.adding = false;
 					vm.inputDisabled = true;
 					vm.message = AppMessageService.displayDefaultMessage('CRUD1','OK', 'account')
@@ -77,6 +77,7 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 		      });
 		      vm.tableParams.page(currentPage);
    			  vm.inputDisabled = true;
+  			  vm.adding = false;
 			}
 			
 			vm.saveEdition = function(transactionReq){
@@ -243,9 +244,5 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 					dateTransaction: new Date(moment().format('YYYY-MM-DD HH:mm'))
 				} 
 			}
-			
-			
-			
-			
 }
 ])}(window.jQuery));
