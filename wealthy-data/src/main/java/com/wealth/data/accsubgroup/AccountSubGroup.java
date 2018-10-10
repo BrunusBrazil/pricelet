@@ -17,7 +17,7 @@ public class AccountSubGroup extends SuperEntity{
 	@Column(name="description", length=10, nullable=false)
 	private String description;
 		
-    @ManyToOne(cascade=CascadeType.MERGE)
+    @ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="acc_group_id")
 	private AccountGroup account;
     

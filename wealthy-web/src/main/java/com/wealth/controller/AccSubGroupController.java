@@ -1,7 +1,9 @@
 	package com.wealth.controller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wealth.assembler.AccSubGroupAssembler;
 import com.wealth.common.acctsubgroup.AccSubGroupDTO;
 import com.wealth.common.acctsubgroup.AccSubGroupService;
+import com.wealth.common.exception.BusinessException;
+import com.wealth.common.forecast.ForecastDTO;
 import com.wealth.resource.AccSubGroupResource;
+import com.wealth.service.ForecastServiceImpl;
 
 @RestController
 @RequestMapping(value="AccSubGroup")
@@ -26,10 +31,15 @@ public class AccSubGroupController extends AbstractController {
 	@Qualifier("accSubGroupServiceImpl")
 	private AccSubGroupService service;
 	
+	@Autowired
+	@Qualifier("forecastServiceImpl")
+	private ForecastServiceImpl forecastService;
+
+	
 	@RequestMapping(value="/", method = RequestMethod.POST)
 	public ResponseEntity<AccSubGroupResource> create(@RequestBody AccSubGroupDTO account, Principal principal) throws Exception{
-		AccSubGroupDTO accSubGroupDTO  = 
-				service.merge((AccSubGroupDTO) setPrincipal(principal, account));
+		AccSubGroupDTO accSubGroupDTO  =  service.merge((AccSubGroupDTO) setPrincipal(principal, account));
+		createForecast(account);
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accSubGroupDTO);
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.CREATED);
@@ -72,4 +82,17 @@ public class AccSubGroupController extends AbstractController {
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.ACCEPTED);
 	}
 	
+	
+	/* Updates forecast list for current period 
+	 * Given a forecast for current month exists 
+	 * Then updates this list of forecast with the new inserted account
+	 * */
+	private void createForecast(AccSubGroupDTO account) throws BusinessException{
+		ForecastDTO forecastDTO = new ForecastDTO();
+		forecastDTO.setPeriod(new Date());
+		forecastDTO.setUserId(account.getUserId());
+		if(!Optional.ofNullable(forecastService.getByDate(forecastDTO)).isPresent()){
+			forecastService.create(account);
+		}
+	}
 }

@@ -1,5 +1,4 @@
 	<div ng-cloak class="navbar navbar-default header-highlight">
-
 		<div class="navbar-header">
 			<a class="navbar-brand" href="index.html">
 			<img src="css/bootstrap/assets/images/logo_light.png" alt=""></a>
@@ -12,22 +11,10 @@
 		<div class="navbar-collapse collapse" id="navbar-mobile">
 			<p class="navbar-text"><span class="label bg-success">Online</span></p>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown" toggle-the-toogle>
-					<a class="dropdown-toggle">
-						<img src="css/bootstrap/assets/images/flags/br.png" class="position-left" alt="">
-							Portuguese
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a class="deutsch"><img src="css/bootstrap/assets/images/flags/de.png" alt=""> Deutsch</a></li>
-						<li><a class="ukrainian"><img src="css/bootstrap/assets/images/flags/ua.png" alt=""> Українська</a></li>
-						<li><a class="english"><img src="css/bootstrap/assets/images/flags/gb.png" alt=""> English</a></li>
-						<li><a class="espana"><img src="css/bootstrap/assets/images/flags/es.png" alt=""> España</a></li>
-						<li><a class="russian"><img src="css/bootstrap/assets/images/flags/ru.png" alt=""> Русский</a></li>
-					</ul>
+			   <li class="dropdown" toggler>		
+					<country-selector  select-country="selectCountry(code)"></country-selector>
 				</li>
-
-				<li class="dropdown" toggle-the-toogle>
+				<li class="dropdown" toggler>
 					<a class="dropdown-toggle">
 						<i class="glyphicon glyphicon-user"></i>
 						<display-user user="user">{{user.username}}</display-user>	

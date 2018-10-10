@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wealth.assembler.ForecastAssembler;
+import com.wealth.common.exception.BusinessException;
 import com.wealth.common.forecast.ForecastDTO;
 import com.wealth.common.forecast.ForecastService;
 import com.wealth.resource.ForecastResource;
 import com.wealthy.common.user.UserService;
+
+import io.jsonwebtoken.lang.Collections;
 
 @RestController
 @RequestMapping(value="forecasts")
@@ -63,10 +67,14 @@ public class ForecastController extends AbstractController {
 	public  ResponseEntity<List<ForecastResource>> 
 	getForecast(@RequestBody ForecastDTO forecastDTO, Principal principal) throws Exception{
 		setPrincipal(principal, forecastDTO);
-		final List<ForecastDTO> forecastList = service.create(forecastDTO);
-		ForecastAssembler aa = new ForecastAssembler();
-		List<ForecastResource> ar = aa.toResources(forecastList);
-		return new ResponseEntity<List<ForecastResource>>(ar, HttpStatus.ACCEPTED);
+		if(Collections.isEmpty(service.getByDate(forecastDTO))){
+			final List<ForecastDTO> forecastList = service.create(forecastDTO);
+			ForecastAssembler aa = new ForecastAssembler();
+			List<ForecastResource> ar = aa.toResources(forecastList);
+			return new ResponseEntity<List<ForecastResource>>(ar, HttpStatus.ACCEPTED);
+		}else{
+			throw new  BusinessException("Forecast already exist for this period");
+		}
 	}	
 
 }

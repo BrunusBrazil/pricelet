@@ -85,7 +85,4 @@ public class UserController {
 		UserResource ar = aa.toResource(userDTO);
 		return new ResponseEntity<UserResource>(ar, HttpStatus.ACCEPTED);
 	}
-	
-	
-	
 }

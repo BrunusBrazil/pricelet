@@ -1,0 +1,28 @@
+<ul class="nav navbar-nav navbar-right">
+<li class="dropdown"  toggler>
+	<a class="dropdown-toggle">
+		<img ng-src="{{flag}}" class="position-left" alt="">
+			 <span ng-bind="language"></span>
+		<span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu">
+		<li ng-click="selectCountry('en')">
+			<a><img src="css/bootstrap/assets/images/flags/gb.png" alt="">English</a></li>
+
+		<li ng-click="selectCountry('de')">
+			<a><img src="css/bootstrap/assets/images/flags/de.png" alt="">Deutsch</a></li>
+	
+		<li ng-click="selectCountry('br')" >
+			<a><img src="css/bootstrap/assets/images/flags/br.png" alt="">Portuguese</a></li>
+	
+		<li ng-click="selectCountry('es')">
+			<a> <img src="css/bootstrap/assets/images/flags/es.png" alt="">Spanish</a></li>
+
+		<li ng-click="selectCountry('fr')">
+			<a><img src="css/bootstrap/assets/images/flags/fr.png" alt="">French</a></li>
+
+		<li ng-click="selectCountry('pl')">
+			<a><img src="css/bootstrap/assets/images/flags/pl.png" alt="">Polish</a></li>
+	</ul>
+</li>
+</ul>

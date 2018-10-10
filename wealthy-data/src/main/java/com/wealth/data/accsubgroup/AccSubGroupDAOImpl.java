@@ -39,7 +39,7 @@ public class AccSubGroupDAOImpl extends GenericDaoImpl implements AccSubGroupDAO
 	public List<AccSubGroupDTO> searchAll(AccSubGroupDTO subGroup) throws SQLException {
 		List<AccSubGroupDTO>  ac = null;
 		StringBuilder query = new StringBuilder(20);
-		query.append("select acg from AccountSubGroup acg where acg.userId = ").append(subGroup.getUserId());
+		query.append("select acg from AccountSubGroup acg join fetch acg.account where acg.userId = ").append(subGroup.getUserId());
 		try {
 			ac = convertToListDTO(getEm().createQuery(query.toString()).getResultList());
 		} catch (NoResultException noResultException) {

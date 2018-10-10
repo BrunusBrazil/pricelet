@@ -67,22 +67,6 @@ module.directive('showErrors', function(){
 	}	
 });
 
-module.directive('toggleTheToogle', function(){
-	return {
-		restrict: 'A',
-		  link: function(scope, element, attrs) {
-	            element.bind('click', function() {
-	                if(element.attr("class") == "dropdown open") {
-	                    element.removeClass("dropdown open");
-	                    element.addClass(attrs.toggleClass);
-	                } else {
-	                    element.removeClass("dropdown");
-	                    element.addClass("dropdown open");
-	                }
-	            });
-		  }
-	}
-});
 
 module.directive('displayUser', function(AuthService, $state){
 	return {
@@ -182,4 +166,55 @@ module.directive('singleDatePicker', function(){
 	    }
 	}
 });
+
+module.directive('toggler', function(){
+	return {
+		restrict: 'A',
+		  link: function(scope, element, attrs) {
+	            element.bind('click', function() {
+	                if(element.attr("class") == "dropdown open") {
+	                    element.removeClass("dropdown open");
+	                    element.addClass(attrs.toggleClass);
+	                } else {
+	                    element.removeClass("dropdown");
+	                    element.addClass("dropdown open");
+	                }
+	            });
+		  }
+	}
+});
+
+
+module.directive('countrySelector', function(){
+	return {
+	    restrict: 'AE',
+	    scope: {
+	    	_selectCountry: '&selectCountry'
+	    },
+		templateUrl: '/js/app/common/templates/countrySelector.html',
+	    link:  function(scope, element, attrs) {
+	    	var countries = 
+	    	{ 	  'fr': {code: 'fr', flag: 'fr.png', name:'France', language: 'French'},		
+		    	  'br': {code: 'pt', flag: 'br.png', name:'Brazil', language: 'Portugues'},		
+		    	  'de': {code: 'de', flag: 'de.png', name:'Germany',language: 'German'},		
+		    	  'es': {code: 'es', flag: 'es.png', name:'Spain',  language: 'Spanish'},		
+		    	  'pl': {code: 'pl', flag: 'pl.png', name:'Poland', language: 'Polish'},		
+		    	  'en': {code: 'en', flag: 'gb.png', name:'England', language: 'English'},		
+		   	}
+	
+	    	var defaultFlag = 'gb.png';
+	    	var defaultPath = 'css/bootstrap/assets/images/flags/';
+	    	scope.flag = defaultPath + defaultFlag;
+	    	scope.language = 'English';
+	    	
+	    	scope.selectCountry = function(code){
+	    		scope.flag = defaultPath + countries[code].flag;
+	    		scope.language = countries[code].language;
+	    		scope._selectCountry({'code': countries[code].code});
+	    	}
+	    }
+	}
+});
+
+
 }(window.jQuery));

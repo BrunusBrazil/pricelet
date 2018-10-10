@@ -1,12 +1,13 @@
 package com.wealth.service;	
 
 import static com.wealth.common.email.Email.RECOVER;
-
+import static com.wealth.common.email.Email.NEW_USER; 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.wealth.common.email.Email;
 import com.wealth.common.email.Emailable;
 import com.wealth.common.email.Emailer;
 import com.wealthy.common.user.UserDTO;
@@ -33,6 +34,11 @@ public class EmailServiceImpl {
 		return recovered;
 	}
 	
+	public void sendEMailNewUser(UserDTO user){
+		Emailer.sendEmail(new NewUserEmail(user));		
+	}
+	
+	
 	class RecoveryEmail implements Emailable{
 		final UserDTO user; 
 		public RecoveryEmail(UserDTO user) {
@@ -48,16 +54,52 @@ public class EmailServiceImpl {
 			return RECOVER;
 		}
 		public String getBody() {
-			return RECOVER.getBody().concat(" ").concat(generateNewPassword(user));
+			return RECOVER.getBody().concat(" ").concat(user.getPassword());
 		}
 	}
 	
+	class NewUserEmail implements Emailable{
+		UserDTO user;
+		
+		public NewUserEmail(UserDTO user) {
+			this.user = user;
+			
+		}
 	
-	private String generateNewPassword(UserDTO user){
+		@Override
+		public String getEmailSender() {
+			return "default";
+		}
+
+		@Override
+		public String getEmailReceiver() {
+			return user.getEmail();
+		}
+
+		@Override
+		public Email getEmailType() {
+			return Email.NEW_USER;
+		}
+
+		@Override
+		public String getBody() {
+			return NEW_USER.getBody()
+					.concat(" username: ").concat(user.getUserName())
+					.concat(", password: ").concat(user.getPassword());
+		}
+		
+	}
+	
+	public String generateNewPassword(UserDTO user){
 		return DigestUtils
 				.sha256Hex(user.getId()
 						.toString().
-						concat(System.currentTimeMillis()+"")).substring(0,  5);
+						concat(System.currentTimeMillis()+"")).substring(0,  9);
+	}
+
+	public String generateNewPassword(){
+		return DigestUtils
+				.sha256Hex(System.currentTimeMillis()+"").substring(0,  9);
 	}
 
 }

@@ -10,6 +10,10 @@ module.controller('loginController', ['$scope','$state','loginService','$http','
 		this.name = '',
 		this.password = ''
 	}	
+
+	if($state.params && $state.params.obj){
+		$scope.message = $state.params.obj;
+	}
 	
 	// method for login
 	$scope.login = function() {

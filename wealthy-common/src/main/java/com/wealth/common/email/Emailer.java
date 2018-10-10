@@ -8,7 +8,7 @@ import org.simplejavamail.mailer.config.TransportStrategy;
 
 
 public class Emailer {
-	
+	//TODO:put values in a property file
 	private final static String EMAIL_FROM  =  "brunocardoso.fatec.itu@gmail.com";
 	private final static String EMAIL_FROM_NAME = "Pricelet";
 	private final static int EMAIL_STPM_PORT = 587;
@@ -18,7 +18,7 @@ public class Emailer {
 	public static void sendEmail(Emailable emailable){
 		Email email =
 				 EmailBuilder.startingBlank()
-				.from("EMAIL_FROM_NAME", EMAIL_FROM)
+				.from(EMAIL_FROM_NAME, EMAIL_FROM)
 				.to(emailable.getEmailReceiver())
 				.withSubject(emailable.getEmailType().getSubject())
 				.withPlainText(emailable.getBody())

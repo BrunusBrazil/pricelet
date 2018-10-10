@@ -1,9 +1,9 @@
 var app = angular.module('webapp',['accountModule', 'bouncerModule', 'serviceUtils',
                                    'userModule', 'commonDirective','serviceUtils',
                                    'accSubgroupModule','ui.router','ngResource','xTransactionModule',
-                                   'forecastModule']);
+                                   'forecastModule', 'pascalprecht.translate']);
 
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
+app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 	$locationProvider.hashPrefix('');
 	$stateProvider
 		.state('ui', {
@@ -14,8 +14,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider  ) {
 	    .state('ui.login', {
 	        url: '/login',
 	        templateUrl: '/login.html',
-	    })
-	    .state('ui.register', {
+	        params: {
+	            obj: null
+	        }
+	    }).state('ui.register', {
 	        url: '/register',
 	        templateUrl: '/register.html',
 	        controller : 'userController'
@@ -187,22 +189,29 @@ app.run(function(AuthService, $rootScope, $state, $window) {
 					$state.go('access-denied');
 				}
 
-
 			}
 		}
 	});
 });
 
-app.controller('MainCtrl',function ($state, $scope) {
+app.config(ConfigureTranslator);
+
+function ConfigureTranslator($translateProvider){
+	$translateProvider.useUrlLoader('translation/labels.json');
+	$translateProvider.preferredLanguage(' ');
+	$translateProvider.useSanitizeValueStrategy('escapeParameters');
+}
+
+app.controller('MainCtrl',function ($state, $scope, $translate) {
 	$scope.user = {
 			username: ''
 	};
-	$state.transitionTo('ui.login');
-});
-
-
-
-
-
-
 	
+	$state.transitionTo('ui.login');
+	
+	$scope.selectCountry = selectCountry;
+	
+	function selectCountry(code){
+		$translate.use(code);
+	}
+});

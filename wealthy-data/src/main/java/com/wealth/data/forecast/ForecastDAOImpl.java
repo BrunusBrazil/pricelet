@@ -64,8 +64,8 @@ public class ForecastDAOImpl extends GenericDaoImpl implements ForecastDAO {
 	public List<ForecastDTO> create(ForecastDTO forecastDTO) throws SQLException {
 		List<ForecastDTO> forecastsResult = new ArrayList<ForecastDTO>();
 		Query query = getEm().createNativeQuery(
-				" insert into forecast(acc_group_id, acc_subgroup_id, user_id, cashin, period, total) "
-				+ "  select sg.acc_group_id, sg.id, 1, 0, :period, 0"
+				" insert into forecast(acc_group_id, acc_subgroup_id, user_id, cashin, period, total)"
+				+ "  select sg.acc_group_id, sg.id, :userId, 0, :period, 0"
 				+ "  from acc_subgroup sg where user_id = :userId");
 
 		query.setParameter("period", forecastDTO.getPeriod());

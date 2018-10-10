@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/authenticate", "page-not-found.html",
 						"access-denied.html", "/User/**", "/favicon.ico",
 						"/home.html", "/password-recover.html",
-						"/User/recover/**");
+						"/User/recover/**","/translation/**");
 	}
 
 	// This method is used for override HttpSecurity of the web Application.

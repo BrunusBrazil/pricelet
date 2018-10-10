@@ -1,7 +1,9 @@
 package com.wealth.service;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,8 +12,8 @@ import javax.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
+import com.wealth.common.acctsubgroup.AccSubGroupDTO;
 import com.wealth.common.exception.BusinessException;
 import com.wealth.common.exception.ErrorDetail;
 import com.wealth.common.forecast.ForecastDAO;
@@ -28,7 +30,7 @@ public class ForecastServiceImpl implements ForecastService {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserServiceImpl userService;
-
+	
 	@Override
 	public List<ForecastDTO> update(List<ForecastDTO> forecastListDTO) throws BusinessException {
 		// TODO Auto-generated method stub
@@ -60,13 +62,8 @@ public class ForecastServiceImpl implements ForecastService {
 			if(Objects.isNull(forecastDTO.getUserId())){
 				throw new  BusinessException("User not found");
 			}
-			List<ForecastDTO> forecastList  = getByDate(forecastDTO);
-			
-			if(CollectionUtils.isEmpty(forecastList)){
-				result = dao.create(forecastDTO);
-			}else{
-				throw new  BusinessException("Forecast already exist for this period");
-			}
+
+			result = dao.create(forecastDTO);
 			
 		}catch(PersistenceException e){
 				throw new  BusinessException(e);
@@ -93,6 +90,19 @@ public class ForecastServiceImpl implements ForecastService {
 			throw new  BusinessException(e.getMessage());
 		}
 		return dto;
+	}
+
+	@Override
+	public ForecastDTO create(AccSubGroupDTO subGroupDTO) throws BusinessException {
+		ForecastDTO forecastDTO = new ForecastDTO();
+		forecastDTO.setAccount(subGroupDTO.getAccount());
+		forecastDTO.setUserId(subGroupDTO.getUserId());
+		forecastDTO.setPeriod(new Date());
+		forecastDTO.setTotal(new BigDecimal(0));
+		forecastDTO.setCashin(false);
+		forecastDTO.setAccSubGroup(subGroupDTO);
+		this.create(forecastDTO);
+		return forecastDTO;
 	}
 	
 }

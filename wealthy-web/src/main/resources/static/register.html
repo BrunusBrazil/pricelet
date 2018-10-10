@@ -93,7 +93,7 @@
 										<i class="icon-plus3"></i>
 									</div>
 									<h5 class="content-group">
-										Create account
+											Create account
 										 <small class="display-block">All fields are required</small>
 									</h5>
 								</div>
@@ -106,7 +106,7 @@
 										   class="form-control"
 										   ng-minlength="6"
 										   ng-maxlength="12"
-										   placeholder="Enter your new user name"
+										   placeholder="Username"
 										   name="userName"
 										   ng-model="user.userName" required>
 
@@ -125,7 +125,7 @@
 										   class="form-control"
 										   ng-minlength="6"
 										   ng-maxlength="100"
-										   placeholder="Enter your full name"
+										   placeholder="Fullname"
 										   name="fullName"
   									       ng-model="user.fullName" required>
 									<div class="form-control-feedback">
@@ -138,25 +138,6 @@
 									</label>
 								</div>
 	
-								<div class="form-group has-feedback has-feedback-left" show-errors>
-									<input 
-										type="password" 
-										name="password"
-										ng-minlength="8"
-										placeholder="Enter your password"
-										class="form-control"
-										ng-model="user.password" required>
-									<div class="form-control-feedback">
-										<i class="icon-user-lock text-muted"></i>
-									</div>
-									<label ng-show="userForm.password.$touched && userForm.password.$invalid"
-  										    class="validation-error-label"
-											for="name">
-										Enter at least 8 characters.
-									</label>
-
-
-								</div>
 	
 								<div class="content-divider text-muted form-group">
 									<span>Your privacy</span>
@@ -210,7 +191,6 @@
 									ng-click="register(user)">
 									Register <i class="icon-circle-right2 position-right"></i>
 								</button>
-								<button-navigate-to-login> </button-navigate-to-login>
 							</div>
 						</form>
 					</div>

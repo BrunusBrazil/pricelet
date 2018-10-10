@@ -4,8 +4,8 @@ module.service('userService', ['Restangular',function(Restangular){
 	
     var base = Restangular.all('User/');
 
-	function create(account){
-		return  base.post(account);
+	function create(user){
+		return  base.post(user);
 	}
 	
 	function recover(user){

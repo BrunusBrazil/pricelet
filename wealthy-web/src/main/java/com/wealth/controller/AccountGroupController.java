@@ -25,7 +25,7 @@ public class AccountGroupController extends AbstractController{
 	@Autowired
 	@Qualifier("accountGroupServiceImpl")
 	private AccountGroupService service;
-
+	
 	@RequestMapping(value="/", method = RequestMethod.POST)
 	public ResponseEntity<AccountResource> create(@RequestBody AccountGroupDTO account, Principal principal) throws Exception{
 		AccountGroupDTO accountGroupDTO  = service.merge((AccountGroupDTO) setPrincipal(principal, account));
