@@ -41,16 +41,14 @@ module.controller('AccountController', [ '$scope', 'accountService', 'NgTablePar
 			vm.remove = function(acc){
 			    setId(acc);
 				accountService.remove(acc).then(function(accounts){
-	 			  var currentPage = vm.tableParams.page();
 			      vm.tableParams.settings({
 			        dataset: angular.copy(accounts)
 			      });
-	  	          vm.tableParams.page(currentPage);
 				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
 				  acc.editing = false;
 				  acc.creating = false;
 				}, function(response){
-				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','ERROR', 'account')
+				   vm.message = AppMessageService.displayDefaultMessage('CRUD4','ERROR', 'account')
 				});
 			}
 

@@ -7,8 +7,8 @@ module.controller('loginController', ['$scope','$state','loginService','$http','
 	$scope.isUserValid = loginService.getUserState();
 	
 	function Person(){
-		this.name = '',
-		this.password = ''
+		this.name = 'asdasd',
+		this.password = 'asdasd'
 	}	
 
 	if($state.params && $state.params.obj){

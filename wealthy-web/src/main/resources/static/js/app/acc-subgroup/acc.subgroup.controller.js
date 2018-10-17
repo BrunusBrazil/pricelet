@@ -47,13 +47,12 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService',
 			vm.remove = function(acc){
 			    setId(acc);
 				accSubgroupService.remove(acc).then(function(accounts){
-				  var currentPage = vm.tableParams.page();
 			      vm.tableParams.settings({
 			        dataset: angular.copy(accounts)
 			      });
-	  	          vm.tableParams.page(currentPage);
 				  acc.editing = false;
 				  acc.creating = false;
+				  acc.adding = false;
  			  	  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')
 				
 				}, function(response){
@@ -81,9 +80,9 @@ module.controller('AccSubgroupController', [ '$scope', 'accSubgroupService',
 			  setId(acc);
 			  setId(acc.account);
 			  accSubgroupService.edit(acc).then(function(response){
-				  acc = response; 	
 				  acc.editing = false;
 				  acc.creating = false;
+				  acc = response; 	
 				  setId(acc);
 			  }, function(response){
 				  vm.message = AppMessageService.displayDefaultMessage('CRUD3','ERROR', 'account')

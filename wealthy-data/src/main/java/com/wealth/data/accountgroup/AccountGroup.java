@@ -16,8 +16,6 @@ public class AccountGroup extends SuperEntity {
 //	@OneToMany(mappedBy="accountGroup" ,cascade= CascadeType.MERGE)
 //	private Set<AccountSubGroup> subGroups = new HashSet<AccountSubGroup>();
 
-		
-
 	public String getDescription() {
 		return description;
 	}

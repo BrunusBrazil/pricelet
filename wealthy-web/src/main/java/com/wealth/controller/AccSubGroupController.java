@@ -92,6 +92,7 @@ public class AccSubGroupController extends AbstractController {
 		forecastDTO.setPeriod(new Date());
 		forecastDTO.setUserId(account.getUserId());
 		if(!Optional.ofNullable(forecastService.getByDate(forecastDTO)).isPresent()){
+			
 			forecastService.create(account);
 		}
 	}

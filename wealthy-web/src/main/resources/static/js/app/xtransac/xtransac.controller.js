@@ -52,11 +52,9 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 				xTransactionService.remove(transactionReq).then(function(transactionsResp){
 				  xTransactionService.convertStringToDate(transactionsResp);
 				  vm.originalTransactions = angular.copy(transactionsResp);
-				  var currentPage = vm.tableParams.page();
 				  vm.tableParams.settings({
 			        dataset: angular.copy(filterByTransactionDate(transactionsResp, false))
 			      });				  
-				  vm.tableParams.page(currentPage);
 				  vm.updateTableFacts(filterByTransactionDate(transactionsResp, false));
 				  vm.adding = false;
 				  vm.message = AppMessageService.displayDefaultMessage('CRUD4','OK', 'account')

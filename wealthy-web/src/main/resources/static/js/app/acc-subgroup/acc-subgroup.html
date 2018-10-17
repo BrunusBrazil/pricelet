@@ -18,7 +18,7 @@
 			<i class="icon-add position-left"></i>Accounts</button>			
 				<form 
 					  name="vm.subAccountForm" class="form-validate">
-					<table ng-table="vm.tableParams"
+					<table ng-table="vm.tableParams" 
 						class="table table-bordered table-striped table-condensed editable-table"
 						width="100%">
 						<thead>
@@ -30,33 +30,34 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="acc in $data">
-								<td><span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
-									<div class="col-lg-10" ng-show="acc.editing || acc.creating"
-										class="form-group has-feedback has-feedback-left" show-errors>
-										<input type="text" id="description-id" name="description"
-											ng-minlength="3" class="form-control datatable-input"
-											ng-model="acc.description"> <label
-											ng-show="vm.subAccountForm.description.$touched && 
-												vm.subAccountForm.description.$invalid"
-											class="validation-error-label" for="description-id">
-											Description should contain more than 3 character. </label>
-									</div></td>
-
-								<td align="center"><span
-									ng-hide="acc.editing || acc.creating">{{acc.account.description}}</span>
-									<div ng-show="acc.editing || acc.creating"
-										class="has-feedback has-feedback-left" show-errors>
+								<td class="pricelet-datatable-td">
+									<span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
+									<div  ng-show="acc.editing || acc.creating" class="has-feedback has-feedback-left" show-errors>
+											<input type="text" id="description-id" name="description"
+												ng-minlength="3" 
+												class="pricelet-datatable-elements"
+												ng-model="acc.description"> <label
+												ng-show="vm.subAccountForm.description.$touched && 
+													vm.subAccountForm.description.$invalid"
+												class="validation-error-label" for="description-id">
+												Description should contain more than 3 character. </label>
+										</div>
+								</td>
+								<td class="pricelet-datatable-td"> 
+								<span ng-hide="acc.editing || acc.creating">{{acc.account.description}}</span>
+									<div ng-show="acc.editing || acc.creating" 		class="has-feedback has-feedback-left" show-errors>
 										<select id="subAccount-id" name="subAccount"
-											ng-model="acc.account" class="form-control datatable-input"
+											ng-model="acc.account" class="pricelet-datatable-elements"
 											selected
 											ng-options="x.description for x in vm.originalAccounts track by x.description"
 											required>
-										</select> <label ng-show="vm.subAccountForm.subAccount.$invalid"
+										</select> 
+										<label ng-show="vm.subAccountForm.subAccount.$invalid"
 											class="validation-error-label" for="subAccount-id">
 											You must select an account group. </label>
 									</div></td>
 
-								<td align="right" ng-hide="acc.editing || acc.creating">
+								<td align="right" ng-hide="acc.editing || acc.creating" class="pricelet-datatable-td">
 									<ul class="icons-list">
 										<li class="text-primary-900"><a href="#"
 											data-popup="tooltip" title data-original-title="Edit"> <span
@@ -68,7 +69,7 @@
 										</a></li>
 									</ul>
 								</td>
-								<td align="right" ng-show="acc.editing">
+								<td align="right" ng-show="acc.editing" class="pricelet-datatable-td">
 									<ul class="icons-list">
 										<li class="text-primary-600"><a href="#"
 											data-popup="tooltip" title data-original-title="ok"> <span
@@ -82,7 +83,7 @@
 										</a></li>
 									</ul>
 								</td>
-								<td align="right" ng-show="acc.creating">
+								<td align="right" ng-show="acc.creating" class="pricelet-datatable-td">
 									<ul class="icons-list">
 										<li class="text-primary-600"><a href="#"
 											data-popup="tooltip" title data-original-title="ok"> <span

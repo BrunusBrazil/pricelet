@@ -29,7 +29,7 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 		try {			
 			if(accSubGroupDTO != null && accSubGroupDTO.getId()== null){
 				message = ErrorDetail.DB_DML_INSERT.getDescription();
-				dto = dao.create(accSubGroupDTO);
+				dto = dao.update(accSubGroupDTO);
 				}
 			else{
 				message = ErrorDetail.DB_DML_UPDATE.getDescription();

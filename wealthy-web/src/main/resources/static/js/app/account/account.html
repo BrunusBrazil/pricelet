@@ -29,12 +29,12 @@
 						<tr ng-repeat="acc in  $data">
 							<td>
 								<span ng-hide="acc.editing || acc.creating">{{acc.description}}</span>
-								<div ng-show="acc.editing || acc.creating" class="form-group has-feedback has-feedback-left" show-errors>
+								<div ng-show="acc.editing || acc.creating" class="has-feedback has-feedback-left" show-errors>
 									<input type="text"
 										id="description-id"
 										name="description"
 										ng-minlength="3"
-										class="form-control datatable-input"
+										class="pricelet-datatable-elements"
 										ng-model="acc.description" required>
 								<label  ng-show="vm.accountForm.description.$touched && 
 												vm.accountForm.description.$invalid"
@@ -42,7 +42,7 @@
 									    for="description-id">
 										Description should contain more than 3 character. 
 								</label>
-								</div>
+							</div>
 								
 							</td>
 							<td align="right" ng-hide="acc.editing || acc.creating">
