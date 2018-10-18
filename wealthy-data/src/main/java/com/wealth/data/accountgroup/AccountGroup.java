@@ -1,10 +1,16 @@
 package com.wealth.data.accountgroup;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.wealth.data.SuperEntity;
+import com.wealth.data.accsubgroup.AccountSubGroup;
 
 @Entity
 @Table(name="acc_group")
@@ -13,8 +19,8 @@ public class AccountGroup extends SuperEntity {
 	@Column(name="description", length=10, nullable=false)
 	private String description;
 
-//	@OneToMany(mappedBy="accountGroup" ,cascade= CascadeType.MERGE)
-//	private Set<AccountSubGroup> subGroups = new HashSet<AccountSubGroup>();
+	@OneToMany(mappedBy="account" ,cascade= CascadeType.ALL)
+	private Set<AccountSubGroup> subGroups = new HashSet<AccountSubGroup>();
 
 	public String getDescription() {
 		return description;

@@ -37,9 +37,11 @@ public class AccSubGroupController extends AbstractController {
 
 	
 	@RequestMapping(value="/", method = RequestMethod.POST)
-	public ResponseEntity<AccSubGroupResource> create(@RequestBody AccSubGroupDTO account, Principal principal) throws Exception{
-		AccSubGroupDTO accSubGroupDTO  =  service.merge((AccSubGroupDTO) setPrincipal(principal, account));
-		createForecast(account);
+	public ResponseEntity<AccSubGroupResource> create(@RequestBody AccSubGroupDTO subAccount, Principal principal) throws Exception{
+		setPrincipal(principal, subAccount);
+		setPrincipal(principal, subAccount.getAccount());		
+		AccSubGroupDTO accSubGroupDTO  =  service.merge((AccSubGroupDTO) setPrincipal(principal, subAccount));
+		createForecast(subAccount);
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accSubGroupDTO);
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.CREATED);
@@ -66,8 +68,7 @@ public class AccSubGroupController extends AbstractController {
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public  ResponseEntity<AccSubGroupResource> update(@PathVariable Integer id,  
 			@RequestBody AccSubGroupDTO account, Principal principal) throws Exception{
-		AccSubGroupDTO accountGroupDTO  =
-				service.merge((AccSubGroupDTO) setPrincipal(principal, account));
+		AccSubGroupDTO accountGroupDTO  =	service.merge((AccSubGroupDTO) setPrincipal(principal, account));
 		AccSubGroupAssembler aa = new AccSubGroupAssembler();
 		AccSubGroupResource ar = aa.toResource(accountGroupDTO);
 		return new ResponseEntity<AccSubGroupResource>(ar, HttpStatus.ACCEPTED);

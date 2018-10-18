@@ -30,15 +30,14 @@ public class AccSubGroupServiceImpl implements AccSubGroupService {
 			if(accSubGroupDTO != null && accSubGroupDTO.getId()== null){
 				message = ErrorDetail.DB_DML_INSERT.getDescription();
 				dto = dao.update(accSubGroupDTO);
-				}
-			else{
+			}else{
 				message = ErrorDetail.DB_DML_UPDATE.getDescription();
 				dto = dao.update(accSubGroupDTO);
 			}
 		}
 		catch (SQLException | PersistenceException e) {
 			throw new  BusinessException(message);
-		}
+		} 
 		catch (Exception e) {
 			throw new  BusinessException(e.getMessage());
 		}
