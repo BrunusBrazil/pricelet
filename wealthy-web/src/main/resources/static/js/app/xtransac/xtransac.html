@@ -1,19 +1,22 @@
 <div class="content-group">
-	<show-message message="vm.message"></show-message>
-		<!-- Headers -->
-		<div class="panel panel-default">
-   				<div class="row">
-   					<div class="col-md-8">
-						<h3 class="panel-title" style="padding: 1%" translate="PAGE.TRANSACTIONS.LABEL.TRANSACTIONS">
-							<a class="heading-elements-toggle"><i class="icon-more"></i></a>
-						</h3>
-					</div>
-   					<div class="col-md-4">
-						<range-date-picker></range-date-picker>
-					</div>
+	<!-- Headers -->
+	<div class="panel panel-default">
+  				<div class="row">
+  					<div class="col-md-8">
+					<h3 class="panel-title" style="padding: 1%" translate="PAGE.TRANSACTIONS.LABEL.TRANSACTIONS">
+						<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+					</h3>
 				</div>
-		</div>
-		
+  					<div class="col-md-4">
+					<range-date-picker></range-date-picker>
+					</div>
+			</div>
+	</div>
+
+	<div class="box">
+		<canvas  height="200" width="400" chart data="vm.data" options="{maintainAspectRatio: false, borderWidth:3}"></canvas>
+	</div>
+	<show-message message="vm.message"></show-message>
 		<!--Details -->
 		<div class="panel panel-default">
 			<div class="pricelet-default-panel-body">

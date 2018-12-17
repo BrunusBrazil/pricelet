@@ -1,8 +1,9 @@
 var module = angular.module('forecastModule');
 module.controller('ForecastController', [ '$scope', 'ForecastService', 'NgTableParams',
                                          'AppMessageService','forecasts','subAccounts', 'accounts',
+                                         'CommonService',
 		function ForecastController ($scope, ForecastService, NgTableParams, AppMessageService, forecasts,
-									subAccounts, accounts) {
+									subAccounts, accounts, CommonService) {
 			var vm = this;
 			vm.originalsubAccounts = angular.copy(subAccounts);
 			vm.originalAccounts = angular.copy(accounts);

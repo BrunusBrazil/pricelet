@@ -5,12 +5,12 @@ var module = angular.module('xTransactionModule');
 
 module.controller('xTransactionController', [ '$scope', 'accountService',
                                               'accSubgroupService', 'xTransactionService', 
-                                              'subAccounts', 'accounts',
-                                              'transactions', 'NgTableParams', 'AppMessageService',
+                                              'subAccounts', 'accounts', 'transactions', 'NgTableParams',
+                                              'AppMessageService','dataChart','CommonService',
        function xTransactionController ($scope,	accountService, 
 											accSubgroupService, xTransactionService,
 											subAccounts, accounts, transactions, NgTableParams, 
-											AppMessageService) {
+											AppMessageService, dataChart, CommonService) {
 			var vm = this;
 			vm.adding = false;
 			vm.message= {display: false};
@@ -21,7 +21,9 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 			vm.totalMoneyOut = 0;
 			vm.totalResult = 0;
 			vm.inputDisabled = true;			
-		
+			vm.dataChart = angular.copy(dataChart);		
+			vm.data =  CommonService.buildDefaultLineChart(dataChart.data.EXPENSES, dataChart.data.INCOMES, dataChart.labels)
+
 			vm.tableParams = new NgTableParams({
 			  sorting: { dateTransaction: "desc" }
 			}, {
@@ -42,11 +44,14 @@ module.controller('xTransactionController', [ '$scope', 'accountService',
 					vm.inputDisabled = true;
 					vm.message = AppMessageService.displayDefaultMessage('CRUD1','OK', 'account')
  				    vm.updateTableFacts(vm.tableParams.settings().dataset);
+					return CommonService.getTransactionsChart();
 				}, function(response){
 					vm.message = AppMessageService.displayDefaultMessage('CRUD1','ERROR', 'account')
+				}).then(function(chartDataReponse) {
+					vm.data = CommonService.buildDefaultLineChart(chartDataReponse.data.EXPENSES, chartDataReponse.data.INCOMES, chartDataReponse.labels)
 				});
+				
 			}
-			
 			vm.remove = function(transactionReq){
 			    setId(transactionReq);
 				xTransactionService.remove(transactionReq).then(function(transactionsResp){

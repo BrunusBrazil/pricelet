@@ -34,5 +34,4 @@ public class TranslationController {
 		return labels;
 	}	
 
-
 }

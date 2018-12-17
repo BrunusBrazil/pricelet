@@ -216,5 +216,27 @@ module.directive('countrySelector', function(){
 	}
 });
 
+module.directive('chart', function($timeout){
+	return {
+	    restrict: 'AE',
+	    scope: {
+	    	data: '<',
+	    	options: '<'
+	    },
+	    link: function($scope, element, attrs) {
+	    	$scope.$watch('data', function(newValue, oldValue) {
+	    		var ctx = element[0].getContext("2d"); 	
+    			var myChart = new Chart(ctx, { 
+        			type:'line',
+        			data: $scope.data,
+        			options: $scope.options
+        		});
+    	  }, false);
+	    },
+	}	
+});
+
+
+
 
 }(window.jQuery));

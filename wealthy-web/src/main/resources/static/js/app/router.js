@@ -1,7 +1,7 @@
 var app = angular.module('webapp',['accountModule', 'bouncerModule', 'serviceUtils',
                                    'userModule', 'commonDirective','serviceUtils',
                                    'accSubgroupModule','ui.router','ngResource','xTransactionModule',
-                                   'forecastModule', 'pascalprecht.translate']);
+                                   'forecastModule', 'pascalprecht.translate', 'common.service']);
 
 app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 	$locationProvider.hashPrefix('');
@@ -98,28 +98,34 @@ app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 	        resolve: {
 	            subAccounts: function(accSubgroupService, $q) {
             		var deferred = $q.defer();
-            			accSubgroupService.getAll().then(function(response) {
-	            			deferred.resolve(response);
-		            	})
-		            	
-	            	return deferred.promise;
+        			accSubgroupService.getAll().then(function(response) {
+            			deferred.resolve(response);
+	            	})
+		            return deferred.promise;
 	            },
 	            accounts: function(accountService, $q) {
             		var deferred = $q.defer();
 	            		accountService.getAll().then(function(response) {
 	            			deferred.resolve(response);
-		            	})
-		            	
-	            	return deferred.promise;
+	            	})
+		            return deferred.promise;
 	            },
 	            transactions: function(xTransactionService, $q) {
             		var deferred = $q.defer();
             		xTransactionService.getAll(false).then(function(response) {
 	            			deferred.resolve(response);
-		            	})
-		            	
-	            	return deferred.promise;
+		            })
+		            return deferred.promise;
+	            },
+	            dataChart: function(CommonService, $q) {
+            		var deferred = $q.defer();
+            		CommonService.getTransactionsChart()				
+            		.then(function(response) {
+	            			deferred.resolve(response);
+		            })
+		            return deferred.promise;
 	            }
+	            
 	        }
 	    })
     .state('ui.home.forecast', {
